@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _passController = TextEditingController();
   final _stateController = TextEditingController();
   final _phoneController = TextEditingController();
+  bool _isLoading = false;
 
   void _toggleObscured() {
     setState(() {
@@ -279,18 +280,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   top: ScreenUtil().setHeight(24),
                 ),
                 width: double.infinity,
-                child: widgetButton(
-                    widgetText('Ro\'yhatdan o\'tish',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: ScreenUtil().setSp(16)),
-                    height: 56.0,
-                    radius: 20.0,
-                    width: MediaQuery.of(context).size.width,
-                    () async {
-                      var result = await api_controller.check_user(_phoneController.text);
-                      print(result);
-                    }),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsHelpers.primaryColor,
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width, 56.0),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          width: 0.0,
+                          color: Colors.transparent,
+                        ),
+                        borderRadius: BorderRadius.circular(20.0),
+                      )),
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    var result =
+                        await api_controller.check_user(_phoneController.text);
+                    if (result == 0) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      _checkUserAlert(context);
+                    }
+                  },
+                  child: _isLoading
+                      ? const CircularProgressIndicator(color: Colors.white,)
+                      : Text(
+                          'Ro\'yhatdan o\'tish',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: ScreenUtil().setSp(16)),
+                        ),
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(
@@ -330,4 +355,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+}
+
+_checkUserAlert(context) {
+  Alert(
+    context: context,
+    type: AlertType.error,
+    title: "Xatolik",
+    desc: "Bu telefon raqam tizimda ro'yhatdan o'tgan",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
 }

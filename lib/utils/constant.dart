@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class WebApiConstans{
   static String baseUrl = 'https://mobile.quizgram.uz/api/';
   static String loginUrl = baseUrl+'login';
+  static String register = baseUrl+'register';
   static String checkUser = baseUrl+'check-user';
 }
 
