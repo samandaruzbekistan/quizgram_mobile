@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+class WebApiConstans{
+  static String baseUrl = 'https://mobile.quizgram.uz/api/';
+  static String loginUrl = baseUrl+'login';
+  static String checkUser = baseUrl+'check-user';
+}
+
 class ColorsHelpers {
   static Color primaryColor = const Color.fromRGBO(106, 90, 224, 1);
   static Color grey1 = const Color.fromRGBO(73, 70, 95, 1);
