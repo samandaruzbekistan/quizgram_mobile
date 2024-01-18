@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:quizgram/controllers/auth_api_controller.dart';
+import 'package:quizgram/screens/alerts/custom_alerts.dart';
 import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -9,9 +10,9 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({
-    Key? key
+    Key? key, required this.status
   }) : super(key: key);
-
+  final String status;
   @override
   _OtpFormState createState() => _OtpFormState();
 }
@@ -61,12 +62,23 @@ class _OtpFormState extends State<OtpForm> {
 
 
     if (checkCode == 1) {
-      var register = await apiController.register();
-      if (register == 1) {
-        setState(() {
-          _isLoading = false;
-        });
-        Get.offAll(HomeScreen());
+      if(widget.status == "newUser"){
+        var register = await apiController.register();
+        if (register == 1) {
+          setState(() {
+            _isLoading = false;
+          });
+          Get.offAll(HomeScreen());
+        }
+      }
+      else{
+        var resUpdatePass = await apiController.updatePassword();
+        if(resUpdatePass == 1){
+          updatedPasswordAlert(context);
+        }
+        else{
+          apiErrorAlert(context);
+        }
       }
     } else {
       setState(() {

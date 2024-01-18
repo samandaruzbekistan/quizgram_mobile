@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quizgram/screens/login_screen/login_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 checkUserAlert(context) {
@@ -7,6 +9,26 @@ checkUserAlert(context) {
     type: AlertType.warning,
     title: "Xatolik",
     desc: "Bu telefon raqam tizimda ro'yhatdan o'tgan",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+checkNotUserAlert(context) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "Xatolik",
+    desc: "Bu telefon raqam tizimda ro'yhatdan o'tmagan",
     buttons: [
       DialogButton(
         color: Colors.deepPurple,
@@ -96,6 +118,46 @@ formErrorAlert(context) {
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+newPasswordAlert(context) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "Xatolik",
+    desc: "Parollar bir xil emas",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+updatedPasswordAlert(context) {
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: "Xabar",
+    desc: "Parolingiz yangilandi",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Get.offAll(LoginScreen()),
         width: 120,
       )
     ],

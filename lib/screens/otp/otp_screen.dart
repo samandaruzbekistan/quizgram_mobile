@@ -11,7 +11,8 @@ import 'components/otp_form.dart';
 class OtpScreen extends StatefulWidget {
   static String routeName = "/otp";
 
-  const OtpScreen({Key? key}) : super(key: key);
+  const OtpScreen({Key? key, required this.type}) : super(key: key);
+  final String type;
 
   @override
   _OtpScreenState createState() => _OtpScreenState();
@@ -112,7 +113,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const OtpForm(),
+                  OtpForm(status: widget.type),
                   const SizedBox(height: 20),
                   Visibility(
                     visible: _isResendButtonVisible,

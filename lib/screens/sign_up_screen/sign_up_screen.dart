@@ -338,7 +338,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           box.put('temp_state', _stateController.text);
                           box.put('temp_eduState', selectedValue as String);
                           box.put('temp_password', _passController.text);
-                          Get.to(OtpScreen());
+                          Get.to(OtpScreen(type: "newUser",));
                         }
                         else{
                           apiErrorAlert(context);

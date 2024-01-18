@@ -1,7 +1,15 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:hive/hive.dart';
+import 'package:quizgram/screens/alerts/custom_alerts.dart';
+import 'package:quizgram/screens/otp/otp_screen.dart';
 
+import '../../controllers/auth_api_controller.dart';
 import '../../utils/constant.dart';
+import '../../utils/images.dart';
 import '../../utils/widget_assets.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -17,10 +25,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool _obscured = false;
   final textFieldFocusNode2 = FocusNode();
   bool _obscured2 = false;
-
+  final _phoneController = TextEditingController();
   bool isValidPass = false;
+  bool _isLoading = false;
 
   final _passController = TextEditingController();
+  final _pass2Controller = TextEditingController();
+
+  void initState() {
+    super.initState();
+    _phoneController.text = "+998";
+  }
 
   void _toggleObscured() {
     setState(() {
@@ -46,12 +61,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('user');
+    AuthApiController apiController = AuthApiController();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(239, 238, 252, 1),
         elevation: 0,
-        title: widgetText(!isClicked ? 'Reset Password' : 'New Password',
+        title: widgetText(!isClicked ? 'Parolni tiklash' : 'Yangi parol',
             color: Colors.black),
         leading: const BackButton(
           color: Colors.black,
@@ -67,12 +84,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
+              SizedBox(height: ScreenUtil().setHeight(50),),
+              Container(
+                child: Image.asset(Images.appLogoShadow),
+                // height: ScreenUtil().setHeight(46),
+                width: ScreenUtil().setWidth(130),
+              ),
               Container(
                 margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
                 child: widgetText(
                   !isClicked
-                      ? 'Enter your email and we will send you a link to reset your password.'
-                      : 'Your new password must be different from previous used passwords.',
+                      ? 'Ilovada ro\'yhatdan o\'tgan telefon raqamingizni kiriring.'
+                      : 'Yangi parol kiriting. Parolingiz murakkab tuzilgan bo\'lsin.',
                   fontWeight: FontWeight.w400,
                   fontSize: ScreenUtil().setSp(16),
                   color: const Color.fromRGBO(133, 132, 148, 1),
@@ -89,7 +112,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              widgetText('Email Address',
+                              widgetText('Telefon raqamingiz',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14,
                                   color: Colors.black),
@@ -99,9 +122,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   top: ScreenUtil().setHeight(8),
                                 ),
                                 child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: _phoneController,
                                   onTap: () {},
                                   decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.mail_outline,
+                                    prefixIcon: Icon(Icons.phone,
                                         color: ColorsHelpers.primaryColor),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
@@ -112,7 +137,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     contentPadding: EdgeInsets.only(
                                       left: ScreenUtil().setWidth(19),
                                     ),
-                                    hintText: 'Your Email Address',
+                                    hintText: 'Telefon',
                                   ),
                                 ),
                               ),
@@ -123,7 +148,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              widgetText('Password',
+                              widgetText('Yangi parol',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14,
                                   color: Colors.black),
@@ -167,7 +192,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     contentPadding: EdgeInsets.only(
                                       left: ScreenUtil().setWidth(19),
                                     ),
-                                    hintText: 'Your Password',
+                                    hintText: 'Parol',
                                   ),
                                 ),
                               ),
@@ -183,7 +208,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 margin: EdgeInsets.only(
                                     top: ScreenUtil().setHeight(8)),
                                 child: widgetText(
-                                  'Must be at least 8 characters.',
+                                  'Kamida 8 ta belgi bo\'lsin.',
                                   fontWeight: FontWeight.w400,
                                   fontSize: ScreenUtil().setSp(14),
                                   color: const Color.fromRGBO(133, 132, 148, 1),
@@ -212,7 +237,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                widgetText('Confirm Password',
+                                widgetText('Yangi parolni takrorlang',
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14,
                                     color: Colors.black),
@@ -222,6 +247,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     top: ScreenUtil().setHeight(8),
                                   ),
                                   child: TextFormField(
+                                    controller: _pass2Controller,
                                     onTap: () {},
                                     obscureText: _obscured2,
                                     focusNode: textFieldFocusNode2,
@@ -246,7 +272,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       contentPadding: EdgeInsets.only(
                                         left: ScreenUtil().setWidth(19),
                                       ),
-                                      hintText: 'Your Password',
+                                      hintText: 'Parol',
                                     ),
                                   ),
                                 ),
@@ -259,16 +285,72 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           top: ScreenUtil().setHeight(30),
                           bottom: ScreenUtil().setHeight(24)),
                       child: widgetButton(
-                          widgetText('Reset Password',
+                          widgetText(_isLoading ? "Tekshirilmoqda..." : 'Parolni tiklash',
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                               fontSize: ScreenUtil().setSp(16)),
                           height: 56.0,
                           radius: 20.0,
-                          width: MediaQuery.of(context).size.width, () {
-                        setState(() {
-                          isClicked = true;
-                        });
+                          width: MediaQuery.of(context).size.width, () async {
+                            if(isClicked == true){
+                              if(_passController.text != _pass2Controller.text){
+                                newPasswordAlert(context);
+                              }
+                              else{
+                                final connectivityResult = await (Connectivity().checkConnectivity());
+                                if (connectivityResult != ConnectivityResult.none){
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  var phoneNumber = _phoneController.text;
+                                  box.put('temp_new_pass', _passController.text);
+                                  box.put('temp_phone', phoneNumber.substring(phoneNumber.length - 9));
+                                  var resOtp = await apiController.sendOtp(phoneNumber.substring(phoneNumber.length - 9));
+                                  if(resOtp == 1){
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                    Get.offAll(OtpScreen(type: "updatePassword"));
+                                  }
+                                  else{
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                    apiErrorAlert(context);
+                                  }
+                                }
+                                else{
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                  internetErrorAlert(context);
+                                }
+                              }
+                            }
+                            else{
+                              if(_phoneController.text.length == 13){
+                                var phoneNumber = _phoneController.text;
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                var checkUser = await apiController.check_user(phoneNumber.substring(phoneNumber.length - 9));
+                                if(checkUser == 1){
+                                  setState(() {
+                                    _isLoading = false;
+                                    isClicked = true;
+                                  });
+                                }
+                                else{
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                  checkNotUserAlert(context);
+                                }
+                              }
+                              else{
+                                phoneNumberLengthAlert(context);
+                              }
+                            }
                       }),
                     ),
                   ],

@@ -95,6 +95,30 @@ class AuthApiController{
     }
   }
 
+
+  Future<int> updatePassword() async {
+    var password = box.get('temp_new_pass');
+    var phone = box.get('temp_phone');
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.updatePassword));
+    request.fields.addAll({
+      'phone': phone,
+      'password': password
+    });
+
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+
+  }
+
+
+
   int checkOtp(String code) {
     var otp_code = box.get('otp_code');
     if(otp_code == code){
@@ -104,6 +128,8 @@ class AuthApiController{
       return 0;
     }
   }
+
+
 
 
   Future<int> updateFcmToken() async {
@@ -118,11 +144,8 @@ class AuthApiController{
       'fcm_token': '${fcm_token}',
       'phone': phone
     });
-
     request.headers.addAll(headers);
-
     http.StreamedResponse response = await request.send();
-
     if (response.statusCode == 200) {
       var name = box.get('temp_name');
       var phone = box.get('temp_phone');
@@ -141,6 +164,9 @@ class AuthApiController{
       return 0;
     }
   }
+
+
+
 
   Future<int> sendOtp(String phone) async {
     final fourDigitNumber = random.nextInt(9000) + 1000;
