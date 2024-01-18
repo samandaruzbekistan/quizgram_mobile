@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "766408837033",
+    "project_id": "quizgram-47d98",
+    "storage_bucket": "quizgram-47d98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766408837033:android:13930374e822fe9f55a6b8",
+        "android_client_info": {
+          "package_name": "uz.goldapps.quizgram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAakX8BoLj2RtDsat8nYlYLlS9ZG-PBrkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

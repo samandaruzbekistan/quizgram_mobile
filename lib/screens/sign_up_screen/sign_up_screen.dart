@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:quizgram/firebase_api.dart';
 import 'package:quizgram/screens/otp/otp_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/gestures.dart';
@@ -169,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 child: DropdownButtonFormField(
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone,
+                    prefixIcon: Icon(Icons.workspaces_outline,
                         color: ColorsHelpers.primaryColor),
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -306,6 +307,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(20.0),
                       )),
                   onPressed: () async {
+                    var token = await FirebaseApi().getFCMToken();
+                    print(token);
                     var phoneNumber = _phoneController.text;
                     setState(() {
                       _isLoading = true;

@@ -5,6 +5,7 @@ class WebApiConstans{
   static String loginUrl = baseUrl+'login';
   static String register = baseUrl+'register';
   static String checkUser = baseUrl+'check-user';
+  static String sendOtp = baseUrl+'sendOtp';
 }
 
 class ColorsHelpers {

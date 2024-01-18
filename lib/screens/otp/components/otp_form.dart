@@ -190,13 +190,15 @@ class _OtpFormState extends State<OtpForm> {
                 });
                 var code = "${number1.text}${number2.text}${number3.text}${number4.text}";
                 var check_code = api_controller.checkOtp(code);
-                // print(check_code);
                 if(check_code == 1){
                   setState(() {
                     isLoading = false;
                   });
+                  var register = await api_controller.register();
+                  if(register == 1){
+                    Get.offAll(HomeScreen());
 
-                  Get.to(HomeScreen());
+                  }
                 }
                 else{
                   setState(() {
