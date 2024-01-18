@@ -145,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   top: ScreenUtil().setHeight(8),
                 ),
                 child: TextFormField(
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.phone,
                   controller: _phoneController,
                   onTap: () {},
                   decoration: InputDecoration(

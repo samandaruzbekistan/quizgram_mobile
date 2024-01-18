@@ -24,7 +24,9 @@ class _OtpFormState extends State<OtpForm> {
   TextEditingController number2 = TextEditingController();
   TextEditingController number3 = TextEditingController();
   TextEditingController number4 = TextEditingController();
-  bool isLoading = false;
+  bool _isLoading = false;
+  AuthApiController apiController = AuthApiController();
+
 
   @override
   void initState() {
@@ -45,6 +47,32 @@ class _OtpFormState extends State<OtpForm> {
   void nextField(String value, FocusNode? focusNode) {
     if (value.length == 1) {
       focusNode!.requestFocus();
+    }
+  }
+
+  Future<void> _verifyOtp() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var code = "${number1.text}${number2.text}${number3.text}${number4.text}";
+    var checkCode = await apiController.checkOtp(code);
+
+
+
+    if (checkCode == 1) {
+      var register = await apiController.register();
+      if (register == 1) {
+        setState(() {
+          _isLoading = false;
+        });
+        Get.offAll(HomeScreen());
+      }
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      _codeError(context);
     }
   }
 
@@ -184,30 +212,31 @@ class _OtpFormState extends State<OtpForm> {
                 backgroundColor: Colors.deepPurple,
                 minimumSize: const Size.fromHeight(60),
               ),
-              onPressed: () async {
-                setState(() {
-                  isLoading = true;
-                });
-                var code = "${number1.text}${number2.text}${number3.text}${number4.text}";
-                var check_code = api_controller.checkOtp(code);
-                if(check_code == 1){
-                  setState(() {
-                    isLoading = false;
-                  });
-                  var register = await api_controller.register();
-                  if(register == 1){
-                    Get.offAll(HomeScreen());
-
-                  }
-                }
-                else{
-                  setState(() {
-                    isLoading = false;
-                  });
-                  _codeError(context);
-                }
-              },
-              child: isLoading
+              // onPressed: () async {
+              //   setState(() {
+              //     isLoading = true;
+              //   });
+              //   var code = "${number1.text}${number2.text}${number3.text}${number4.text}";
+              //   var check_code = api_controller.checkOtp(code);
+              //   if(check_code == 1){
+              //     setState(() {
+              //       isLoading = false;
+              //     });
+              //     var register = await api_controller.register();
+              //     if(register == 1){
+              //       Get.offAll(HomeScreen());
+              //
+              //     }
+              //   }
+              //   else{
+              //     setState(() {
+              //       isLoading = false;
+              //     });
+              //     _codeError(context);
+              //   }
+              // },
+              onPressed: _isLoading ? null : _verifyOtp,
+              child: _isLoading
                   ? const CircularProgressIndicator(color: Colors.white)
                   : Text(
                 "TEKSHIRISH",

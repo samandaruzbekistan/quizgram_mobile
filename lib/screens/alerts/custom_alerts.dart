@@ -61,6 +61,27 @@ apiErrorAlert(context) {
   ).show();
 }
 
+loginErrorAlert(context) {
+  Alert(
+    context: context,
+    type: AlertType.error,
+    title: "Xatolik",
+    desc: "Login yoki parol xato!",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+
 formErrorAlert(context) {
   Alert(
     context: context,

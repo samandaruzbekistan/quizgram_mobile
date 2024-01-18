@@ -1,8 +1,14 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:quizgram/controllers/auth_api_controller.dart';
+import 'package:quizgram/screens/alerts/custom_alerts.dart';
 
 import 'package:quizgram/screens/forgot_password_screen/forgot_password_screen.dart';
+import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 
@@ -17,8 +23,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final textFieldFocusNode = FocusNode();
-  bool _obscured = false;
-
+  bool _obscured = true;
+  final _passController = TextEditingController();
+  final _phoneController = TextEditingController();
   void _toggleObscured() {
     setState(() {
       _obscured = !_obscured;
@@ -29,16 +36,22 @@ class _LoginScreenState extends State<LoginScreen> {
           false; // Prevents focus if tap on eye
     });
   }
+  bool _isLoading = false;
+  void initState() {
+    super.initState();
+    _phoneController.text = "+998";
+  }
 
   @override
   Widget build(BuildContext context) {
+    AuthApiController apiController = AuthApiController();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: widgetText('Login', color: Colors.black),
+        title: widgetText('Kirish', color: Colors.black),
         leading: const BackButton(
           color: Colors.black,
         ),
@@ -53,97 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
+              SizedBox(height: ScreenUtil().setHeight(120),),
               Container(
-                height: ScreenUtil().setHeight(46),
-                width: ScreenUtil().setWidth(327),
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(120)),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: const BorderSide(
-                              color: Color.fromRGBO(230, 230, 230, 1))),
-                      backgroundColor: Colors.white),
-                  onPressed: () {},
-                  child: Container(
-                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(16)),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: SvgPicture.asset(
-                            Images.googleIcon,
-                          ),
-                        ),
-                        Expanded(
-                            flex: 3,
-                            child: widgetText("Login with Google",
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: ScreenUtil().setSp(16))),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: ScreenUtil().setHeight(46),
-                width: ScreenUtil().setWidth(327),
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: const BorderSide(
-                              color: Color.fromRGBO(230, 230, 230, 1))),
-                      backgroundColor: const Color.fromRGBO(0, 86, 178, 1)),
-                  onPressed: () {},
-                  child: Container(
-                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(16)),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: SvgPicture.asset(
-                            Images.fbIcon,
-                          ),
-                        ),
-                        Expanded(
-                            flex: 3,
-                            child: widgetText("Login with Facebook",
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: ScreenUtil().setSp(16))),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(36)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 135,
-                      height: 1,
-                      color: const Color.fromRGBO(230, 230, 230, 1),
-                    ),
-                    Container(
-                      child: widgetText('OR',
-                          color: const Color.fromRGBO(133, 132, 148, 1),
-                          fontWeight: FontWeight.w400,
-                          fontSize: ScreenUtil().setSp(16)),
-                    ),
-                    Container(
-                      width: 135,
-                      height: 1,
-                      color: const Color.fromRGBO(230, 230, 230, 1),
-                    ),
-                  ],
-                ),
+                child: Image.asset(Images.appLogoShadow),
+                // height: ScreenUtil().setHeight(46),
+                width: ScreenUtil().setWidth(130),
               ),
               Container(
                 margin: EdgeInsets.only(
@@ -152,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    widgetText('Email Address',
+                    widgetText('Telefon raqam',
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                         color: Colors.black),
@@ -162,9 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         top: ScreenUtil().setHeight(8),
                       ),
                       child: TextFormField(
-                        onTap: () {},
+                        keyboardType: TextInputType.phone,
+                        controller: _phoneController,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.mail_outline,
+                          prefixIcon: Icon(Icons.phone,
                               color: ColorsHelpers.primaryColor),
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
@@ -174,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           contentPadding: EdgeInsets.only(
                             left: ScreenUtil().setWidth(19),
                           ),
-                          hintText: 'Your Email Address',
+                          hintText: 'Telefon',
                         ),
                       ),
                     ),
@@ -188,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    widgetText('Password',
+                    widgetText('Parol',
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                         color: Colors.black),
@@ -198,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         top: ScreenUtil().setHeight(8),
                       ),
                       child: TextFormField(
-                        onTap: () {},
+                        controller: _passController,
                         obscureText: _obscured,
                         focusNode: textFieldFocusNode,
                         decoration: InputDecoration(
@@ -221,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           contentPadding: EdgeInsets.only(
                             left: ScreenUtil().setWidth(19),
                           ),
-                          hintText: 'Your Password',
+                          hintText: 'Parolingiz',
                         ),
                       ),
                     ),
@@ -230,22 +158,78 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                    top: ScreenUtil().setHeight(24),
-                    bottom: ScreenUtil().setHeight(24)),
-                child: widgetButton(
-                    widgetText('Login',
+                  top: ScreenUtil().setHeight(24),
+                ),
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsHelpers.primaryColor,
+                      minimumSize:
+                      Size(MediaQuery.of(context).size.width, 56.0),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          width: 0.0,
+                          color: Colors.transparent,
+                        ),
+                        borderRadius: BorderRadius.circular(20.0),
+                      )),
+                  onPressed: () async {
+                    final connectivityResult = await (Connectivity().checkConnectivity());
+                    if(_phoneController.text.length != 13) {
+                      phoneNumberLengthAlert(context);
+                    }
+                    else if (connectivityResult != ConnectivityResult.none){
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      var phoneNumber = _phoneController.text;
+                      var loginRes = await apiController.login(phoneNumber.substring(phoneNumber.length - 9), _passController.text);
+                      if(loginRes == 1){
+                        var resUpdateFcm = await apiController.updateFcmToken();
+                        if (resUpdateFcm == 1){
+                          setState(() {
+                            _isLoading = false;
+                          });
+                          Get.offAll(HomeScreen());
+                        }
+                        else{
+                          setState(() {
+                            _isLoading = false;
+                          });
+                          apiErrorAlert(context);
+                        }
+                      }
+                      else{
+                        setState(() {
+                          _isLoading = false;
+                        });
+                        loginErrorAlert(context);
+                      }
+                      setState(() {
+                        _isLoading = true;
+                      });
+                    }
+                    else{
+                      internetErrorAlert(context);
+                    }
+                  },
+                  child: _isLoading
+                      ? const CircularProgressIndicator(color: Colors.white,)
+                      : Text(
+                    'Kirish',
+                    style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                         fontSize: ScreenUtil().setSp(16)),
-                    height: 56.0,
-                    radius: 20.0,
-                    width: MediaQuery.of(context).size.width,
-                    () => null),
+                  ),
+                ),
               ),
+              SizedBox(height: ScreenUtil().setHeight(30),),
               Container(
                 margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(24)),
                 child: GestureDetector(
-                  child: widgetText('Forgot password?',
+                  child: widgetText('Parolingizni unutdingizmi?',
                       color: ColorsHelpers.primaryColor,
                       fontSize: ScreenUtil().setSp(16),
                       fontWeight: FontWeight.w500),

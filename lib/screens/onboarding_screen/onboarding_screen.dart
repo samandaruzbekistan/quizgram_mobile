@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quizgram/screens/login_option_screen/login_option_screen.dart';
+import 'package:quizgram/screens/login_screen/login_screen.dart';
 import 'package:quizgram/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
@@ -230,7 +231,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: ((context) =>
-                                                            const LoginOptionScreen()),
+                                                            const LoginScreen()),
                                                       ),
                                                     );
                                                   },

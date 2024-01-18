@@ -33,11 +33,44 @@ class AuthApiController{
       box.put('password', eduState);
       box.put('state', state);
       box.put('eduState', eduState);
+      box.put('balans', 0);
       return 1;
     }
     else {
       return 0;
     }
+  }
+
+  Future<int> login(String phone, String password) async {
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.loginUrl));
+    request.fields.addAll({
+      'phone': phone,
+      'password': password
+    });
+
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var res = await response.stream.bytesToString();
+      Map valueMap = json.decode(res);
+      if(valueMap['status'] == "success"){
+        box.put('temp_name', valueMap['user']['name']);
+        box.put('temp_phone', valueMap['user']['phone']);
+        box.put('temp_balans', valueMap['user']['balans']);
+        box.put('temp_state', valueMap['user']['state']);
+        box.put('temp_eduState', valueMap['user']['eduState']);
+        box.put('token', valueMap['token']);
+        return 1;
+      }
+      else{
+        return 0;
+      }
+    }
+    else {
+      return 0;
+    }
+
   }
 
   Future<int> check_user(String phone) async {
@@ -72,10 +105,47 @@ class AuthApiController{
     }
   }
 
+
+  Future<int> updateFcmToken() async {
+    var fcm_token = await FirebaseApi().getFCMToken();
+    var phone = box.get('temp_phone');
+    var token = box.get('token');
+    var headers = {
+      'Authorization': 'Bearer ${token}'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.updateFcm));
+    request.fields.addAll({
+      'fcm_token': '${fcm_token}',
+      'phone': phone
+    });
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var name = box.get('temp_name');
+      var phone = box.get('temp_phone');
+      var state = box.get('temp_state');
+      var eduState = box.get('temp_eduState');
+      var balans = box.get('temp_balans');
+      box.put('name', name);
+      box.put('phone', phone);
+      box.put('password', eduState);
+      box.put('state', state);
+      box.put('eduState', eduState);
+      box.put('balans', balans);
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+
   Future<int> sendOtp(String phone) async {
     final fourDigitNumber = random.nextInt(9000) + 1000;
     box.put('otp_code', "${fourDigitNumber}");
-    var request = http.MultipartRequest('POST', Uri.parse('https://markaz.ideal-study.uz/api/sendSms'));
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.sendOtp));
     request.fields.addAll({
       'phone': phone,
       'code': "${fourDigitNumber}"
