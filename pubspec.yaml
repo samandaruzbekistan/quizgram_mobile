@@ -50,6 +50,8 @@ dependencies:
   hive:
   hive_flutter:
   rflutter_alert:
+  connectivity_plus: ^4.0.2
+  get: ^4.6.6
 
 
   chips_choice_null_safety: ^2.0.6

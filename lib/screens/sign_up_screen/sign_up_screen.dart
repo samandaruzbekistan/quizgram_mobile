@@ -1,4 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:quizgram/screens/otp/otp_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +18,7 @@ import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 import '../../models/region.dart';
 import '../../utils/images.dart';
+import '../alerts/custom_alerts.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -67,10 +73,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     ),
   ];
 
+  void initState() {
+    super.initState();
+    _phoneController.text = "+998";
+  }
+
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('user');
     AuthApiController api_controller = AuthApiController();
-    _phoneController.text = "+998";
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -158,16 +169,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 child: DropdownButtonFormField(
                   decoration: InputDecoration(
-                    filled: true,
-                    prefixIcon:
-                        Icon(Icons.school, color: ColorsHelpers.primaryColor),
+                    prefixIcon: Icon(Icons.phone,
+                        color: ColorsHelpers.primaryColor),
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(20.0)),
                     fillColor: Colors.white,
+                    filled: true
                   ),
-                  hint: Text("Ta'lim bosqichingiz"),
-                  validator: (value) => value == null ? "Select a role" : null,
+                  hint: Text("Hozirgi holatingiz"),
+                  validator: (value) =>
+                  value == null ? "Select a role" : null,
                   value: selectedValue,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -294,17 +306,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(20.0),
                       )),
                   onPressed: () async {
+                    var phoneNumber = _phoneController.text;
                     setState(() {
                       _isLoading = true;
                     });
-                    var result =
-                        await api_controller.check_user(_phoneController.text);
-                    if (result == 0) {
+                    final connectivityResult =
+                    await (Connectivity().checkConnectivity());
+                    if(_phoneController.text.length != 13) {
+                      phoneNumberLengthAlert(context);
+                    }
+                    else if((_stateController.text.length < 1) || (_nameController.text.length < 1) || (_passController.text.length < 1)){
+                      formErrorAlert(context);
+                    }
+                    else if (connectivityResult != ConnectivityResult.none){
+                      var result = await api_controller.check_user(phoneNumber.substring(phoneNumber.length - 9));
+                      if (result == 1) {
+                        setState(() {
+                          _isLoading = false;
+                        });
+                        checkUserAlert(context);
+                      }
+                      else if(result == -1){
+                        box.put('temp_name', _nameController.text);
+                        var phoneNumber = _phoneController.text;
+                        var send_otp = await api_controller.sendOtp(phoneNumber.substring(phoneNumber.length - 9));
+                        if(send_otp == 1){
+                          box.put('temp_phone', phoneNumber.substring(phoneNumber.length - 9));
+                          box.put('temp_state', _stateController.text);
+                          box.put('temp_eduState', selectedValue as String);
+                          box.put('temp_password', _passController.text);
+                          Get.to(OtpScreen());
+                        }
+                        else{
+                          apiErrorAlert(context);
+                        }
+                        // var register = await api_controller.register(name: _nameController.text, phone: _phoneController.text, state: _stateController.text, eduState: selectedValue as String, pass: _passController.text);
+
+                      }
+                      else{
+                        apiErrorAlert(context);
+                      }
+                    }
+                    else{
                       setState(() {
                         _isLoading = false;
                       });
-                      _checkUserAlert(context);
+                      internetErrorAlert(context);
                     }
+                    setState(() {
+                      _isLoading = false;
+                    });
                   },
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white,)
@@ -357,22 +408,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 }
 
-_checkUserAlert(context) {
-  Alert(
-    context: context,
-    type: AlertType.error,
-    title: "Xatolik",
-    desc: "Bu telefon raqam tizimda ro'yhatdan o'tgan",
-    buttons: [
-      DialogButton(
-        color: Colors.deepPurple,
-        child: Text(
-          "OK",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () => Navigator.pop(context),
-        width: 120,
-      )
-    ],
-  ).show();
-}
