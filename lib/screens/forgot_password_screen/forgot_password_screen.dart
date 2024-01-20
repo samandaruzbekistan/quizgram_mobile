@@ -348,6 +348,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 }
                               }
                               else{
+                                setState(() {
+                                  _isLoading = false;
+                                });
                                 phoneNumberLengthAlert(context);
                               }
                             }

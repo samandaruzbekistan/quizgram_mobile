@@ -211,6 +211,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     }
                     else{
+                      setState(() {
+                        _isLoading = false;
+                      });
                       internetErrorAlert(context);
                     }
                   },

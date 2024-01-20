@@ -341,12 +341,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Get.to(OtpScreen(type: "newUser",));
                         }
                         else{
+                          setState(() {
+                            _isLoading = false;
+                          });
                           apiErrorAlert(context);
                         }
                         // var register = await api_controller.register(name: _nameController.text, phone: _phoneController.text, state: _stateController.text, eduState: selectedValue as String, pass: _passController.text);
 
                       }
                       else{
+                        setState(() {
+                          _isLoading = false;
+                        });
                         apiErrorAlert(context);
                       }
                     }

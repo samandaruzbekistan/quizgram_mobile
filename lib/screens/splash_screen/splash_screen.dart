@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:quizgram/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
@@ -17,6 +18,7 @@ class SplashScreenState extends State<SplashScreen> {
     _timerSplash();
     super.initState();
   }
+
 
   _timerSplash() async {
     await Future.delayed(const Duration(milliseconds: 3000), () {

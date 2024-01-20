@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import 'package:quizgram/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:quizgram/screens/splash_screen/splash_screen.dart';
 
@@ -50,6 +51,12 @@ class MyAppState extends State<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
+        var box = Hive.box('user');
+        var user = box.get("name");
+        bool isReg = false;
+        if(user != null){
+          isReg = true;
+        }
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Quizgram',
@@ -59,7 +66,7 @@ class MyAppState extends State<MyApp> {
             ),
             primarySwatch: Colors.purple,
           ),
-          home: const SplashScreen(),
+          home: isReg ? const HomeScreen() : const SplashScreen(),
         );
       },
     );

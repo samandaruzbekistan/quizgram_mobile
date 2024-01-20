@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:quizgram/screens/faq_screen/faq_screen.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -359,16 +361,23 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: ScreenUtil().setHeight(32),
-                  bottom: ScreenUtil().setHeight(56),
-                ),
-                child: widgetText(
-                  'Logout',
-                  color: Colors.red,
-                  fontWeight: FontWeight.w500,
-                  fontSize: ScreenUtil().setSp(16),
+              GestureDetector(
+                onTap: (){
+                  var box = Hive.box('user');
+                  box.clear();
+                  SystemNavigator.pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: ScreenUtil().setHeight(32),
+                    bottom: ScreenUtil().setHeight(56),
+                  ),
+                  child: widgetText(
+                    'Logout',
+                    color: Colors.red,
+                    fontWeight: FontWeight.w500,
+                    fontSize: ScreenUtil().setSp(16),
+                  ),
                 ),
               ),
             ],
