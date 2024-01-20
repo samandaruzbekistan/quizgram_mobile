@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:quizgram/screens/bottom_nav_bar.dart';
 import 'package:quizgram/screens/detail_quiz_screen/detail_quiz_screen.dart';
-import 'package:quizgram/screens/profile_screen/profile_screen.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
@@ -58,8 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var w = MediaQuery.of(context).size.width;
-    var h = MediaQuery.of(context).size.height;
     var box = Hive.box('user');
     return Scaffold(
       body: SingleChildScrollView(
@@ -116,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Container(
                                   margin: EdgeInsets.only(
                                       top: ScreenUtil().setHeight(5)),
-                                  child: widgetText('Quizgram.uz',
+                                  child: widgetText('Xush kelibsiz!',
                                       fontWeight: FontWeight.w500,
                                       fontSize: ScreenUtil().setSp(24),
                                       color: Colors.white),
@@ -125,13 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SettingScreen()));
+
                                 },
-                                child: SvgPicture.asset(Images.avatar))
+                                child: Image.asset(Images.appLogo, width: ScreenUtil().setWidth(70),))
+                                // child: SvgPicture.asset(Images.avatar))
                           ],
                         ),
                       ),
@@ -147,25 +139,32 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           height: ScreenUtil().setHeight(84),
                           width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: Color.fromRGBO(255, 204, 213, 1),
+                            color: Colors.white70,
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
                             child: Image.network(
                               "https://mobile.quizgram.uz/img/ad/ad.png",
                               fit: BoxFit.cover, // or BoxFit.fill, BoxFit.fitWidth, etc.
+                              errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                return const Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.signal_wifi_connected_no_internet_4),
+                                      Text("  Internetga ulanish mavjud emas", style: TextStyle(fontSize: 16),)
+                                    ],
+                                  ),
+                                );
+                              },
                               loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                 if (loadingProgress == null) {
                                   return child;
                                 } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
-                                          : null,
-                                    ),
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
                                   );
                                 }
                               },
@@ -226,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                             Positioned(
                                 right: ScreenUtil().setWidth(15),
-                                bottom: ScreenUtil().setHeight(42),
+                                bottom: ScreenUtil().setHeight(10),
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(20)),
@@ -245,8 +244,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Container(
                                       margin: EdgeInsets.only(
                                           bottom: ScreenUtil().setHeight(16)),
-                                      child: widgetText('FEATURED',
-                                          fontWeight: FontWeight.w500,
+                                      child: widgetText('YANGILIK',
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white.withOpacity(0.8),
                                           fontSize: ScreenUtil().setSp(14),
                                           letterSpacing: 5),
@@ -258,42 +257,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           align: TextAlign.center,
                                           color: Colors.white,
                                           fontSize: ScreenUtil().setSp(18)),
-                                    ),
-                                    Container(
-                                      height: ScreenUtil().setHeight(44),
-                                      width: ScreenUtil().setWidth(146),
-                                      margin: EdgeInsets.only(
-                                          top: ScreenUtil().setHeight(16)),
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            shadowColor: Colors.transparent,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            backgroundColor: Colors.white),
-                                        onPressed: () {},
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Expanded(
-                                              flex: 1,
-                                              child: SvgPicture.asset(
-                                                Images.buttonIcon,
-                                              ),
-                                            ),
-                                            Expanded(
-                                                flex: 3,
-                                                child: widgetText("Find Friends",
-                                                    color: ColorsHelpers
-                                                        .primaryColor,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize:
-                                                        ScreenUtil().setSp(14))),
-                                          ],
-                                        ),
-                                      ),
                                     ),
                                   ],
                                 ),
