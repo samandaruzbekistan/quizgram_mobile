@@ -39,6 +39,7 @@ class Images {
   static const String curveLine3 = 'assets/icons/curve_line_3.svg';
   static const String buttonIcon = 'assets/icons/button_icon.svg';
   static const String chart = 'assets/illustrations/chart.svg';
+  static const String quiz_section = 'assets/illustrations/quiz_section.png';
   static const String integers = 'assets/illustrations/integers.svg';
   static const String flag = 'assets/icons/flag.png';
   static const String globe = 'assets/icons/globe.svg';

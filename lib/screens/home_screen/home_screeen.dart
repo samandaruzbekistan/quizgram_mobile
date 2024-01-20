@@ -39,9 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late Timer _timer;
   int _currentPage = 0;
   List<String> _adUrls = [
+    "https://mobile.quizgram.uz/img/ad/home.png",
     "https://mobile.quizgram.uz/img/ad/ad.png",
-    "https://mobile.quizgram.uz/img/ad/ad_old.png",
-    "https://mobile.quizgram.uz/img/ad/ad_old.png",
+    "https://mobile.quizgram.uz/img/ad/insta.png",
   ];
 
   @override
@@ -346,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ColorsHelpers.grey2),
                             ),
                             listItem(
-                                SvgPicture.asset(Images.integers),
+                                Image.asset(Images.quiz_section),
                                 'Diagnostik testlar',
                                 'Bilimingizni tekshiring',
                                 () {},
