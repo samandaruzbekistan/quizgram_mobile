@@ -224,29 +224,6 @@ class _OtpFormState extends State<OtpForm> {
                 backgroundColor: Colors.deepPurple,
                 minimumSize: const Size.fromHeight(60),
               ),
-              // onPressed: () async {
-              //   setState(() {
-              //     isLoading = true;
-              //   });
-              //   var code = "${number1.text}${number2.text}${number3.text}${number4.text}";
-              //   var check_code = api_controller.checkOtp(code);
-              //   if(check_code == 1){
-              //     setState(() {
-              //       isLoading = false;
-              //     });
-              //     var register = await api_controller.register();
-              //     if(register == 1){
-              //       Get.offAll(HomeScreen());
-              //
-              //     }
-              //   }
-              //   else{
-              //     setState(() {
-              //       isLoading = false;
-              //     });
-              //     _codeError(context);
-              //   }
-              // },
               onPressed: _isLoading ? null : _verifyOtp,
               child: _isLoading
                   ? const CircularProgressIndicator(color: Colors.white)

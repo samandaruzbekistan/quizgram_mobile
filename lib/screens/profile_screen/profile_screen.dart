@@ -85,6 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     var box = Hive.box('user');
     var name = box.get('name');
+    var gender = box.get('gender');
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -491,7 +492,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         child: Stack(
                           children: [
                             SvgPicture.asset(
-                              Images.avatar,
+                              gender == "female" ? Images.avatar : Images.avatar2,
                               width: 96,
                               height: 96,
                             ),

@@ -16,6 +16,7 @@ class AuthApiController{
     var password = box.get('temp_password');
     var state = box.get('temp_state');
     var eduState = box.get('temp_eduState');
+    var gender = box.get('temp_gender');
     var token = await FirebaseApi().getFCMToken();
     var request = http.MultipartRequest('POST', Uri.parse('https://mobile.quizgram.uz/api/register'));
     request.fields.addAll({
@@ -24,16 +25,23 @@ class AuthApiController{
       'password': '${password}',
       'state': '${state} ',
       'eduState': '${eduState}',
-      'fcm_token' : "${token}"
+      'fcm_token' : "${token}",
+      'gender' : "${gender}"
     });
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
+      var res = await response.stream.bytesToString();
+      Map valueMap = json.decode(res);
       box.put('name', name);
       box.put('phone', phone);
       box.put('password', eduState);
       box.put('state', state);
       box.put('eduState', eduState);
+      box.put('gender', gender);
       box.put('balans', 0);
+      box.put('token', valueMap['token']);
+      box.put('id', valueMap['id']);
+
       return 1;
     }
     else {
@@ -59,6 +67,7 @@ class AuthApiController{
         box.put('temp_phone', valueMap['user']['phone']);
         box.put('temp_balans', valueMap['user']['balans']);
         box.put('temp_state', valueMap['user']['state']);
+        box.put('temp_gender', valueMap['user']['gender']);
         box.put('temp_eduState', valueMap['user']['eduState']);
         box.put('token', valueMap['token']);
         return 1;
@@ -152,8 +161,10 @@ class AuthApiController{
       var state = box.get('temp_state');
       var eduState = box.get('temp_eduState');
       var balans = box.get('temp_balans');
+      var gender = box.get('temp_gender');
       box.put('name', name);
       box.put('phone', phone);
+      box.put('gender', gender);
       box.put('password', eduState);
       box.put('state', state);
       box.put('eduState', eduState);

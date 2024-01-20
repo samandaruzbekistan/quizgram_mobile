@@ -1,23 +1,16 @@
-import 'dart:convert';
-import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quizgram/firebase_api.dart';
 import 'package:quizgram/screens/otp/otp_screen.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:quizgram/controllers/auth_api_controller.dart';
 import 'package:quizgram/screens/login_screen/login_screen.dart';
-import 'package:quizgram/screens/sign_up_with_email_screen/sign_up_with_email_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/widget_assets.dart';
-import '../../models/region.dart';
 import '../../utils/images.dart';
 import '../alerts/custom_alerts.dart';
 
@@ -50,8 +43,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   String? selectedValue;
+  String? selectedValue2;
   String selectedRegionName = "";
-  List<DropdownMenuItem<String>> dropdownItems = [
+  List<DropdownMenuItem<String>> dropdownItems = const [
     DropdownMenuItem(
       value: 'pupil',
       child: Text('O\'quvchi'),
@@ -71,6 +65,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     DropdownMenuItem(
       value: 'person',
       child: Text('Erkin izlanuvchi'),
+    ),
+  ];
+
+  List<DropdownMenuItem<String>> dropdownItems2 = const [
+    DropdownMenuItem(
+      value: 'male',
+      child: Text('Erkak'),
+    ),
+    DropdownMenuItem(
+      value: 'female',
+      child: Text('Ayol'),
     ),
   ];
 
@@ -106,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: ScreenUtil().setHeight(100),
+                height: ScreenUtil().setHeight(70),
               ),
               Container(
                 child: Image.asset(Images.appLogoShadow),
@@ -178,7 +183,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fillColor: Colors.white,
                     filled: true
                   ),
-                  hint: Text("Hozirgi holatingiz"),
+                  hint: Text("Hozirgi holatingi"),
                   validator: (value) =>
                   value == null ? "Select a role" : null,
                   value: selectedValue,
@@ -192,6 +197,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     });
                   },
                   items: dropdownItems,
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(
+                  top: ScreenUtil().setHeight(8),
+                ),
+                child: DropdownButtonFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person_outline,
+                          color: ColorsHelpers.primaryColor),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(20.0)),
+                      fillColor: Colors.white,
+                      filled: true
+                  ),
+                  hint: Text("Jinsi"),
+                  validator: (value) =>
+                  value == null ? "Select a role" : null,
+                  value: selectedValue2,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedValue2 = newValue!;
+                      selectedRegionName = dropdownItems
+                          .firstWhere((item) => item.value == newValue)
+                          .child
+                          .toString();
+                    });
+                  },
+                  items: dropdownItems2,
                 ),
               ),
               Container(
@@ -338,6 +374,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           box.put('temp_state', _stateController.text);
                           box.put('temp_eduState', selectedValue as String);
                           box.put('temp_password', _passController.text);
+                          box.put('temp_gender', selectedValue2 as String);
                           Get.to(OtpScreen(type: "newUser",));
                         }
                         else{

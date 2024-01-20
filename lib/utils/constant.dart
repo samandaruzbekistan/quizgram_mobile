@@ -8,6 +8,7 @@ class WebApiConstans{
   static String sendOtp = baseUrl+'sendOtp';
   static String updateFcm = baseUrl+'updateFcm';
   static String updatePassword = baseUrl+'updatePassword';
+  static String getBalansAndNews = baseUrl+'getBalansAndNews';
 }
 
 class ColorsHelpers {
