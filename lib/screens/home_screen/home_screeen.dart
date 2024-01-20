@@ -1,12 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quizgram/screens/detail_quiz_screen/detail_quiz_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:quizgram/screens/faq_screen/faq_screen.dart';
+import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
+import 'package:quizgram/screens/live_quiz_screen/review_quiz_screen.dart';
+import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
+import 'package:quizgram/screens/quiz/create_quiz_screen/create_quiz_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -25,57 +33,54 @@ class _HomeScreenState extends State<HomeScreen> {
   var box = Hive.box('user');
   bool _isLoading = false;
   String _newsText = "";
+  String _adUrl = "https://t.me/quizgramuz";
   bool _internetError = false;
+  final PageController _pageController = PageController();
+  late Timer _timer;
+  int _currentPage = 0;
+  List<String> _adUrls = [
+    "https://mobile.quizgram.uz/img/ad/ad.png",
+    "https://mobile.quizgram.uz/img/ad/ad_old.png",
+    "https://mobile.quizgram.uz/img/ad/ad_old.png",
+  ];
+
   @override
   void initState() {
     super.initState();
-    getBalans();
-  }
-
-  void requestMultiplePermissions() async {}
-
-  void requestCameraPermission() async {
-    /// status can either be: granted, denied, restricted or permanentlyDenied
-    var status = await Permission.camera.status;
-    if (status.isGranted) {
-    } else if (status.isDenied) {
-      // We didn't ask for permission yet or the permission has been denied before but not permanently.
-      if (await Permission.camera.request().isGranted) {
-        openAppSettings();
-        // Either the permission was already granted before or the user just granted it.
-
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < _adUrls.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
       }
-    }
-
-    // You can can also directly ask the permission about its status.
-    // if (await Permission.location.isRestricted) {
-    //   // The OS restricts access, for example because of parental controls.
-    // }
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+    getBalans();
   }
 
   Future<void> getBalans() async {
     var token = box.get('token');
     var phone = box.get('phone');
-    var headers = {
-      'Authorization': 'Bearer ${token}'
-    };
-    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.getBalansAndNews));
-    request.fields.addAll({
-      'phone': "${phone}"
-    });
+    var headers = {'Authorization': 'Bearer ${token}'};
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(WebApiConstans.getBalansAndNews));
+    request.fields.addAll({'phone': "${phone}"});
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     var reponseData = await response.stream.bytesToString();
-    print(reponseData);
     if (response.statusCode == 200) {
       final data = json.decode(reponseData);
       box.put('balans', "${data['balance']}");
       setState(() {
         _newsText = data['screenText'];
+        _adUrl = data['ad'];
       });
-    }
-    else {
+    } else {
       setState(() {
         _internetError = true;
       });
@@ -115,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: ScreenUtil().setHeight(60)),
+                          margin:
+                              EdgeInsets.only(top: ScreenUtil().setHeight(60)),
                           padding: EdgeInsets.only(
                               left: ScreenUtil().setWidth(24),
                               right: ScreenUtil().setWidth(24)),
@@ -145,7 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Container(
                                     margin: EdgeInsets.only(
                                         top: ScreenUtil().setHeight(5)),
-                                    child: widgetText('Balans: ${box.get('balans')} so\'m',
+                                    child: widgetText(
+                                        'Balans: ${box.get('balans')} so\'m',
                                         fontWeight: FontWeight.w500,
                                         fontSize: ScreenUtil().setSp(20),
                                         color: Colors.white),
@@ -153,17 +160,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                               GestureDetector(
-                                  onTap: () {
-
-                                  },
-                                  child: Image.asset(Images.appLogo, width: ScreenUtil().setWidth(70),))
+                                  onTap: () {},
+                                  child: Image.asset(
+                                    Images.appLogo,
+                                    width: ScreenUtil().setWidth(70),
+                                  ))
                               // child: SvgPicture.asset(Images.avatar))
                             ],
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
-                            launchUrl(Uri.parse("https://mobile.quizgram.uz/ad"));
+                          onTap: () {
+                            launchUrl(Uri.parse(_adUrl));
                           },
                           child: Container(
                             margin: EdgeInsets.only(
@@ -174,47 +182,68 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: ScreenUtil().setHeight(84),
                             width: MediaQuery.of(context).size.width,
                             decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
                               color: Colors.white70,
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image.network(
-                                "https://mobile.quizgram.uz/img/ad/ad.png",
-                                fit: BoxFit.cover, // or BoxFit.fill, BoxFit.fitWidth, etc.
-                                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                  return const Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.signal_wifi_connected_no_internet_4),
-                                        Text("  Internetga ulanish mavjud emas", style: TextStyle(fontSize: 16),)
-                                      ],
-                                    ),
+                              borderRadius: BorderRadius.circular(20),
+                              child: PageView.builder(
+                                controller: _pageController,
+                                itemCount: _adUrls.length,
+                                itemBuilder: (context, index) {
+                                  return Image.network(
+                                    _adUrls[index],
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (BuildContext context,
+                                        Object error, StackTrace? stackTrace) {
+                                      return const Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons
+                                                .signal_wifi_connected_no_internet_4),
+                                            Text(
+                                              "  Internetga ulanish mavjud emas",
+                                              style: TextStyle(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    },
                                   );
                                 },
-                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child;
-                                  } else {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  }
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    _currentPage = index;
+                                  });
                                 },
                               ),
                             ),
                           ),
                         ),
                         Container(
-                          height: ScreenUtil().setHeight(232),
+                          height: ScreenUtil().setHeight(130),
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.only(
                               top: ScreenUtil().setHeight(24),
                               left: ScreenUtil().setWidth(24),
                               right: ScreenUtil().setWidth(24)),
                           decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
                               color: Color.fromRGBO(143, 136, 228, 1)),
                           child: Stack(
                             children: [
@@ -234,7 +263,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   right: 1,
                                   top: 0,
                                   child: RotationTransition(
-                                    turns: const AlwaysStoppedAnimation(180 / 360),
+                                    turns:
+                                        const AlwaysStoppedAnimation(180 / 360),
                                     child: ClipRRect(
                                       borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(20)),
@@ -245,48 +275,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                   )),
-                              Positioned(
-                                  left: 16,
-                                  top: 16,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(20)),
-                                    child: SvgPicture.asset(
-                                      Images.person,
-                                      height: ScreenUtil().setHeight(48),
-                                      width: ScreenUtil().setWidth(48),
-                                    ),
-                                  )),
-                              Positioned(
-                                  right: ScreenUtil().setWidth(15),
-                                  bottom: ScreenUtil().setHeight(10),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(20)),
-                                    child: SvgPicture.asset(
-                                      Images.personTwo,
-                                      height: ScreenUtil().setHeight(56),
-                                      width: ScreenUtil().setWidth(64),
-                                    ),
-                                  )),
                               Center(
                                 child: Container(
                                   margin: EdgeInsets.only(
-                                      top: ScreenUtil().setHeight(40)),
+                                      top: ScreenUtil().setHeight(15)),
                                   child: Column(
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(
-                                            bottom: ScreenUtil().setHeight(16)),
+                                            bottom: ScreenUtil().setHeight(10)),
                                         child: widgetText('YANGILIK',
                                             fontWeight: FontWeight.w600,
-                                            color: Colors.white.withOpacity(0.8),
+                                            color:
+                                                Colors.white.withOpacity(0.8),
                                             fontSize: ScreenUtil().setSp(14),
                                             letterSpacing: 5),
                                       ),
                                       Container(
-                                        child: widgetText(
-                                            _newsText,
+                                        child: widgetText(_newsText,
                                             fontWeight: FontWeight.w500,
                                             align: TextAlign.center,
                                             color: Colors.white,
@@ -300,7 +306,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: ScreenUtil().setHeight(24)),
+                          margin:
+                              EdgeInsets.only(top: ScreenUtil().setHeight(24)),
                           padding: const EdgeInsets.all(24),
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height / 2,
@@ -313,11 +320,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                widgetText('Live Quizzes',
+                                widgetText('Bo\'limlar',
                                     fontWeight: FontWeight.w500,
                                     fontSize: ScreenUtil().setSp(20),
                                     color: Colors.black),
-                                widgetText('See all',
+                                widgetText('Barchisini ko\'rish',
                                     color: ColorsHelpers.primaryColor,
                                     fontSize: ScreenUtil().setSp(14),
                                     fontWeight: FontWeight.w500)
@@ -329,19 +336,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             Container(
                               margin: EdgeInsets.only(
                                   bottom: ScreenUtil().setHeight(16)),
-                              child: listItem(SvgPicture.asset(Images.chart),
-                                  'Statistics Math Quiz', 'Math • 12 Quizzes', () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const DetailQuizScreen()));
-                                  }, Colors.white, Colors.black, ColorsHelpers.grey2),
+                              child: listItem(
+                                  Image.asset(Images.illustrationTrophy),
+                                  'Olimpiadalar',
+                                  'Musobaqalarda bellashing', () {
+                                    // print(box.get('token'));
+                                Get.to(Olympics());
+                              }, Colors.white, Colors.black,
+                                  ColorsHelpers.grey2),
                             ),
-                            listItem(SvgPicture.asset(Images.integers),
-                                'Integers Quiz', 'Math • 10 Quizzes', () {
-                                  requestCameraPermission();
-                                }, Colors.white, Colors.black, ColorsHelpers.grey2),
+                            listItem(
+                                SvgPicture.asset(Images.integers),
+                                'Diagnostik testlar',
+                                'Bilimingizni tekshiring',
+                                () {},
+                                Colors.white,
+                                Colors.black,
+                                ColorsHelpers.grey2),
                           ]),
                         )
                       ],

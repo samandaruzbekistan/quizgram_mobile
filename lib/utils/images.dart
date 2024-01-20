@@ -3,6 +3,7 @@ class Images {
   static const String appLogo = 'assets/icons/app_logo.png';
   static const String appLogoShadow = 'assets/icons/app_logo_shadow.png';
   static const String ovalWithOutlineTop = 'assets/icons/oval_outline_top.svg';
+  static const String competition = 'assets/vectors/competition.png';
   static const String ovalWithOutlineBottom =
       'assets/icons/oval_outline_bottom.svg';
   static const String ovalMini = 'assets/icons/oval_mini.svg';

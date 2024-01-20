@@ -9,6 +9,7 @@ class WebApiConstans{
   static String updateFcm = baseUrl+'updateFcm';
   static String updatePassword = baseUrl+'updatePassword';
   static String getBalansAndNews = baseUrl+'getBalansAndNews';
+  static String getOlympics = baseUrl+'getOlympics';
 }
 
 class ColorsHelpers {
