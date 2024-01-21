@@ -11,10 +11,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:quizgram/screens/detail_quiz_screen/detail_quiz_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:quizgram/screens/faq_screen/faq_screen.dart';
+import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
+import 'package:quizgram/screens/leaderboard/leaderboard_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/review_quiz_screen.dart';
 import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
 import 'package:quizgram/screens/quiz/create_quiz_screen/create_quiz_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_choose_category_screen/quiz_choose_category_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -349,7 +352,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Image.asset(Images.quiz_section),
                                 'Diagnostik testlar',
                                 'Bilimingizni tekshiring',
-                                () {},
+                                () {
+                                  Get.to(QuizChooseCategoryScreen());
+                                },
                                 Colors.white,
                                 Colors.black,
                                 ColorsHelpers.grey2),

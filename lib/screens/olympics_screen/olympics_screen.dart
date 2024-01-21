@@ -169,7 +169,7 @@ class _OlympicsState extends State<Olympics> {
                                       '${item['name']}',
                                       item['status'] == 0 ? 'Sana: ${item['date']}' : "Olimpiada yakunlangan", () {
                                     // print(box.get('token'));
-                                    Get.to(DetailQuizScreen(name: item['name'], quiz_count: item['quiz_count'], description: item['description'],));
+                                    Get.to(DetailQuizScreen(name: item['name'], olympicId: item['id'], amount: item['amount'], quiz_count: item['quiz_count'], description: item['description'],));
                                   }, Colors.white, Colors.black,
                                       ColorsHelpers.grey2),
                                 );

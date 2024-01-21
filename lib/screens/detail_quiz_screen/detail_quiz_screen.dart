@@ -1,16 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/quiz_complete_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
+import 'package:http/http.dart' as http;
 
 class DetailQuizScreen extends StatefulWidget {
-  const DetailQuizScreen({Key? key, required this.name, required this.quiz_count, required this.description}) : super(key: key);
-
+  const DetailQuizScreen({Key? key,required this.olympicId, required this.amount, required this.name, required this.quiz_count, required this.description}) : super(key: key);
   final String name;
+  final int amount;
+  final int olympicId;
   final int quiz_count;
   final String description;
 
@@ -19,6 +24,57 @@ class DetailQuizScreen extends StatefulWidget {
 }
 
 class _DetailQuizScreenState extends State<DetailQuizScreen> {
+  var box = Hive.box('user');
+  bool _isLoading = true;
+  bool _status = false;
+  bool _state = false;
+  bool _api = true;
+
+  Future<void> fetchData() async {
+    var token = box.get('token');
+    var id = box.get('id');
+    var headers = {
+      'Authorization': 'Bearer ${token}'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('https://mobile.quizgram.uz/api/checkBuyOlympic'));
+    request.fields.addAll({
+      'user_id': "${id}",
+      'exam_day_id': "${widget.olympicId}"
+    });
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var res = await response.stream.bytesToString();
+      final data = json.decode(res);
+
+      if(data['status'] == 'success'){
+        setState(() {
+          _isLoading = false;
+          _status = true;
+          _state = data['state'];
+        });
+      }
+      else{
+        _status = false;
+      }
+    }
+    else {
+      setState(() {
+        _isLoading = false;
+        _api = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,7 +184,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                       ),
                                     ),
                                     SvgPicture.asset(Images.iconPuzzle),
-                                    widgetText('+100 points',
+                                    widgetText('${widget.amount} so\'m',
                                         fontWeight: FontWeight.w500,
                                         fontSize: ScreenUtil().setSp(14),
                                         color: Colors.black),
@@ -152,47 +208,55 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                 // overflow: TextOverflow.ellipsis
                               ),
                               Container(
+                                alignment: Alignment.center,
                                 margin: EdgeInsets.only(
                                     top: ScreenUtil().setHeight(30)),
-                                child: Row(
+                                child: _isLoading ? CircularProgressIndicator() :  Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    widgetButton(
-                                        widgetText('Play Solo',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: ScreenUtil().setSp(16),
+                                    _state ? widgetButton(
+                                                widgetText('Yakunlangan',
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: ScreenUtil().setSp(16),
+                                                    color: ColorsHelpers.primaryColor),
+                                                () {},
+                                                height: 56.0,
+                                                width: 142.0,
+                                                radius: 20.0,
+                                                colorBorder: ColorsHelpers.secondLavender,
+                                                color: Colors.white,
+                                                widthBorder: 1.0)
+                                          : widgetButton(
+                                              widgetText('Boshlash',
+                                              fontWeight: FontWeight.w500,
+                                                  fontSize: ScreenUtil().setSp(16),
                                             color: ColorsHelpers.primaryColor),
-                                        () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const LiveQuizScreen()));
-                                    },
-                                        height: 56.0,
-                                        width: 142.0,
-                                        radius: 20.0,
-                                        colorBorder: ColorsHelpers.secondLavender,
-                                        color: Colors.white,
-                                        widthBorder: 1.0),
-                                    widgetButton(
-                                      widgetText('Play with Friends',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: ScreenUtil().setSp(16),
-                                          color: Colors.white),
-                                      () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const QuizCompleteScreen()));
-                                      },
-                                      height: 56.0,
-                                      width: 200.0,
-                                      radius: 20.0,
-                                    ),
-                                  ],
+                                              () {},
+                                                height: 56.0,
+                                                width: 142.0,
+                                                radius: 20.0,
+                                                colorBorder: ColorsHelpers
+                                                    .secondLavender,
+                                                color: Colors.white,
+                                                widthBorder: 1.0),
+                                        widgetButton(
+                                          widgetText('Natija',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: ScreenUtil().setSp(16),
+                                              color: Colors.white),
+                                          () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const QuizCompleteScreen()));
+                                          },
+                                          height: 56.0,
+                                          width: 200.0,
+                                          radius: 20.0,
+                                        ),
+                                      ],
                                 ),
                               )
                             ],
