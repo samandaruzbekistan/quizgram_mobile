@@ -5,21 +5,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:quizgram/controllers/olympic_api_controller.dart';
 import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/quiz_complete_screen.dart';
+import 'package:quizgram/screens/quiz/create_quiz_screen/create_quiz_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_checkbox_screen/quiz_checkbox_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_multiple_choice_screen/quiz_multiple_choice_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_poll_screen/quiz_poll_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_puzzle_screen/quiz_puzzle_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_review_screen/quiz_review_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_type_answer_screen/quiz_type_answer_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 import 'package:http/http.dart' as http;
 
+import '../alerts/custom_alerts.dart';
+
 class DetailQuizScreen extends StatefulWidget {
-  const DetailQuizScreen({Key? key,
-    required this.olympicId,
-    required this.amount,
-    required this.name,
-    required this.quiz_count,
-    required this.description})
+  const DetailQuizScreen(
+      {Key? key,
+      required this.olympicId,
+      required this.amount,
+      required this.name,
+      required this.quiz_count,
+      required this.description})
       : super(key: key);
   final String name;
   final int amount;
@@ -63,16 +74,14 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
             _buyState = false;
             _complate = false;
           });
-        }
-        else if ((data['state'] == true) && (data['complate'] == true)) {
+        } else if ((data['state'] == true) && (data['complate'] == true)) {
           setState(() {
             _isLoading = false;
             _examState = false;
             _buyState = true;
             _complate = true;
           });
-        }
-        else {
+        } else {
           setState(() {
             _isLoading = false;
             _examState = false;
@@ -80,8 +89,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
             _complate = false;
           });
         }
-      }
-      else {
+      } else {
         if (data['state'] == false) {
           setState(() {
             _isLoading = false;
@@ -89,16 +97,14 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
             _buyState = false;
             _complate = false;
           });
-        }
-        else if ((data['state'] == true) && (data['complate'] == true)) {
+        } else if ((data['state'] == true) && (data['complate'] == true)) {
           setState(() {
             _isLoading = false;
             _examState = true;
             _buyState = true;
             _complate = true;
           });
-        }
-        else {
+        } else {
           setState(() {
             _isLoading = false;
             _examState = true;
@@ -123,6 +129,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    OlympicApiController apiController = OlympicApiController();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -135,14 +142,8 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           color: ColorsHelpers.primaryColor,
           child: Stack(
             children: [
@@ -168,20 +169,14 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                   children: [
                     Image.asset(
                       Images.competition,
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.2,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Container(
                       height: ScreenUtil().setHeight(480),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.only(
                           top: ScreenUtil().setHeight(24),
                           right: ScreenUtil().setWidth(16),
@@ -207,21 +202,18 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                 fontSize: ScreenUtil().setSp(20),
                                 color: Colors.black),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                              width: MediaQuery.of(context).size.width,
                               height: ScreenUtil().setHeight(64),
                               margin: EdgeInsets.only(
                                   top: ScreenUtil().setHeight(16)),
                               decoration: BoxDecoration(
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
+                                    const BorderRadius.all(Radius.circular(20)),
                                 color: ColorsHelpers.grey5,
                               ),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SvgPicture.asset(Images.iconQuestionMark),
                                   widgetText('${widget.quiz_count} savollar',
@@ -269,69 +261,120 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                               // overflow: TextOverflow.ellipsis
                             ),
                             Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  top: ScreenUtil().setHeight(30)),
-                              child: _isLoading
-                                  ? CircularProgressIndicator()
-                                  : _api
-                                    ? const Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons
-                                      .signal_wifi_connected_no_internet_4),
-                                  Text(
-                                    "  Internetga ulanish mavjud emas",
-                                    style: TextStyle(fontSize: 16),
-                                  )
-                                ],
-                              )
-                                    : _examState
-                                      ? _buyState
-                                        ? _complate
-                                          ? Text('Natija')
-                                          : Text("Boshlash")
-                                        : Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  widgetButton(
-                                      widgetText('Sotib olish',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: ScreenUtil().setSp(16),
-                                          color: ColorsHelpers.primaryColor), () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const LiveQuizScreen()));
-                                  },
-                                      height: 56.0,
-                                      width: 142.0,
-                                      radius: 20.0,
-                                      colorBorder: ColorsHelpers.secondLavender,
-                                      color: Colors.white,
-                                      widthBorder: 1.0),
-                                  widgetButton(
-                                    widgetText('Promokod orqali',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: ScreenUtil().setSp(16),
-                                        color: Colors.white),
-                                        () {
-                                        Get.to(InviteFriendScreen(olympicId: widget.olympicId));
-                                    },
-                                    height: 56.0,
-                                    width: 200.0,
-                                    radius: 20.0,
-                                  ),
-                                ],
-                              )
-                                      : _buyState
-                                        ? _complate
-                                          ? Text('Natija')
-                                          : Text("Imtixon yakunlangan siz ishtirok etmadingiz")
-                                        : Text("Imtixon yakunlangan")
-                            )
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                    top: ScreenUtil().setHeight(30)),
+                                child: _isLoading
+                                    ? CircularProgressIndicator()
+                                    : _api
+                                        ? const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons
+                                                  .signal_wifi_connected_no_internet_4),
+                                              Text(
+                                                "  Internetga ulanish mavjud emas",
+                                                style: TextStyle(fontSize: 16),
+                                              )
+                                            ],
+                                          )
+                                        : _examState
+                                            ? _buyState
+                                                ? _complate
+                                                    ? Text('Natija')
+                                                    : widgetButton(
+                                                        widgetText(
+                                                            'Boshlash',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize:
+                                                                ScreenUtil()
+                                                                    .setSp(16),
+                                                            color:
+                                                                Colors.white),
+                                                        () {
+                                                          Get.to(QuizCheckboxScreen());
+                                                        },
+                                                        height: 56.0,
+                                                        width: 200.0,
+                                                        radius: 20.0,
+                                                      )
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      widgetButton(
+                                                          widgetText(
+                                                              'Sotib olish',
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              fontSize:
+                                                                  ScreenUtil()
+                                                                      .setSp(
+                                                                          16),
+                                                              color:
+                                                                  ColorsHelpers
+                                                                      .primaryColor),
+                                                          () async {
+                                                        setState(() {
+                                                          _isLoading = true;
+                                                        });
+                                                        var res =
+                                                            await apiController
+                                                                .buyExam(
+                                                                    widget
+                                                                        .olympicId,
+                                                                    "");
+                                                        if (res == 1) {
+                                                          setState(() {
+                                                            _isLoading = true;
+                                                          });
+                                                          buyAlert(context);
+                                                        } else {
+                                                          setState(() {
+                                                            _isLoading = true;
+                                                          });
+                                                          balansErrorAlert(
+                                                              context);
+                                                        }
+                                                      },
+                                                          height: 56.0,
+                                                          width: 142.0,
+                                                          radius: 20.0,
+                                                          colorBorder:
+                                                              ColorsHelpers
+                                                                  .secondLavender,
+                                                          color: Colors.white,
+                                                          widthBorder: 1.0),
+                                                      widgetButton(
+                                                        widgetText(
+                                                            'Promokod orqali',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize:
+                                                                ScreenUtil()
+                                                                    .setSp(16),
+                                                            color:
+                                                                Colors.white),
+                                                        () {
+                                                          Get.to(InviteFriendScreen(
+                                                              olympicId: widget
+                                                                  .olympicId));
+                                                        },
+                                                        height: 56.0,
+                                                        width: 200.0,
+                                                        radius: 20.0,
+                                                      ),
+                                                    ],
+                                                  )
+                                            : _buyState
+                                                ? _complate
+                                                    ? Text('Natija')
+                                                    : Text(
+                                                        "Imtixon yakunlangan siz ishtirok etmadingiz")
+                                                : Text("Imtixon yakunlangan"))
                           ],
                         ),
                       ),

@@ -27,11 +27,10 @@ class OlympicApiController{
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var res = await response.stream.bytesToString();
-
       Map valueMap = json.decode(res);
       if(valueMap['status'] == 'success'){
         var new_balans = int.parse(balans) - valueMap['amount'];
-        box.put('balans', new_balans);
+        box.put('balans', "${new_balans}");
         return 1;
       }
       else if(valueMap['status'] == 'failed'){
