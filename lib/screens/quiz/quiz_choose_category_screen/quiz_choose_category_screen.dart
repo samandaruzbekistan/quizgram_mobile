@@ -378,7 +378,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                             ScreenUtil().setSp(20))),
                                     alignment: Alignment.center,
                                     width: ((MediaQuery.of(context).size.width /
-                                            2) -
+                                        2) -
                                         ScreenUtil().setWidth(32)),
                                     margin: EdgeInsets.all(
                                         ScreenUtil().setWidth(8)),
@@ -392,9 +392,9 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                           ConstrainedBox(
                                             constraints: BoxConstraints(
                                               maxWidth:
-                                                  ScreenUtil().setWidth(48),
+                                              ScreenUtil().setWidth(48),
                                               maxHeight:
-                                                  ScreenUtil().setWidth(48),
+                                              ScreenUtil().setWidth(48),
                                             ),
                                             child: Container(
                                               width: MediaQuery.of(context)
@@ -408,13 +408,13 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          ScreenUtil()
-                                                              .setSp(16))),
+                                                  BorderRadius.circular(
+                                                      ScreenUtil()
+                                                          .setSp(16))),
                                               child: SvgPicture.asset(
-                                                Images.artIcon,
+                                                Images.travelIcon,
                                                 color:
-                                                    ColorsHelpers.primaryColor,
+                                                ColorsHelpers.primaryColor,
                                               ),
                                             ),
                                           ),
@@ -422,16 +422,16 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                             padding: EdgeInsets.only(
                                                 top: ScreenUtil().setHeight(8),
                                                 bottom:
-                                                    ScreenUtil().setHeight(2)),
+                                                ScreenUtil().setHeight(2)),
                                             child: widgetText(
-                                              "Prezident maktabi",
+                                              "Attestatsiya",
                                               color: ColorsHelpers.primaryColor,
                                               fontSize: ScreenUtil().setSp(16),
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                           widgetText(
-                                            '10 Quizzies',
+                                            'ustozlar uchun',
                                             color: ColorsHelpers.primaryColor,
                                             fontSize: ScreenUtil().setSp(12),
                                             fontWeight: FontWeight.w400,
@@ -485,7 +485,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                                           ScreenUtil()
                                                               .setSp(16))),
                                               child: SvgPicture.asset(
-                                                Images.travelIcon,
+                                                Images.artIcon,
                                                 color:
                                                     ColorsHelpers.primaryColor,
                                               ),
@@ -497,14 +497,14 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                                 bottom:
                                                     ScreenUtil().setHeight(2)),
                                             child: widgetText(
-                                              "Prezident maktabi",
+                                              "San'at",
                                               color: ColorsHelpers.primaryColor,
                                               fontSize: ScreenUtil().setSp(16),
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                           widgetText(
-                                            '10 Quizzies',
+                                            'nazariy savollar',
                                             color: ColorsHelpers.primaryColor,
                                             fontSize: ScreenUtil().setSp(12),
                                             fontWeight: FontWeight.w400,
@@ -570,14 +570,14 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                                 bottom:
                                                     ScreenUtil().setHeight(2)),
                                             child: widgetText(
-                                              "Prezident maktabi",
+                                              "Musiqa",
                                               color: ColorsHelpers.primaryColor,
                                               fontSize: ScreenUtil().setSp(16),
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                           widgetText(
-                                            '10 Quizzies',
+                                            'ta\'limi savollari',
                                             color: ColorsHelpers.primaryColor,
                                             fontSize: ScreenUtil().setSp(12),
                                             fontWeight: FontWeight.w400,
@@ -643,14 +643,14 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                                 bottom:
                                                     ScreenUtil().setHeight(2)),
                                             child: widgetText(
-                                              "Prezident maktabi",
+                                              "Sport",
                                               color: ColorsHelpers.primaryColor,
                                               fontSize: ScreenUtil().setSp(16),
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                           widgetText(
-                                            '10 Quizzies',
+                                            'nazariy savollar',
                                             color: ColorsHelpers.primaryColor,
                                             fontSize: ScreenUtil().setSp(12),
                                             fontWeight: FontWeight.w400,
