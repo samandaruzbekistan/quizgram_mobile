@@ -10,6 +10,7 @@ class WebApiConstans{
   static String updatePassword = baseUrl+'updatePassword';
   static String getBalansAndNews = baseUrl+'getBalansAndNews';
   static String getOlympics = baseUrl+'getOlympics';
+  static String buyOlympicExam = baseUrl+'buyOlympicExam';
 }
 
 class ColorsHelpers {

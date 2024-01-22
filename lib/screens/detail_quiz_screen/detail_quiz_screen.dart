@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
@@ -291,12 +292,45 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                         ? _complate
                                           ? Text('Natija')
                                           : Text("Boshlash")
-                                        : Text("Sotib olish")
+                                        : Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  widgetButton(
+                                      widgetText('Sotib olish',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: ScreenUtil().setSp(16),
+                                          color: ColorsHelpers.primaryColor), () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                            const LiveQuizScreen()));
+                                  },
+                                      height: 56.0,
+                                      width: 142.0,
+                                      radius: 20.0,
+                                      colorBorder: ColorsHelpers.secondLavender,
+                                      color: Colors.white,
+                                      widthBorder: 1.0),
+                                  widgetButton(
+                                    widgetText('Promokod orqali',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: ScreenUtil().setSp(16),
+                                        color: Colors.white),
+                                        () {
+                                        Get.to(InviteFriendScreen(olympicId: widget.olympicId));
+                                    },
+                                    height: 56.0,
+                                    width: 200.0,
+                                    radius: 20.0,
+                                  ),
+                                ],
+                              )
                                       : _buyState
                                         ? _complate
                                           ? Text('Natija')
-                                          : Text("Boshlash")
-                                        : Text("Sotib olish")
+                                          : Text("Imtixon yakunlangan siz ishtirok etmadingiz")
+                                        : Text("Imtixon yakunlangan")
                             )
                           ],
                         ),

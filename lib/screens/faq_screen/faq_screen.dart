@@ -245,11 +245,7 @@ class _FaqScreenState extends State<FaqScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) =>
-                                const InviteFriendScreen())));
+
                   },
                   child: Container(
                     alignment: Alignment.topLeft,

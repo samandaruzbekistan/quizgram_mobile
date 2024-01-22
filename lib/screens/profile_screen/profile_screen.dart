@@ -14,6 +14,7 @@ import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+import '../bottom_navigation_bar.dart';
 import '../discover_screen/discover_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -165,134 +166,134 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 fontSize: ScreenUtil().setSp(24),
                                 color: Colors.black),
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: ScreenUtil().setHeight(101),
-                            margin: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(16),
-                                right: ScreenUtil().setWidth(16)),
-                            decoration: BoxDecoration(
-                                color: ColorsHelpers.primaryColor,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(20))),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.star_border,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            top: 3, bottom: 3),
-                                        child: widgetText('POINTS',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: ScreenUtil().setSp(12),
-                                            color:
-                                                Colors.white.withOpacity(0.5),
-                                            letterSpacing: 2),
-                                      ),
-                                      widgetText('590',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: ScreenUtil().setSp(16))
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 69,
-                                  width: 1,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      stops: const [0.1, 0.5, 0.9],
-                                      colors: [
-                                        Colors.white.withOpacity(0.1),
-                                        Colors.white.withOpacity(0.5),
-                                        Colors.white.withOpacity(0.1),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        Images.globe,
-                                        color: Colors.white,
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            top: 3, bottom: 3),
-                                        child: widgetText('WORLD RANK',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: ScreenUtil().setSp(12),
-                                            color:
-                                                Colors.white.withOpacity(0.5),
-                                            letterSpacing: 1),
-                                      ),
-                                      widgetText('#1,590',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: ScreenUtil().setSp(16))
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 69,
-                                  width: 1,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      stops: const [0.1, 0.5, 0.9],
-                                      colors: [
-                                        Colors.white.withOpacity(0.1),
-                                        Colors.white.withOpacity(0.5),
-                                        Colors.white.withOpacity(0.1),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        Images.rank,
-                                        color: Colors.white,
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            top: 3, bottom: 3),
-                                        child: widgetText('LOCAL RANK',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: ScreenUtil().setSp(12),
-                                            color:
-                                                Colors.white.withOpacity(0.5),
-                                            letterSpacing: 1),
-                                      ),
-                                      widgetText('#56',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: ScreenUtil().setSp(16))
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Container(
+                          //   width: MediaQuery.of(context).size.width,
+                          //   height: ScreenUtil().setHeight(101),
+                          //   margin: EdgeInsets.only(
+                          //       left: ScreenUtil().setWidth(16),
+                          //       right: ScreenUtil().setWidth(16)),
+                          //   decoration: BoxDecoration(
+                          //       color: ColorsHelpers.primaryColor,
+                          //       borderRadius: const BorderRadius.all(
+                          //           Radius.circular(20))),
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Expanded(
+                          //         flex: 1,
+                          //         child: Column(
+                          //           mainAxisAlignment: MainAxisAlignment.center,
+                          //           children: [
+                          //             const Icon(
+                          //               Icons.star_border,
+                          //               color: Colors.white,
+                          //               size: 24,
+                          //             ),
+                          //             Container(
+                          //               margin: const EdgeInsets.only(
+                          //                   top: 3, bottom: 3),
+                          //               child: widgetText('POINTS',
+                          //                   fontWeight: FontWeight.w500,
+                          //                   fontSize: ScreenUtil().setSp(12),
+                          //                   color:
+                          //                       Colors.white.withOpacity(0.5),
+                          //                   letterSpacing: 2),
+                          //             ),
+                          //             widgetText('590',
+                          //                 color: Colors.white,
+                          //                 fontWeight: FontWeight.w700,
+                          //                 fontSize: ScreenUtil().setSp(16))
+                          //           ],
+                          //         ),
+                          //       ),
+                          //       Container(
+                          //         height: 69,
+                          //         width: 1,
+                          //         decoration: BoxDecoration(
+                          //           gradient: LinearGradient(
+                          //             begin: Alignment.topCenter,
+                          //             end: Alignment.bottomCenter,
+                          //             stops: const [0.1, 0.5, 0.9],
+                          //             colors: [
+                          //               Colors.white.withOpacity(0.1),
+                          //               Colors.white.withOpacity(0.5),
+                          //               Colors.white.withOpacity(0.1),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Expanded(
+                          //         flex: 1,
+                          //         child: Column(
+                          //           mainAxisAlignment: MainAxisAlignment.center,
+                          //           children: [
+                          //             SvgPicture.asset(
+                          //               Images.globe,
+                          //               color: Colors.white,
+                          //             ),
+                          //             Container(
+                          //               margin: const EdgeInsets.only(
+                          //                   top: 3, bottom: 3),
+                          //               child: widgetText('WORLD RANK',
+                          //                   fontWeight: FontWeight.w500,
+                          //                   fontSize: ScreenUtil().setSp(12),
+                          //                   color:
+                          //                       Colors.white.withOpacity(0.5),
+                          //                   letterSpacing: 1),
+                          //             ),
+                          //             widgetText('#1,590',
+                          //                 color: Colors.white,
+                          //                 fontWeight: FontWeight.w700,
+                          //                 fontSize: ScreenUtil().setSp(16))
+                          //           ],
+                          //         ),
+                          //       ),
+                          //       Container(
+                          //         height: 69,
+                          //         width: 1,
+                          //         decoration: BoxDecoration(
+                          //           gradient: LinearGradient(
+                          //             begin: Alignment.topCenter,
+                          //             end: Alignment.bottomCenter,
+                          //             stops: const [0.1, 0.5, 0.9],
+                          //             colors: [
+                          //               Colors.white.withOpacity(0.1),
+                          //               Colors.white.withOpacity(0.5),
+                          //               Colors.white.withOpacity(0.1),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Expanded(
+                          //         flex: 1,
+                          //         child: Column(
+                          //           mainAxisAlignment: MainAxisAlignment.center,
+                          //           children: [
+                          //             SvgPicture.asset(
+                          //               Images.rank,
+                          //               color: Colors.white,
+                          //             ),
+                          //             Container(
+                          //               margin: const EdgeInsets.only(
+                          //                   top: 3, bottom: 3),
+                          //               child: widgetText('LOCAL RANK',
+                          //                   fontWeight: FontWeight.w500,
+                          //                   fontSize: ScreenUtil().setSp(12),
+                          //                   color:
+                          //                       Colors.white.withOpacity(0.5),
+                          //                   letterSpacing: 1),
+                          //             ),
+                          //             widgetText('#56',
+                          //                 color: Colors.white,
+                          //                 fontWeight: FontWeight.w700,
+                          //                 fontSize: ScreenUtil().setSp(16))
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Container(
                             margin: EdgeInsets.only(
                               bottom: ScreenUtil().setHeight(16),
@@ -512,6 +513,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             ],
           ),
         ),
+        bottomNavigationBar: bottomBar(3),
       ),
     );
   }

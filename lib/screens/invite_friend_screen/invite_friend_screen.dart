@@ -3,29 +3,34 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:quizgram/controllers/olympic_api_controller.dart';
+import 'package:quizgram/screens/alerts/custom_alerts.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 
 class InviteFriendScreen extends StatefulWidget {
-  const InviteFriendScreen({Key? key}) : super(key: key);
-
+  const InviteFriendScreen({Key? key, required this.olympicId}) : super(key: key);
+  final int olympicId;
   @override
   State<InviteFriendScreen> createState() => _InviteFriendScreenState();
 }
 
 class _InviteFriendScreenState extends State<InviteFriendScreen> {
   final textFieldFocusNode = FocusNode();
+  final _promocodeController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    OlympicApiController apiController = OlympicApiController();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: widgetText('Invite Friends',
+        title: widgetText('Sotib olish',
             color: Colors.white,
             fontSize: ScreenUtil().setSp(24),
             fontWeight: FontWeight.w500),
@@ -54,9 +59,9 @@ class _InviteFriendScreenState extends State<InviteFriendScreen> {
                 children: [
                   SvgPicture.asset(Images.inviteFriendRound),
                   widgetText(
-                    'VS',
+                    'PROMOKOD',
                     color: Colors.white,
-                    fontSize: ScreenUtil().setSp(32),
+                    fontSize: ScreenUtil().setSp(20),
                     fontWeight: FontWeight.w700,
                   ),
                   Padding(
@@ -104,7 +109,7 @@ class _InviteFriendScreenState extends State<InviteFriendScreen> {
                       margin: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(24)),
                       child: widgetText(
-                        'Invite friends and get a bonus points for every new player!',
+                        'Promokod bilan arzon narxda sotib oling',
                         color: Colors.black,
                         fontSize: ScreenUtil().setSp(18),
                         fontWeight: FontWeight.w500,
@@ -117,9 +122,6 @@ class _InviteFriendScreenState extends State<InviteFriendScreen> {
                         left: ScreenUtil().setHeight(24),
                         right: ScreenUtil().setHeight(24),
                       ),
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(
-                          vertical: ScreenUtil().setHeight(16)),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
@@ -127,12 +129,19 @@ class _InviteFriendScreenState extends State<InviteFriendScreen> {
                             width: ScreenUtil().setSp(2),
                           ),
                           color: ColorsHelpers.grey5),
-                      child: widgetText(
-                        'QU123Z',
-                        color: Colors.black,
-                        fontSize: ScreenUtil().setSp(16),
-                        fontWeight: FontWeight.w700,
-                        align: TextAlign.center,
+                      child: TextFormField(
+                        controller: _promocodeController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          fillColor: ColorsHelpers.grey5,
+                          filled: true,
+                          contentPadding: EdgeInsets.only(
+                            left: ScreenUtil().setWidth(19),
+                          ),
+                          hintText: 'Promokod',
+                        ),
                       ),
                     ),
                     Container(
@@ -146,17 +155,23 @@ class _InviteFriendScreenState extends State<InviteFriendScreen> {
                         children: [
                           Expanded(
                             child: GestureDetector(
-                              onTap: () {
-                                Clipboard.setData(
-                                    const ClipboardData(text: "QU123Z"));
-                                Fluttertoast.showToast(
-                                    msg: "Copied",
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.white,
-                                    textColor: Colors.black,
-                                    fontSize: 16.0);
+                              onTap: () async {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                var res = await apiController.buyExam(widget.olympicId, _promocodeController.text);
+                                if(res == 1){
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  buyAlert(context);
+                                }
+                                else{
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  balansErrorAlert(context);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -164,45 +179,14 @@ class _InviteFriendScreenState extends State<InviteFriendScreen> {
                                     color: ColorsHelpers.primaryColor),
                                 padding: EdgeInsets.symmetric(
                                     vertical: ScreenUtil().setHeight(16)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.paste_rounded,
-                                      color: Colors.white,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: ScreenUtil().setWidth(16)),
-                                      child: widgetText(
-                                        'Copy Code',
-                                        color: Colors.white,
-                                        fontSize: ScreenUtil().setSp(16),
-                                        fontWeight: FontWeight.w700,
-                                        align: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
+                                child: widgetText(
+                                  _isLoading ? "Tekshirilmoqda..." : 'Sotib olish',
+                                  color: Colors.white,
+                                  fontSize: ScreenUtil().setSp(16),
+                                  fontWeight: FontWeight.w700,
+                                  align: TextAlign.center,
                                 ),
                               ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(16)),
-                            width: ScreenUtil().setWidth(56),
-                            height: ScreenUtil().setWidth(56),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: const Color.fromRGBO(106, 90, 224, 0.2),
-                                width: ScreenUtil().setSp(2),
-                              ),
-                              color: Colors.white,
-                            ),
-                            child: Icon(
-                              Icons.share_outlined,
-                              color: ColorsHelpers.primaryColor,
                             ),
                           ),
                         ],
