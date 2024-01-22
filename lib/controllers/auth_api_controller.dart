@@ -40,7 +40,7 @@ class AuthApiController{
       box.put('gender', gender);
       box.put('balans', 0);
       box.put('token', valueMap['token']);
-      box.put('id', valueMap['id']);
+      box.put('id', valueMap['user_id']);
 
       return 1;
     }
@@ -70,6 +70,7 @@ class AuthApiController{
         box.put('temp_gender', valueMap['user']['gender']);
         box.put('temp_eduState', valueMap['user']['eduState']);
         box.put('token', valueMap['token']);
+        box.put('id', valueMap['user']['id']);
         return 1;
       }
       else{
