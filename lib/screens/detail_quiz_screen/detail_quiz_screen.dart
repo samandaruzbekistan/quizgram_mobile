@@ -10,6 +10,7 @@ import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart'
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/quiz_complete_screen.dart';
 import 'package:quizgram/screens/quiz/create_quiz_screen/create_quiz_screen.dart';
+import 'package:quizgram/screens/quiz/play_olympic_quiz.dart';
 import 'package:quizgram/screens/quiz/quiz_checkbox_screen/quiz_checkbox_screen.dart';
 import 'package:quizgram/screens/quiz/quiz_multiple_choice_screen/quiz_multiple_choice_screen.dart';
 import 'package:quizgram/screens/quiz/quiz_poll_screen/quiz_poll_screen.dart';
@@ -294,7 +295,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                                             color:
                                                                 Colors.white),
                                                         () {
-                                                          Get.to(QuizCheckboxScreen());
+                                                          Get.to(PlayOlympicQuiz());
                                                         },
                                                         height: 56.0,
                                                         width: 200.0,
