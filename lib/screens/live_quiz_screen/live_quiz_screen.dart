@@ -179,7 +179,7 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
 
   List<QuestionModel> questions = [
     QuestionModel(
-        'Which player scored the fastest hat-trick in the Premier League?', {
+        'Which player scored the fastest hat-trick in the Premier League?', "pp",2,{
       "Robin Van Persie": false,
       "Sadio Mane": true,
       "Harry Kane": false,

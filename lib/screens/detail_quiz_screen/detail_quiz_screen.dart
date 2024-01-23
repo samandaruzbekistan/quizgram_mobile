@@ -295,7 +295,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                                             color:
                                                                 Colors.white),
                                                         () {
-                                                          Get.to(PlayOlympicQuiz());
+                                                          Get.to(PlayOlympicQuiz(examId: widget.olympicId,));
                                                         },
                                                         height: 56.0,
                                                         width: 200.0,
