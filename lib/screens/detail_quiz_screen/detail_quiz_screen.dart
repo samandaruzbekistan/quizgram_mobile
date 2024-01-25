@@ -7,16 +7,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quizgram/controllers/olympic_api_controller.dart';
 import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
-import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
-import 'package:quizgram/screens/live_quiz_screen/quiz_complete_screen.dart';
-import 'package:quizgram/screens/quiz/create_quiz_screen/create_quiz_screen.dart';
 import 'package:quizgram/screens/quiz/play_olympic_quiz.dart';
-import 'package:quizgram/screens/quiz/quiz_checkbox_screen/quiz_checkbox_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_multiple_choice_screen/quiz_multiple_choice_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_poll_screen/quiz_poll_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_puzzle_screen/quiz_puzzle_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_review_screen/quiz_review_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_type_answer_screen/quiz_type_answer_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -295,6 +286,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                                             color:
                                                                 Colors.white),
                                                         () {
+                                                          // Get.to(LiveQuizScreen());
                                                           Get.to(PlayOlympicQuiz(examId: widget.olympicId,));
                                                         },
                                                         height: 56.0,

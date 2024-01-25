@@ -11,6 +11,12 @@ class WebApiConstans{
   static String getBalansAndNews = baseUrl+'getBalansAndNews';
   static String getOlympics = baseUrl+'getOlympics';
   static String buyOlympicExam = baseUrl+'buyOlympicExam';
+  static String playOlympicExam = baseUrl+'playOlympicExam';
+}
+
+class AssetUrls{
+  static String baseUrl = 'https://mobile.quizgram.uz/';
+  static String quizPhotos = baseUrl+'img/quiz';
 }
 
 class ColorsHelpers {
