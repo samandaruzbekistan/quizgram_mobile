@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:quizgram/utils/constant.dart';
 
 widgetText(String title,
@@ -22,6 +23,59 @@ widgetText(String title,
     textAlign: align,
   );
 }
+
+Widget widgetTextQuiz(String title,
+    {Color? color,
+      double? fontSize,
+      FontWeight? fontWeight,
+      TextOverflow? overflow,
+      double? letterSpacing,
+      TextAlign? align}) {
+  return TeXView(
+    child: TeXViewDocument(title),
+  );
+}
+
+widgetButtonQuiz(Widget title, Function() onPressed,
+    {color,
+    height,
+    width,
+    margin,
+    padding,
+    paddingBtn,
+    shape,
+    radius,
+    widthBorder,
+    colorBorder,
+    align}) {
+  return Container(
+    width: width,
+    height: height,
+    margin: margin,
+    padding: padding,
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+    ),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: color ?? ColorsHelpers.primaryColor,
+          minimumSize: Size(width, height),
+          padding: paddingBtn,
+          alignment: align,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: widthBorder ?? 0.0,
+              color: colorBorder ?? Colors.transparent,
+            ),
+            borderRadius: BorderRadius.circular(radius),
+          )),
+      onPressed: onPressed,
+      child: title,
+    ),
+  );
+}
+
 
 widgetButton(Text title, Function() onPressed,
     {color,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:quizgram/screens/home_screen/home_screeen.dart';
 
 import '../../utils/constant.dart';
 import '../../utils/widget_assets.dart';
@@ -26,7 +28,7 @@ class _OlympicResultState extends State<OlympicResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widgetText("Natijalar",
+        title: widgetText("Natijangiz saqlandi",
             fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.w500,
             color: Colors.white),
@@ -62,16 +64,74 @@ class _OlympicResultState extends State<OlympicResult> {
                         borderRadius: BorderRadius.all(Radius.circular(32)),
                         color: Colors.white),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: ScreenUtil().setHeight(15),
+                              left: ScreenUtil().setWidth(16),),
+                            child: Row(
+                              children: [
+                                widgetText(
+                                    'Umumiy ball: 25.7',
+                                    color: Colors.black,
+                                    fontSize: ScreenUtil().setSp(18),
+                                    fontWeight: FontWeight.w500),
+                              ],
+                            ),
+                          ),
                           Container(
                             margin: EdgeInsets.only(
                               top: ScreenUtil().setHeight(5),
                               left: ScreenUtil().setWidth(16),),
-                            child: widgetText(
-                                'Umumiy ball: 25.7',
-                                color: Colors.black,
-                                fontSize: ScreenUtil().setSp(18),
-                                fontWeight: FontWeight.w500),),
+                            child: Row(
+                              children: [
+                                Icon(Icons.check, color: Colors.green,),
+                                widgetText(
+                                    " To'g'ri javob: 40 ta",
+                                    color: ColorsHelpers.grey2,
+                                    fontSize: ScreenUtil().setSp(18),
+                                    fontWeight: FontWeight.w500),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: ScreenUtil().setHeight(5),
+                              left: ScreenUtil().setWidth(16),),
+                            child: Row(
+                              children: [
+                                Icon(Icons.cancel_outlined, color: Colors.red,),
+                                widgetText(
+                                    " Noto'g'ri javob: 40 ta",
+                                    color: ColorsHelpers.grey2,
+                                    fontSize: ScreenUtil().setSp(18),
+                                    fontWeight: FontWeight.w500),
+                              ],
+                            ),
+                          ),
+                          Center(
+                            child: widgetButton(
+                              widgetText(
+                                  'Bosh sahifa',
+                                  fontWeight:
+                                  FontWeight.w500,
+                                  fontSize:
+                                  ScreenUtil()
+                                      .setSp(16),
+                                  color:
+                                  Colors.white),
+                                  () {
+                                // Get.to(LiveQuizScreen());
+                                Get.to(HomeScreen());
+                              },
+                              height: 50.0,
+                              width: 150.0,
+                              radius: 20.0,
+                              margin: EdgeInsets.only(top: ScreenUtil().setHeight(5)),
+                            ),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(5),)
                         ]
                     ),
                   ),

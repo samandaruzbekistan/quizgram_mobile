@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -57,15 +58,16 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
     }
   }
 
-  void checkTest(){
+  void checkTest() {
     double total = 0.0;
     selectedAnswers.forEach((key, value) {
-      if(value['correct'] == 1){
+      if (value['correct'] == 1) {
         total = total + value['ball'];
       }
     });
     print(total);
-    Get.to(OlympicResult(olympicsData: olympicsData, selectedAnswers: selectedAnswers));
+    Get.to(OlympicResult(
+        olympicsData: olympicsData, selectedAnswers: selectedAnswers));
   }
 
   void startTimer() {
@@ -137,7 +139,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                   color: ColorsHelpers.orangeSecond,
                   borderRadius: const BorderRadius.all(Radius.circular(12))),
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   checkTest();
                 },
                 child: Row(
@@ -199,26 +201,40 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(
-                                      top: ScreenUtil().setHeight(32),
-                                      left: ScreenUtil().setWidth(16),),
+                                    top: ScreenUtil().setHeight(32),
+                                    left: ScreenUtil().setWidth(16),
+                                  ),
                                   child: widgetText(
                                       '${olympicsData[index]['section_name']}',
                                       color: ColorsHelpers.primaryColor,
                                       fontSize: ScreenUtil().setSp(20),
                                       fontWeight: FontWeight.w500),
                                 ),
-                                olympicsData[index]['section_topic'] != "" ? Container(
-                                  margin: EdgeInsets.only(
-                                      left: ScreenUtil().setWidth(16),
-                                      bottom: ScreenUtil().setHeight(8)),
-                                  child: widgetText(
-                                      '${olympicsData[index]['section_topic']}',
-                                      color: ColorsHelpers.grey2,
-                                      fontSize: ScreenUtil().setSp(15),
-                                      fontWeight: FontWeight.w500),
-                                ) : Container(),
-                                olympicsData[index]['section_photo'] != "no_photo" ? Padding(child: Image.network("${AssetUrls.quizPhotos}/${olympicsData[index]['section_photo']}"), padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(16)), ) : Container(),
-                                SizedBox(height: ScreenUtil().setHeight(10),),
+                                olympicsData[index]['section_topic'] != ""
+                                    ? Container(
+                                        margin: EdgeInsets.only(
+                                            left: ScreenUtil().setWidth(16),
+                                            bottom: ScreenUtil().setHeight(8)),
+                                        child: widgetText(
+                                            '${olympicsData[index]['section_topic']}',
+                                            color: ColorsHelpers.grey2,
+                                            fontSize: ScreenUtil().setSp(15),
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    : Container(),
+                                olympicsData[index]['section_photo'] !=
+                                        "no_photo"
+                                    ? Padding(
+                                        child: Image.network(
+                                            "${AssetUrls.quizPhotos}/${olympicsData[index]['section_photo']}"),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                ScreenUtil().setWidth(16)),
+                                      )
+                                    : Container(),
+                                SizedBox(
+                                  height: ScreenUtil().setHeight(10),
+                                ),
                                 ListView.builder(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
@@ -258,65 +274,130 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                               shrinkWrap: true,
                                               itemBuilder:
                                                   (context, indexAnswers) {
-                                                return Container(
-                                                  margin: EdgeInsets.only(
-                                                    bottom: ScreenUtil()
-                                                        .setHeight(16),
-                                                    left: ScreenUtil()
-                                                        .setWidth(16),
-                                                    right: ScreenUtil()
-                                                        .setWidth(16),
-                                                  ),
-                                                  child: widgetButton(
-                                                    widgetText(
-                                                      olympicsData[index][
-                                                                      'quizzes']
-                                                                  [indexQuizzes]
-                                                              ['answers'][
-                                                          indexAnswers]['answer'],
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: ScreenUtil()
-                                                          .setSp(16),
-                                                      align: TextAlign.left,
-                                                      color: selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] ==
-                                                              olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
-                                                          ? Colors.white
-                                                          : Colors.black,
-                                                    ),
-                                                    () {
-                                                      setState(() {
-                                                        selectedAnswers[olympicsData[
-                                                                        index]
-                                                                    ['quizzes']
-                                                                [indexQuizzes][
+                                                    return Container(
+                                                      margin: EdgeInsets.only(
+                                                        bottom: ScreenUtil()
+                                                            .setHeight(16),
+                                                        left: ScreenUtil()
+                                                            .setWidth(16),
+                                                        right: ScreenUtil()
+                                                            .setWidth(16),
+                                                      ),
+                                                      child: widgetButtonQuiz(
+                                                        widgetTextQuiz(
+                                                          r'\(' + r"""\sqrt{9+2\sqrt{20}}-\sqrt{9-2\sqrt{20}}""" + r'\)',
+                                                          fontWeight:FontWeight.w400,
+                                                          fontSize: ScreenUtil().setSp(16),
+                                                          align: TextAlign.left,
+                                                          color: selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] == olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
+                                                              ? Colors.white
+                                                              : Colors.black,
+                                                        ),
+                                                            () {
+                                                          setState(() {
+                                                            selectedAnswers[olympicsData[
+                                                            index]
+                                                            ['quizzes']
+                                                            [indexQuizzes][
                                                             'id']] = olympicsData[
-                                                                        index]
-                                                                    ['quizzes']
-                                                                [indexQuizzes]
+                                                            index]
+                                                            ['quizzes']
+                                                            [indexQuizzes]
                                                             ['answers'][indexAnswers];
-                                                      });
-                                                    },
-                                                    height: 56.0,
-                                                    radius: 20.0,
-                                                    paddingBtn: EdgeInsets.only(
-                                                      left: ScreenUtil()
-                                                          .setWidth(24),
-                                                    ),
-                                                    colorBorder:
+                                                          });
+                                                        },
+                                                        height: 56.0,
+                                                        radius: 20.0,
+                                                        paddingBtn: EdgeInsets.only(
+                                                          left: ScreenUtil()
+                                                              .setWidth(24),
+                                                        ),
+                                                        colorBorder:
                                                         ColorsHelpers.grey5,
-                                                    color: selectedAnswers[olympicsData[index] ['quizzes'][indexQuizzes]['id']] ==
-                                                            olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
-                                                        ? isSelected
-                                                        : isUnselected,
-                                                    widthBorder: 1.0,
-                                                    align: Alignment.centerLeft,
-                                                    width:
+                                                        color: selectedAnswers[olympicsData[
+                                                        index]
+                                                        [
+                                                        'quizzes']
+                                                        [
+                                                        indexQuizzes]
+                                                        ['id']] ==
+                                                            olympicsData[index][
+                                                            'quizzes']
+                                                            [indexQuizzes]
+                                                            ['answers']
+                                                            [indexAnswers]
+                                                            ? isSelected
+                                                            : isUnselected,
+                                                        widthBorder: 1.0,
+                                                        align: Alignment.centerLeft,
+                                                        width:
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                  ),
-                                                );
+                                                      ),
+                                                    );
+                                                // return Container(
+                                                //   margin: EdgeInsets.only(
+                                                //     bottom: ScreenUtil()
+                                                //         .setHeight(16),
+                                                //     left: ScreenUtil()
+                                                //         .setWidth(16),
+                                                //     right: ScreenUtil()
+                                                //         .setWidth(16),
+                                                //   ),
+                                                //   child: widgetButton(
+                                                //     widgetText(
+                                                //       olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'],
+                                                //       fontWeight:FontWeight.w400,
+                                                //       fontSize: ScreenUtil().setSp(16),
+                                                //       align: TextAlign.left,
+                                                //       color: selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] == olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
+                                                //           ? Colors.white
+                                                //           : Colors.black,
+                                                //     ),
+                                                //     () {
+                                                //       setState(() {
+                                                //         selectedAnswers[olympicsData[
+                                                //                         index]
+                                                //                     ['quizzes']
+                                                //                 [indexQuizzes][
+                                                //             'id']] = olympicsData[
+                                                //                         index]
+                                                //                     ['quizzes']
+                                                //                 [indexQuizzes]
+                                                //             ['answers'][indexAnswers];
+                                                //       });
+                                                //     },
+                                                //     height: 56.0,
+                                                //     radius: 20.0,
+                                                //     paddingBtn: EdgeInsets.only(
+                                                //       left: ScreenUtil()
+                                                //           .setWidth(24),
+                                                //     ),
+                                                //     colorBorder:
+                                                //         ColorsHelpers.grey5,
+                                                //     color: selectedAnswers[olympicsData[
+                                                //                             index]
+                                                //                         [
+                                                //                         'quizzes']
+                                                //                     [
+                                                //                     indexQuizzes]
+                                                //                 ['id']] ==
+                                                //             olympicsData[index][
+                                                //                             'quizzes']
+                                                //                         [indexQuizzes]
+                                                //                     ['answers']
+                                                //                 [indexAnswers]
+                                                //         ? isSelected
+                                                //         : isUnselected,
+                                                //     widthBorder: 1.0,
+                                                //     align: Alignment.centerLeft,
+                                                //     width:
+                                                //         MediaQuery.of(context)
+                                                //             .size
+                                                //             .width,
+                                                //   ),
+                                                // );
                                               })
                                         ],
                                       );
