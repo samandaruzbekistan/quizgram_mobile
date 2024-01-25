@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -284,15 +283,24 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                             .setWidth(16),
                                                       ),
                                                       child: widgetButtonQuiz(
-                                                        widgetTextQuiz(
-                                                          r'\(' + r"""\sqrt{9+2\sqrt{20}}-\sqrt{9-2\sqrt{20}}""" + r'\)',
+                                                        olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['math'] != "" ?
+                                                        widgetTextLatex(
+                                                          olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'], olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['math'],
                                                           fontWeight:FontWeight.w400,
                                                           fontSize: ScreenUtil().setSp(16),
                                                           align: TextAlign.left,
                                                           color: selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] == olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
                                                               ? Colors.white
                                                               : Colors.black,
-                                                        ),
+                                                        ) : widgetText(
+                                                              olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'],
+                                                              fontWeight:FontWeight.w400,
+                                                              fontSize: ScreenUtil().setSp(16),
+                                                              align: TextAlign.left,
+                                                              color: selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] == olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
+                                                                  ? Colors.white
+                                                                  : Colors.black,
+                                                            ),
                                                             () {
                                                           setState(() {
                                                             selectedAnswers[olympicsData[
@@ -315,10 +323,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                         colorBorder:
                                                         ColorsHelpers.grey5,
                                                         color: selectedAnswers[olympicsData[
-                                                        index]
-                                                        [
-                                                        'quizzes']
-                                                        [
+                                                        index]['quizzes'][
                                                         indexQuizzes]
                                                         ['id']] ==
                                                             olympicsData[index][
@@ -336,6 +341,9 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                             .width,
                                                       ),
                                                     );
+
+
+
                                                 // return Container(
                                                 //   margin: EdgeInsets.only(
                                                 //     bottom: ScreenUtil()

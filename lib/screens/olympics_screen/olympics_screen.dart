@@ -3,13 +3,9 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quizgram/screens/detail_quiz_screen/detail_quiz_screen.dart';
-import 'package:quizgram/screens/faq_screen/faq_screen.dart';
-import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/constant.dart';
@@ -146,8 +142,6 @@ class _OlympicsState extends State<Olympics> {
                             topRight: Radius.circular(32))),
                     child: Column(
                       children: [
-                        // TeXView(child: TeXViewDocument(r"""(A)  \( a_0 = \frac{{\hbar ^2 }}{{m_e ke^3 }} \)""", style: TeXViewStyle())),
-                        // TeXView(child: TeXViewDocument(r"""(A)  \( \sqrt{9+2\sqrt{20}}-\sqrt{9-2\sqrt{20}} \)""", style: TeXViewStyle())),
                         Container(
                           margin: EdgeInsets.only(
                               top: ScreenUtil().setHeight(20),

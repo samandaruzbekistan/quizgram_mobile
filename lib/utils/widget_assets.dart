@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_tex/flutter_tex.dart';
+
+
+// import 'package:latext/latext.dart';
 import 'package:quizgram/utils/constant.dart';
 
 widgetText(String title,
@@ -24,15 +27,31 @@ widgetText(String title,
   );
 }
 
-Widget widgetTextQuiz(String title,
+Widget widgetTextLatex(String title, String math,
     {Color? color,
-      double? fontSize,
-      FontWeight? fontWeight,
-      TextOverflow? overflow,
-      double? letterSpacing,
-      TextAlign? align}) {
-  return TeXView(
-    child: TeXViewDocument(title),
+    double? fontSize,
+    FontWeight? fontWeight,
+    TextOverflow? overflow,
+    double? letterSpacing,
+    TextAlign? align}) {
+  return RichText(
+    text: TextSpan(
+      children: [
+        WidgetSpan(
+          child: Math.tex(r'' + math + '', textStyle: TextStyle(color: color)),
+        ),
+        TextSpan(
+          text: '    ${title}',
+          style: TextStyle(
+            fontFamily: "Rubik",
+            color: color,
+            fontSize: fontSize,
+            letterSpacing: letterSpacing,
+            fontWeight: fontWeight,
+          ),
+        ),
+      ],
+    ),
   );
 }
 
@@ -76,7 +95,6 @@ widgetButtonQuiz(Widget title, Function() onPressed,
   );
 }
 
-
 widgetButton(Text title, Function() onPressed,
     {color,
     height,
@@ -117,8 +135,14 @@ widgetButton(Text title, Function() onPressed,
   );
 }
 
-listItemOlympic(Widget leading, String title, String subTitle, Function()? onTap,
-    Color? backgroundColor, Color? textColor, Color? textColorSub) {
+listItemOlympic(
+    Widget leading,
+    String title,
+    String subTitle,
+    Function()? onTap,
+    Color? backgroundColor,
+    Color? textColor,
+    Color? textColorSub) {
   return Container(
     decoration: const BoxDecoration(
       boxShadow: [
