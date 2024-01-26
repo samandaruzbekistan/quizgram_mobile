@@ -105,6 +105,26 @@ phoneNumberLengthAlert(context) {
   ).show();
 }
 
+pleasePositiveNumberAlert(context) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "Xatolik",
+    desc: "Iltimos musbat son kiriting",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
 apiErrorAlert(context) {
   Alert(
     context: context,

@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polygon/flutter_polygon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:quizgram/screens/profile_screen/paymentOrder.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';
 import 'package:quizgram/utils/chart_series.dart';
 import 'package:quizgram/utils/chart_widget.dart';
@@ -392,55 +394,60 @@ class _ProfileScreenState extends State<ProfileScreen>
                                             ],
                                           ),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(ScreenUtil().setSp(20)),
-                                              color: ColorsHelpers.grey5),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: ScreenUtil().setWidth(44),
-                                                height: ScreenUtil().setWidth(44),
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle,
+                                        GestureDetector(
+                                          onTap: (){
+                                            Get.to(PaymentOrder());
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(ScreenUtil().setSp(20)),
+                                                color: ColorsHelpers.grey5),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: ScreenUtil().setWidth(44),
+                                                  height: ScreenUtil().setWidth(44),
+                                                  decoration: const BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  margin: EdgeInsets.all(ScreenUtil().setWidth(16)),
+                                                  child: Icon(
+                                                    Icons.price_check,
+                                                    color: ColorsHelpers.primaryColor,
+                                                  ),
                                                 ),
-                                                margin: EdgeInsets.all(ScreenUtil().setWidth(16)),
-                                                child: Icon(
-                                                  Icons.price_check,
-                                                  color: ColorsHelpers.primaryColor,
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      widgetText(
+                                                        'Xisobni to\'ldirish',
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: ScreenUtil().setSp(16),
+                                                      ),
+                                                      Text(
+                                                        'Click, Payme, Uzum bank',
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: ScreenUtil().setSp(14),
+                                                            fontFamily: 'Rubik',
+                                                            fontWeight: FontWeight.w400,
+                                                            color: ColorsHelpers.grey2),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    widgetText(
-                                                      'Xisobni to\'ldirish',
-                                                      color: Colors.black,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: ScreenUtil().setSp(16),
-                                                    ),
-                                                    Text(
-                                                      'Click, Payme, Uzum bank',
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontSize: ScreenUtil().setSp(14),
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight: FontWeight.w400,
-                                                          color: ColorsHelpers.grey2),
-                                                    ),
-                                                  ],
+                                                Padding(
+                                                  padding:
+                                                  EdgeInsets.only(right: ScreenUtil().setWidth(16)),
+                                                  child: Icon(Icons.arrow_forward_ios,
+                                                      size: ScreenUtil().setSp(20)),
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                EdgeInsets.only(right: ScreenUtil().setWidth(16)),
-                                                child: Icon(Icons.arrow_forward_ios,
-                                                    size: ScreenUtil().setSp(20)),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         GestureDetector(
