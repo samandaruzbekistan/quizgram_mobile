@@ -266,6 +266,14 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                               color: Colors.black,
                                             ),
                                           ),
+                                          olympicsData[index]['quizzes'][indexQuizzes]['photo'] != "no_photo" ? Padding(
+                                            child: Image.network(
+                                                "${AssetUrls.quizPhotos}/${olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                ScreenUtil().setWidth(16)),
+                                          )
+                                              : Container(),
                                           ListView.builder(
                                               physics:
                                                   const NeverScrollableScrollPhysics(),

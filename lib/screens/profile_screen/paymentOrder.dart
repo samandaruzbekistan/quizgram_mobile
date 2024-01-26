@@ -114,6 +114,7 @@ class _PaymentOrderState extends State<PaymentOrder> {
                                       onTap: () {
                                         var phone = box.get('phone');
                                         launchUrl(Uri.parse("https://my.click.uz/services/pay?amount=${amount}&merchant_id=18137&merchant_user_id=${phone}&service_id=25798&transaction_param=${phone}&return_url=merchant+website+url&card_type=humo"));
+                                        SystemNavigator.pop();
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

@@ -64,7 +64,7 @@ class _OlympicResultState extends State<OlympicResult> {
                         borderRadius: BorderRadius.all(Radius.circular(32)),
                         color: Colors.white),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             margin: EdgeInsets.only(
@@ -128,7 +128,8 @@ class _OlympicResultState extends State<OlympicResult> {
                               height: 50.0,
                               width: 150.0,
                               radius: 20.0,
-                              margin: EdgeInsets.only(top: ScreenUtil().setHeight(5)),
+                              margin: EdgeInsets.only(
+                                  top: ScreenUtil().setHeight(5)),
                             ),
                           ),
                           SizedBox(height: ScreenUtil().setHeight(5),)
@@ -211,19 +212,36 @@ class _OlympicResultState extends State<OlympicResult> {
                                             bottom:
                                             ScreenUtil().setHeight(24),
                                           ),
-                                          child: widget.olympicsData[index]['quizzes'][indexQuizzes]['math'] == "" ? widgetText(
-                                            "${index}) ${widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
+                                          child: widget
+                                              .olympicsData[index]['quizzes'][indexQuizzes]['math'] ==
+                                              "" ? widgetText(
+                                            "${index}) ${widget
+                                                .olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                             fontWeight: FontWeight.w500,
                                             align: TextAlign.center,
                                             fontSize: ScreenUtil().setSp(18),
                                           ) : widgetTextLatex(
-                                            widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz'],  widget.olympicsData[index]['quizzes'][indexQuizzes]['math'],
-                                            fontWeight:FontWeight.w500,
+                                            widget
+                                                .olympicsData[index]['quizzes'][indexQuizzes]['quiz'],
+                                            widget
+                                                .olympicsData[index]['quizzes'][indexQuizzes]['math'],
+                                            fontWeight: FontWeight.w500,
                                             fontSize: ScreenUtil().setSp(16),
                                             align: TextAlign.left,
                                             color: Colors.black,
                                           ),
                                         ),
+                                        widget
+                                            .olympicsData[index]['quizzes'][indexQuizzes]['photo'] !=
+                                            "no_photo" ? Padding(
+                                          child: Image.network(
+                                              "${AssetUrls.quizPhotos}/${widget
+                                                  .olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                              ScreenUtil().setWidth(16)),
+                                        )
+                                            : Container(),
                                         ListView.builder(
                                             physics:
                                             const NeverScrollableScrollPhysics(),
@@ -246,13 +264,15 @@ class _OlympicResultState extends State<OlympicResult> {
                                                   right: ScreenUtil()
                                                       .setWidth(16),
                                                 ),
-                                                child: widgetButton(
-                                                  widgetText(
-                                                    widget.olympicsData[index][
-                                                    'quizzes']
-                                                    [indexQuizzes]
-                                                    ['answers'][
-                                                    indexAnswers]['answer'],
+                                                child: widgetButtonQuiz(
+                                                  widget
+                                                      .olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['math'] !=
+                                                      "" ?
+                                                  widgetTextLatex(
+                                                    widget
+                                                        .olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'],
+                                                    widget
+                                                        .olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['math'],
                                                     fontWeight:
                                                     FontWeight.w400,
                                                     fontSize: ScreenUtil()
@@ -268,6 +288,17 @@ class _OlympicResultState extends State<OlympicResult> {
                                                             1
                                                         ? Colors.white
                                                         : Colors.black,
+                                                  ) : widgetText(
+                                                    widget
+                                                        .olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'],
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: ScreenUtil()
+                                                        .setSp(16),
+                                                    align: TextAlign.left,
+                                                    color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] ==
+                                                        widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] || widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
+                                                        ? Colors.white
+                                                        : Colors.black,
                                                   ),
                                                       () {
 
@@ -280,20 +311,11 @@ class _OlympicResultState extends State<OlympicResult> {
                                                   ),
                                                   colorBorder:
                                                   ColorsHelpers.grey5,
-                                                  color: widget
-                                                      .selectedAnswers[widget
-                                                      .olympicsData[index]['quizzes'][indexQuizzes]['id']] ==
-                                                      widget
-                                                          .olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
-                                                      ? widget
-                                                      .olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] ==
-                                                      1
-                                                      ? trueSelect
-                                                      : falseSelect
-                                                      : widget
-                                                      .olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] ==
-                                                      1 ? trueSelect : Colors
-                                                      .white,
+                                                  color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
+                                                      ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
+                                                        ? trueSelect
+                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? falseSelect : Colors.white
+                                                      : Colors.white,
                                                   widthBorder: 1.0,
                                                   align: Alignment.centerLeft,
                                                   width:
