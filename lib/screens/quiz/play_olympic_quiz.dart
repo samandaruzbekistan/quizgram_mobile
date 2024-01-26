@@ -239,7 +239,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                         const NeverScrollableScrollPhysics(),
                                     scrollDirection: Axis.vertical,
                                     itemCount:
-                                        olympicsData[index]['quizzes'].length,
+                                    olympicsData[index]['quizzes'].length,
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
                                     itemBuilder: (context, indexQuizzes) {
@@ -253,12 +253,17 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                               bottom:
                                                   ScreenUtil().setHeight(24),
                                             ),
-                                            child: widgetText(
-                                              olympicsData[index]['quizzes']
-                                                  [indexQuizzes]['quiz'],
+                                            child: olympicsData[index]['quizzes'][indexQuizzes]['math'] == "" ? widgetText(
+                                              "${indexQuizzes+1}) ${olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                               fontWeight: FontWeight.w500,
                                               align: TextAlign.center,
                                               fontSize: ScreenUtil().setSp(18),
+                                            ) : widgetTextLatex(
+                                              olympicsData[index]['quizzes'][indexQuizzes]['quiz'],  "${indexQuizzes+1}) ${olympicsData[index]['quizzes'][indexQuizzes]['math']}",
+                                              fontWeight:FontWeight.w500,
+                                              fontSize: ScreenUtil().setSp(16),
+                                              align: TextAlign.left,
+                                              color: Colors.black,
                                             ),
                                           ),
                                           ListView.builder(

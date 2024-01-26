@@ -211,13 +211,17 @@ class _OlympicResultState extends State<OlympicResult> {
                                             bottom:
                                             ScreenUtil().setHeight(24),
                                           ),
-                                          child: widgetText(
-                                            widget
-                                                .olympicsData[index]['quizzes']
-                                            [indexQuizzes]['quiz'],
+                                          child: widget.olympicsData[index]['quizzes'][indexQuizzes]['math'] == "" ? widgetText(
+                                            "${index}) ${widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                             fontWeight: FontWeight.w500,
                                             align: TextAlign.center,
                                             fontSize: ScreenUtil().setSp(18),
+                                          ) : widgetTextLatex(
+                                            widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz'],  widget.olympicsData[index]['quizzes'][indexQuizzes]['math'],
+                                            fontWeight:FontWeight.w500,
+                                            fontSize: ScreenUtil().setSp(16),
+                                            align: TextAlign.left,
+                                            color: Colors.black,
                                           ),
                                         ),
                                         ListView.builder(

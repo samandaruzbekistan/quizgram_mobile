@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-
-// import 'package:latext/latext.dart';
 import 'package:quizgram/utils/constant.dart';
 
 widgetText(String title,
@@ -38,7 +35,7 @@ Widget widgetTextLatex(String title, String math,
     text: TextSpan(
       children: [
         WidgetSpan(
-          child: Math.tex(r'' + math + '', textStyle: TextStyle(color: color)),
+          child: Math.tex(r'' + math + '', textStyle: TextStyle(color: color, fontSize: fontSize)),
         ),
         TextSpan(
           text: '    ${title}',
