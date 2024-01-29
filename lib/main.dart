@@ -59,7 +59,7 @@ class MyAppState extends State<MyApp> {
         }
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Quizgram',
+          title: 'Ideal Quiz',
           theme: ThemeData(
             appBarTheme: const AppBarTheme(
               systemOverlayStyle: SystemUiOverlayStyle.dark,

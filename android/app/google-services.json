@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:766408837033:android:592a952d53337d4455a6b8",
+        "android_client_info": {
+          "package_name": "uz.goldapps.idealquiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAakX8BoLj2RtDsat8nYlYLlS9ZG-PBrkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:766408837033:android:13930374e822fe9f55a6b8",
         "android_client_info": {
           "package_name": "uz.goldapps.quizgram"

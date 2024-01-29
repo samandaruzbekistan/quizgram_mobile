@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:usesCleartextTraffic="true"
-        android:label="Quizgram"
+        android:label="Ideal Quiz"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
