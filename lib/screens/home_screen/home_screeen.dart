@@ -7,17 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive/hive.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:quizgram/screens/detail_quiz_screen/detail_quiz_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:quizgram/screens/faq_screen/faq_screen.dart';
-import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
-import 'package:quizgram/screens/leaderboard/leaderboard_screen.dart';
-import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
-import 'package:quizgram/screens/live_quiz_screen/review_quiz_screen.dart';
 import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
-import 'package:quizgram/screens/quiz/create_quiz_screen/create_quiz_screen.dart';
 import 'package:quizgram/screens/quiz/quiz_choose_category_screen/quiz_choose_category_screen.dart';
+import 'package:quizgram/screens/update_app_screen/update_app.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -42,9 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late Timer _timer;
   int _currentPage = 0;
   List<String> _adUrls = [
-    "https://mobile.quizgram.uz/img/ad/home.png",
-    "https://mobile.quizgram.uz/img/ad/ad.png",
-    "https://mobile.quizgram.uz/img/ad/insta.png",
+    "https://mobile.idealquiz.uz/img/ad/home.png",
+    "https://mobile.idealquiz.uz/img/ad/ad.png",
+    "https://mobile.idealquiz.uz/img/ad/insta.png",
   ];
 
   @override
@@ -79,6 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200) {
       final data = json.decode(reponseData);
       box.put('balans', "${data['balance']}");
+      if(box.get('version') < data['version']){
+        Get.offAll(UpdateAppScreen());
+      }
       setState(() {
         _newsText = data['screenText'];
         _adUrl = data['ad'];
@@ -345,6 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'Musobaqalarda bellashing', () {
                                     // print(box.get('token'));
                                 Get.to(Olympics());
+                                // Get.to(LiveQuizScreen());
                               }, Colors.white, Colors.black,
                                   ColorsHelpers.grey2),
                             ),

@@ -29,12 +29,12 @@ class LiveQuizScreen extends StatefulWidget {
 }
 
 class _LiveQuizScreenState extends State<LiveQuizScreen> {
-  bool isStep1 = false;
-  bool isStep2 = false;
-  bool isStep3 = false;
-  bool isStep4 = false;
-  bool isStep5 = false;
-  bool isStep6 = false;
+  bool isStep1 = true;
+  bool isStep2 = true;
+  bool isStep3 = true;
+  bool isStep4 = true;
+  bool isStep5 = true;
+  bool isStep6 = true;
   bool isPressed = false;
   bool timeOut = false;
   bool isLoading = false;
@@ -57,6 +57,7 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
   Duration position = Duration.zero;
 
   final recorder = FlutterSoundRecorder();
+
   // final audioPlayer = AudioPlayer();
   File fileAudio = File('');
 
@@ -80,106 +81,109 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
   final textFieldController = TextEditingController();
 
   void startTimer({bool? isStep}) {
+
     const oneSec = Duration(milliseconds: 1000);
     _start = 10;
     durationTime = 10000;
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-            timeOut = true;
-
-            setState(() {
-              isStep = true;
-            });
-
-            if (isStep6 == true &&
-                isStep5 == true &&
-                isStep4 == true &&
-                isStep3 == true &&
-                isStep2 == true &&
-                isStep1 == true) {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const QuizCompleteScreen();
-                  },
-                ),
-              );
-            } else if (isStep6 == false &&
-                isStep5 == true &&
-                isStep4 == true &&
-                isStep3 == true &&
-                isStep2 == true &&
-                isStep1 == true) {
-              setState(() {
-                isLoading = true;
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  isLoading = false;
-                  timeOut = false;
-                  isStep6 = true;
-
-                  startTimer();
-                });
-              });
-            } else if (isStep5 == false &&
-                isStep4 == true &&
-                isStep3 == true &&
-                isStep2 == true &&
-                isStep1 == true) {
-              setState(() {
-                isLoading = true;
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  isLoading = false;
-                  timeOut = false;
-                  isStep5 = true;
-                  startTimer();
-                });
-              });
-            } else if (isStep4 == false &&
-                isStep3 == true &&
-                isStep2 == true &&
-                isStep1 == true) {
-              timeOut = true;
-            } else if (isStep3 == false && isStep2 == true && isStep1 == true) {
-              setState(() {
-                isLoading = true;
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  isLoading = false;
-                  timeOut = false;
-                  isStep3 = true;
-                  startTimer();
-                });
-              });
-            } else if (isStep2 == true) {
-            } else if (isStep1 == true && isStep2 == false) {
-              setState(() {
-                isLoading = true;
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  isStep2 = true;
-                  timeOut = false;
-                  isLoading = false;
-                  startTimer();
-                });
-              });
-            }
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-      },
-    );
+    // _timer = Timer.periodic(
+    //   oneSec,
+    //   (Timer timer) {
+    //     if (_start == 0) {
+    //       setState(() {
+    //         timer.cancel();
+    //         timeOut = true;
+    //
+    //         setState(() {
+    //           isStep = true;
+    //         });
+    //
+    //         if (isStep6 == true &&
+    //             isStep5 == true &&
+    //             isStep4 == true &&
+    //             isStep3 == true &&
+    //             isStep2 == true &&
+    //             isStep1 == true) {
+    //           Navigator.pop(context);
+    //           Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //               builder: (context) {
+    //                 return const QuizCompleteScreen();
+    //               },
+    //             ),
+    //           );
+    //         } else if (isStep6 == false &&
+    //             isStep5 == true &&
+    //             isStep4 == true &&
+    //             isStep3 == true &&
+    //             isStep2 == true &&
+    //             isStep1 == true) {
+    //           setState(() {
+    //             isLoading = true;
+    //             Future.delayed(const Duration(milliseconds: 500), () {
+    //               isLoading = false;
+    //               timeOut = false;
+    //               isStep6 = true;
+    //
+    //               startTimer();
+    //             });
+    //           });
+    //         } else if (isStep5 == false &&
+    //             isStep4 == true &&
+    //             isStep3 == true &&
+    //             isStep2 == true &&
+    //             isStep1 == true) {
+    //           setState(() {
+    //             isLoading = true;
+    //             Future.delayed(const Duration(milliseconds: 500), () {
+    //               isLoading = false;
+    //               timeOut = false;
+    //               isStep5 = true;
+    //               startTimer();
+    //             });
+    //           });
+    //         } else if (isStep4 == false &&
+    //             isStep3 == true &&
+    //             isStep2 == true &&
+    //             isStep1 == true) {
+    //           timeOut = true;
+    //         } else if (isStep3 == false && isStep2 == true && isStep1 == true) {
+    //           setState(() {
+    //             isLoading = true;
+    //             Future.delayed(const Duration(milliseconds: 500), () {
+    //               isLoading = false;
+    //               timeOut = false;
+    //               isStep3 = true;
+    //               startTimer();
+    //             });
+    //           });
+    //         } else if (isStep2 == true) {
+    //         } else if (isStep1 == true && isStep2 == false) {
+    //           setState(() {
+    //             isLoading = true;
+    //             Future.delayed(const Duration(milliseconds: 500), () {
+    //               isStep2 = true;
+    //               timeOut = false;
+    //               isLoading = false;
+    //               startTimer();
+    //             });
+    //           });
+    //         }
+    //       });
+    //     } else {
+    //       setState(() {
+    //         _start--;
+    //       });
+    //     }
+    //   },
+    // );
   }
 
   List<QuestionModel> questions = [
     QuestionModel(
-        'Which player scored the fastest hat-trick in the Premier League?', "pp",2,{
+        'Which player scored the fastest hat-trick in the Premier League?',
+        "pp",
+        2, {
       "Robin Van Persie": false,
       "Sadio Mane": true,
       "Harry Kane": false,
@@ -1094,7 +1098,7 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
                                                                           BorderRadius.circular(
                                                                               50),
                                                                       color: const Color
-                                                                              .fromRGBO(
+                                                                          .fromRGBO(
                                                                           255,
                                                                           255,
                                                                           255,
@@ -1676,8 +1680,9 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
                                                                             v),
                                                                 choiceStyle: C2ChoiceStyle(
                                                                     labelStyle: const TextStyle(
-                                                                        fontWeight: FontWeight
-                                                                            .w400),
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400),
                                                                     showCheckmark:
                                                                         false,
                                                                     backgroundColor:
@@ -1688,10 +1693,10 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
                                                                     borderColor:
                                                                         ColorsHelpers
                                                                             .grey5,
-                                                                    borderRadius: const BorderRadius
+                                                                    borderRadius:
+                                                                        const BorderRadius
                                                                             .all(
-                                                                        Radius.circular(
-                                                                            16))),
+                                                                            Radius.circular(16))),
                                                                 wrapped: true,
                                                                 choiceActiveStyle: C2ChoiceStyle(
                                                                     labelStyle: const TextStyle(
@@ -1708,10 +1713,10 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
                                                                             0.2),
                                                                     color: Colors
                                                                         .black,
-                                                                    borderRadius: const BorderRadius
+                                                                    borderRadius:
+                                                                        const BorderRadius
                                                                             .all(
-                                                                        Radius.circular(
-                                                                            16))),
+                                                                            Radius.circular(16))),
                                                                 textDirection:
                                                                     TextDirection
                                                                         .ltr,

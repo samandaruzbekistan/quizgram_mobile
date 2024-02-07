@@ -7,6 +7,7 @@ import 'package:quizgram/screens/faq_detail_screen/faq_detail_screen.dart';
 import 'package:quizgram/screens/faq_screen/faq_screen.dart';
 import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
+import 'package:quizgram/screens/leaderboard/leaderboard_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/quiz_complete_screen.dart';
 import 'package:quizgram/screens/profile_screen/profile_screen.dart';
@@ -38,7 +39,7 @@ BottomNavigationBar bottomBar(int currentIndex){
           break;
         case 2:
           if (currentIndex != index){
-            Get.to(const QuizChooseCategoryScreen());
+            Get.to(const LeaderboardScreen());
           }
           break;
         case 3:

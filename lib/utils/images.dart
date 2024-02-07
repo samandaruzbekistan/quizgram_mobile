@@ -1,6 +1,7 @@
 class Images {
   // Icons
   static const String appLogo = 'assets/icons/app_logo.png';
+  static const String appUpdate = 'assets/icons/app_update.png';
   static const String appLogoShadow = 'assets/icons/app_logo_shadow.png';
   static const String ovalWithOutlineTop = 'assets/icons/oval_outline_top.svg';
   static const String competition = 'assets/vectors/competition.png';

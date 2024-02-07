@@ -253,7 +253,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                               bottom:
                                                   ScreenUtil().setHeight(24),
                                             ),
-                                            child: olympicsData[index]['quizzes'][indexQuizzes]['math'] == "" ? widgetText(
+                                            child: olympicsData[index]['quizzes'][indexQuizzes]['math'] == null ? widgetText(
                                               "${indexQuizzes+1}) ${olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                               fontWeight: FontWeight.w500,
                                               align: TextAlign.center,
@@ -267,6 +267,14 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                             ),
                                           ),
                                           olympicsData[index]['quizzes'][indexQuizzes]['photo'] != "no_photo" ? Padding(
+                                            child: Image.network(
+                                                "${AssetUrls.quizPhotos}/${olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                ScreenUtil().setWidth(16)),
+                                          )
+                                              : Container(),
+                                          olympicsData[index]['quizzes'][indexQuizzes]['audio'] != "no_audio" ? Padding(
                                             child: Image.network(
                                                 "${AssetUrls.quizPhotos}/${olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
                                             padding: EdgeInsets.symmetric(

@@ -45,7 +45,6 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
   Future<void> fetchData() async {
     var token = box.get('token');
     var id = box.get('id');
-    print(id);
     var headers = {'Authorization': 'Bearer ${token}'};
     var request = http.MultipartRequest(
         'POST', Uri.parse('https://mobile.quizgram.uz/api/checkBuyOlympic'));

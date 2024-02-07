@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WebApiConstans{
-  static String baseUrl = 'https://mobile.quizgram.uz/api/';
+  static String baseUrl = 'https://mobile.idealquiz.uz/api/';
   static String loginUrl = baseUrl+'login';
   static String register = baseUrl+'register';
   static String checkUser = baseUrl+'check-user';
@@ -13,10 +13,13 @@ class WebApiConstans{
   static String buyOlympicExam = baseUrl+'buyOlympicExam';
   static String playOlympicExam = baseUrl+'playOlympicExam';
   static String newPaymentOrder = baseUrl+'newPaymentOrder';
+
+
+  static String googlePlay = "https://play.google.com/store/apps/details?id=uz.goldapps.idealquiz";
 }
 
 class AssetUrls{
-  static String baseUrl = 'https://mobile.quizgram.uz/';
+  static String baseUrl = 'https://mobile.idealquiz.uz/';
   static String quizPhotos = baseUrl+'img/quiz';
 }
 
