@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:quizgram/screens/quiz/olympic_result_screen.dart';
+import 'package:quizgram/screens/quiz/quiz_audio_player.dart';
 import '../../utils/constant.dart';
 import '../../utils/images.dart';
 import '../../utils/widget_assets.dart';
@@ -274,13 +275,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                 ScreenUtil().setWidth(16)),
                                           )
                                               : Container(),
-                                          olympicsData[index]['quizzes'][indexQuizzes]['audio'] != "no_audio" ? Padding(
-                                            child: Image.network(
-                                                "${AssetUrls.quizPhotos}/${olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                ScreenUtil().setWidth(16)),
-                                          )
+                                          olympicsData[index]['quizzes'][indexQuizzes]['audio'] != "no_audio" ? QuizAudioPlayer(audioUrl: "https://mobile.idealquiz.uz/audio/olympic/${olympicsData[index]['quizzes'][indexQuizzes]['audio']}")
                                               : Container(),
                                           ListView.builder(
                                               physics:
@@ -304,7 +299,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                             .setWidth(16),
                                                       ),
                                                       child: widgetButtonQuiz(
-                                                        olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['math'] != "" ?
+                                                        olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['math'] != null ?
                                                         widgetTextLatex(
                                                           olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'], olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['math'],
                                                           fontWeight:FontWeight.w400,

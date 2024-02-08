@@ -59,7 +59,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_math_fork: ^0.7.2
   change_app_package_name: ^1.1.0
-  just_audio: ^0.9.36
+  audioplayers: ^5.2.1
 
   chips_choice_null_safety: ^2.0.6
   flutter_keyboard_visibility: 5.0.2
