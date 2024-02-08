@@ -1,5 +1,8 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:quizgram/utils/constant.dart';
 
 class QuizAudioPlayer extends StatefulWidget {
   final String audioUrl;
@@ -15,23 +18,30 @@ class _QuizAudioPlayerState extends State<QuizAudioPlayer> {
   bool isPlaying = false;
   String currentTime = "0:00:00";
   String completeTime = "0:00:00";
+  Duration maxDuration = const Duration(seconds: 0);
+  late ValueListenable<Duration> progress;
 
   @override
   void initState() {
+    audioPlayer = AudioPlayer(playerId: widget.audioUrl);
+    // audioPlayer.play(UrlSource(widget.audioUrl));
+    setState(() {});
     super.initState();
-    audioPlayer = AudioPlayer();
-
-    audioPlayer.onPositionChanged.listen((Duration duration) {
-      setState(() {
-        currentTime = duration.toString().split(".")[0];
-      });
+    audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
+      if (state == PlayerState.playing) {
+        getMaxDuration(); // Call getMaxDuration when the audio starts playing
+      }
     });
+  }
 
-    audioPlayer.onDurationChanged.listen((Duration duration) {
+  Future<void> getMaxDuration() async {
+    Duration? value = await audioPlayer.getDuration();
+    if (value != null) {
       setState(() {
-        completeTime = duration.toString().split(".")[0];
+        maxDuration = value;
       });
-    });
+    }
+    print(value);
   }
 
   @override
@@ -39,7 +49,21 @@ class _QuizAudioPlayerState extends State<QuizAudioPlayer> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(top: 50),
+          width: MediaQuery.of(context).size.width*0.8,
+          child: StreamBuilder(
+            stream: audioPlayer.onPositionChanged,
+            builder: (context, snapshot) {
+              return ProgressBar(
+                progress: snapshot.data ?? Duration.zero,
+                total: maxDuration,
+                onSeek: (duration) {
+                  audioPlayer.seek(duration);
+                },
+              );
+            },
+          ),
+        ),
+        Container(
           width: 240,
           height: 50,
           decoration: BoxDecoration(
@@ -47,46 +71,46 @@ class _QuizAudioPlayerState extends State<QuizAudioPlayer> {
             borderRadius: BorderRadius.circular(80),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               IconButton(
                 icon: Icon(
-                  isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
-                  color: Colors.black,
-                  size: 30,
-                ),
-                onPressed: () {
-                  if (isPlaying) {
-                    audioPlayer.pause();
-                  } else {
-                    audioPlayer.play(UrlSource(widget.audioUrl));
-                    audioPlayer.resume();
-                  }
-                  setState(() {
-                    isPlaying = !isPlaying;
-                  });
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.stop,
-                  color: Colors.black,
+                  Icons.fast_rewind,
+                  color: ColorsHelpers.primaryColor,
                   size: 25,
                 ),
                 onPressed: () {
                   audioPlayer.stop();
-                  setState(() {
-                    isPlaying = false;
-                  });
+                  getMaxDuration();
                 },
               ),
-              Text(
-                "   " + currentTime,
-                style: TextStyle(fontWeight: FontWeight.w700),
+              IconButton(
+                icon: Icon(
+                  audioPlayer.state == PlayerState.playing ? Icons.pause_circle_filled : Icons.play_circle_filled,
+                  color: ColorsHelpers.primaryColor,
+                  size: 30,
+                ),
+                onPressed: () {
+                  audioPlayer.state == PlayerState.playing
+                      ? audioPlayer.pause()
+                      : audioPlayer.play(UrlSource(widget.audioUrl));
+                  getMaxDuration();
+                  setState(() {});
+                },
               ),
-              Text(" | "),
-              Text(
-                completeTime,
-                style: TextStyle(fontWeight: FontWeight.w300),
+              IconButton(
+                icon: Icon(
+                  Icons.fast_forward,
+                  color: ColorsHelpers.primaryColor,
+                  size: 25,
+                ),
+                onPressed: () {
+                  audioPlayer.stop();
+                  audioPlayer.play(UrlSource(widget.audioUrl));
+                  getMaxDuration();
+
+                  setState(() {});
+                },
               ),
             ],
           ),
@@ -95,10 +119,10 @@ class _QuizAudioPlayerState extends State<QuizAudioPlayer> {
     );
   }
 
-  @override
-  void dispose() {
-    audioPlayer.stop();
-    audioPlayer.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   audioPlayer.stop();
+  //   audioPlayer.dispose();
+  //   super.dispose();
+  // }
 }
