@@ -32,9 +32,10 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
   Map<int, Map<String, dynamic>> selectedAnswers = {};
   List olympicsData = [];
   int tag = 0;
-  Map<String, TextEditingController> _questionTextControllers = {};
-  Map<String, List<String>> tagsList = {};
+  Map<String, TextEditingController> _puzzleTextControllers = {};
+  Map<String, List<String>> _tagsList = {};
   Map<String, TextEditingController> _writingControllers = {};
+  Map<String, String> _tempAnswers = {};
 
   List<String> tags = [];
 
@@ -45,10 +46,8 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
     var token = box.get('token');
     var id = box.get('id');
     var headers = {'Authorization': 'Bearer ${token}'};
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(WebApiConstans.playOlympicExam));
-    request.fields
-        .addAll({'exam_day_id': '${widget.examId}', 'user_id': '${id}'});
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.playOlympicExam));
+    request.fields.addAll({'exam_day_id': '${widget.examId}', 'user_id': '${id}'});
 
     request.headers.addAll(headers);
 
@@ -61,7 +60,6 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
         _secondsRemaining = data['day']['time'];
         olympicsData = data['data'];
       });
-      // startTimer();
       olympicsData.forEach((section) {
         var quizzes = section['quizzes'];
         quizzes.forEach((quiz){
@@ -70,29 +68,68 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
               _writingControllers["${quiz['id']}"] = new TextEditingController();
             });
           }
+          else if(quiz['type'] == 'puzzle'){
+            setState(() {
+              _tagsList["${quiz['id']}"] = [];
+              _puzzleTextControllers["${quiz['id']}"] = new TextEditingController();
+            });
+          }
         });
       });
+      startTimer();
     } else {
       print(response.reasonPhrase);
     }
   }
 
-  void checkTest() {
+  Future<void> checkTest() async {
     double total = 0.0;
     int correct = 0;
     int inCorrect = 0;
-    print(_writingControllers);
-    // selectedAnswers.forEach((key, value) {
-    //   if (value['answer_data']['correct'] == 1) {
-    //     total = total + value['answer_data']['ball'];
-    //     correct++;
-    //   }
-    //   else{
-    //     inCorrect++;
-    //   }
+    setState(() {
+      _isLoading = true;
+    });
+    selectedAnswers.forEach((key, value) {
+      if (value['type'] == 'puzzle') {
+        if(value['correct_text'] == value['answer_data']){
+          total = total + value['ball'];
+          correct++;
+        }
+        else{
+          inCorrect++;
+        }
+      }
+      else if(value['type'] == 'quiz'){
+        if (value['answer_data']['correct'] == 1) {
+          total = total + value['answer_data']['ball'];
+          correct++;
+        }
+        else{
+          inCorrect++;
+        }
+      }
+      else{
+        inCorrect++;
+      }
+    });
+    String jsonString = jsonEncode(_tempAnswers);
+    print(jsonString);
+    // var json_tempAnswers = jsonEncode(_tempAnswers);
+    // var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.saveOlympicExamResult));
+    // request.fields.addAll({
+    //   'exam_id': "${widget.examId}",
+    //   'selectedAnswers': '${json_selectedAnswers}',
+    //   'tempAnswers': '${json_tempAnswers}',
+    //   'correct': '${correct}',
+    //   'incorrect': '${inCorrect}',
+    //   'total': '${total}'
     // });
-    // Get.to(OlympicResult(
-    //     olympicsData: olympicsData, selectedAnswers: selectedAnswers, correct: correct, total: total, inCorrect: inCorrect,));
+    //
+    // http.StreamedResponse response = await request.send();
+    // if (response.statusCode == 200) {
+    //   Get.to(OlympicResult(olympicsData: olympicsData, selectedAnswers: selectedAnswers, correct: correct, total: total, inCorrect: inCorrect,));
+    // }
+
   }
 
   void createControllers(){
@@ -267,15 +304,6 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
                                     itemBuilder: (context, indexQuizzes) {
-                                      // if(olympicsData[index]['quizzes'][indexQuizzes]['type'] == 'puzzle'){
-                                      //   tagsList["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"] = [""];
-                                      //   String quizId = olympicsData[index]['quizzes'][indexQuizzes]['id'].toString();
-                                      //   _questionTextControllers[quizId] = TextEditingController();
-                                      // }
-                                      // if(olympicsData[index]['quizzes'][indexQuizzes]['type'] == 'writing'){
-                                      //     String quizId = olympicsData[index]['quizzes'][indexQuizzes]['id'].toString();
-                                      //   _writingControllers?[quizId] = new TextEditingController();
-                                      // }
                                       return Column(
                                         children: [
                                           Container(
@@ -309,7 +337,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                               : Container(),
                                           olympicsData[index]['quizzes'][indexQuizzes]['audio'] != "no_audio" ? QuizAudioPlayer(audioUrl: "https://mobile.idealquiz.uz/audio/olympic/${olympicsData[index]['quizzes'][indexQuizzes]['audio']}")
                                               : Container(),
-                                          olympicsData[index]['quizzes'][indexQuizzes]['type'] != "puzzle" ? ListView.builder(
+                                          olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz4" || olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz6" ? ListView.builder(
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
                                               scrollDirection: Axis.vertical,
@@ -372,7 +400,11 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                 ),
                                                 child: TextFormField(
                                                     maxLines: 5,
-                                                    onTap: () {},
+                                                    onChanged: (val){
+                                                      setState((){
+                                                        _tempAnswers["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"] = val;
+                                                      });
+                                                    },
                                                     controller : _writingControllers['${olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
                                                     decoration:InputDecoration(
                                                       focusedBorder:OutlineInputBorder(
@@ -392,109 +424,82 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                   ),
                                               )
                                               : Container(),
-                                          // olympicsData[index]['quizzes'][indexQuizzes]['type'] == "puzzle" ? Column(
-                                          //   crossAxisAlignment:CrossAxisAlignment.start,
-                                          //   children: [
-                                          //     Center(
-                                          //         child: Container(
-                                          //             margin: EdgeInsets.only(top: ScreenUtil().setHeight(32)),
-                                          //             child: SvgPicture.asset(Images.illustrationDrone)
-                                          //         )
-                                          //     ),
-                                          //     Container(
-                                          //       margin: EdgeInsets.only(
-                                          //           top: ScreenUtil().setHeight(32),
-                                          //           left: ScreenUtil().setWidth(16),
-                                          //           bottom:ScreenUtil().setHeight(8)),
-                                          //       child: widgetText(
-                                          //           'Puzzle',
-                                          //           color:ColorsHelpers.grey2,
-                                          //           fontSize:ScreenUtil().setSp(14),
-                                          //           fontWeight: FontWeight.w500),
-                                          //     ),
-                                          //     Container(
-                                          //       width:MediaQuery.of(context).size.width,
-                                          //       margin: EdgeInsets.only(
-                                          //           left: ScreenUtil().setWidth(16),
-                                          //           right: ScreenUtil().setWidth(16)),
-                                          //       child: widgetText(
-                                          //           "${indexQuizzes+1}) ${olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
-                                          //           fontWeight:FontWeight.w500,
-                                          //           fontSize:ScreenUtil().setSp(20)),
-                                          //     ),
-                                          //     Container(
-                                          //       margin: EdgeInsets.only(
-                                          //         top: ScreenUtil().setHeight(8),
-                                          //         left: ScreenUtil().setWidth(16),
-                                          //         right: ScreenUtil().setWidth(16),
-                                          //         bottom: ScreenUtil().setHeight(24),
-                                          //       ),
-                                          //       width: MediaQuery.of(context).size.width,
-                                          //       height: MediaQuery.of(context).size.height * 0.06,
-                                          //       decoration: BoxDecoration(
-                                          //         borderRadius: BorderRadius.circular(20),
-                                          //         border: Border.all(
-                                          //           color: const Color.fromRGBO(0, 98, 204, 0.2),
-                                          //           width: ScreenUtil().setSp(2),
-                                          //         ),
-                                          //         color: ColorsHelpers.grey5,
-                                          //       ),
-                                          //       child: SingleChildScrollView(
-                                          //         child: Center(
-                                          //           child: Text(
-                                          //             displayString,
-                                          //             textAlign: TextAlign.center, // Optional: to center horizontally as well
-                                          //           ),
-                                          //         ),
-                                          //       ),
-                                          //     ),
-                                          //     SizedBox(
-                                          //         height: 200,
-                                          //         child: ChipsChoice<
-                                          //             String>.multiple( value: tagsList["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"] ?? [],
-                                          //             onChanged: (value){
-                                          //               // final id = "${olympicsData[index]['quizzes'][indexQuizzes]['id']}";
-                                          //               // tagsList[id]!.addAll(value);
-                                          //               // setState(() {
-                                          //               //
-                                          //               //   if (tagsList[id] == null) {
-                                          //               //     tagsList[id] = []; // Initialize the list if it doesn't exist
-                                          //               //   }
-                                          //                 // Add the new value to the list
-                                          //
-                                          //                 // Join the list elements to form the display string
-                                          //                 // displayString = tagsList[id]!.join(' ');
-                                          //                 // Update selectedAnswers
-                                          //                 // selectedAnswers["${id}"] = {"type": "puzzle", "answer_data": displayString};
-                                          //               // });
-                                          //
-                                          //               // print(tagsList["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"]);
-                                          //               // print(questionTextControllers["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"]?.text);
-                                          //           },
-                                          //           choiceItems: C2Choice.listFrom(
-                                          //             source: jsonDecode(olympicsData[index]['quizzes'][indexQuizzes]['words_json']),
-                                          //             value: (i, v) => v.toString(),
-                                          //             label: (i, v) => v.toString(),
-                                          //           ),
-                                          //           choiceStyle: C2ChoiceStyle(
-                                          //               labelStyle: const TextStyle(fontWeight:FontWeight.w400),
-                                          //               showCheckmark:false,
-                                          //               backgroundColor:Colors.white,
-                                          //               color: Colors.black,
-                                          //               borderColor: ColorsHelpers.grey5,
-                                          //               borderRadius:const BorderRadius.all(Radius.circular(16))),
-                                          //           wrapped: true,
-                                          //           choiceActiveStyle: C2ChoiceStyle(
-                                          //               labelStyle: const TextStyle(fontWeight: FontWeight.w500),
-                                          //               showCheckmark:false,
-                                          //               avatarBorderColor: Colors.red,
-                                          //               backgroundColor: ColorsHelpers.primaryColor.withOpacity(0.2),
-                                          //               color: Colors.black,
-                                          //               borderRadius:const BorderRadius.all(Radius.circular(16))),
-                                          //           textDirection:TextDirection.ltr,
-                                          //         )),
-                                          //   ],
-                                          // ) : Container(),
+                                          olympicsData[index]['quizzes'][indexQuizzes]['type'] == "puzzle" ? Column(
+                                            crossAxisAlignment:CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  top: ScreenUtil().setHeight(8),
+                                                  left: ScreenUtil().setWidth(16),
+                                                  right: ScreenUtil().setWidth(16),
+                                                  bottom: ScreenUtil().setHeight(24),
+                                                ),
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height * 0.06,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  border: Border.all(
+                                                    color: const Color.fromRGBO(0, 98, 204, 0.2),
+                                                    width: ScreenUtil().setSp(2),
+                                                  ),
+                                                  color: ColorsHelpers.grey5,
+                                                ),
+                                                child: TextFormField(
+                                                  readOnly: true,
+                                                  maxLines: 3,
+                                                  onTap: () {},
+                                                  controller : _puzzleTextControllers['${olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
+                                                  decoration:InputDecoration(
+                                                    focusedBorder:OutlineInputBorder(
+                                                      borderRadius:BorderRadius.circular(20.0),
+                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                    ),
+                                                    enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
+                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                    ),
+                                                    border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                                    fillColor:Colors.white,
+                                                    filled: true,
+                                                    contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  child: ChipsChoice<
+                                                      String>.multiple( value: _tagsList["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"]!,
+                                                      onChanged: (value){
+                                                        setState((){
+                                                          _tagsList["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"] = value;
+                                                          displayString =_tagsList["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"]!.join(' ');
+                                                          _puzzleTextControllers["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"]?.text =displayString;
+                                                          selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] = {"type" : "puzzle",'ball': olympicsData[index]['quizzes'][indexQuizzes]['ball'],'correct_text' :olympicsData[index]['quizzes'][indexQuizzes]['correct_text'], "answer_data" : displayString};
+                                                        });
+                                                    },
+                                                    choiceItems: C2Choice.listFrom(
+                                                      source: jsonDecode(olympicsData[index]['quizzes'][indexQuizzes]['words_json']),
+                                                      value: (i, v) => v.toString(),
+                                                      label: (i, v) => v.toString(),
+                                                    ),
+                                                    choiceStyle: C2ChoiceStyle(
+                                                        labelStyle: const TextStyle(fontWeight:FontWeight.w400),
+                                                        showCheckmark:false,
+                                                        backgroundColor:Colors.white,
+                                                        color: Colors.black,
+                                                        borderColor: ColorsHelpers.grey5,
+                                                        borderRadius:const BorderRadius.all(Radius.circular(16))),
+                                                    wrapped: true,
+                                                    choiceActiveStyle: C2ChoiceStyle(
+                                                        labelStyle: const TextStyle(fontWeight: FontWeight.w500),
+                                                        showCheckmark:false,
+                                                        avatarBorderColor: Colors.red,
+                                                        backgroundColor: ColorsHelpers.primaryColor.withOpacity(0.2),
+                                                        color: Colors.black,
+                                                        borderRadius:const BorderRadius.all(Radius.circular(16))),
+                                                    textDirection:TextDirection.ltr,
+                                                  )),
+                                            ],
+                                          ) : Container(),
                                         ],
                                       );
                                     }),

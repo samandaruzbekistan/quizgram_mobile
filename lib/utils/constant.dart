@@ -12,6 +12,7 @@ class WebApiConstans{
   static String getOlympics = baseUrl+'getOlympics';
   static String buyOlympicExam = baseUrl+'buyOlympicExam';
   static String playOlympicExam = baseUrl+'playOlympicExam';
+  static String saveOlympicExamResult = baseUrl+'saveOlympicExamResult';
   static String newPaymentOrder = baseUrl+'newPaymentOrder';
 
 
