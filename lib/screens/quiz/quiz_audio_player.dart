@@ -15,7 +15,7 @@ class QuizAudioPlayer extends StatefulWidget {
 
 class _QuizAudioPlayerState extends State<QuizAudioPlayer> {
   late AudioPlayer audioPlayer;
-  bool isPlaying = false;
+  bool _isPlay = false;
   String currentTime = "0:00:00";
   String completeTime = "0:00:00";
   Duration maxDuration = const Duration(seconds: 0);
@@ -86,11 +86,14 @@ class _QuizAudioPlayerState extends State<QuizAudioPlayer> {
               ),
               IconButton(
                 icon: Icon(
-                  audioPlayer.state == PlayerState.playing ? Icons.pause_circle_filled : Icons.play_circle_filled,
+                  audioPlayer.state == PlayerState.playing ? Icons.pause_circle_filled : _isPlay ? Icons.downloading : Icons.play_circle_filled,
                   color: ColorsHelpers.primaryColor,
                   size: 30,
                 ),
                 onPressed: () {
+                  setState(() {
+                    _isPlay = !_isPlay;
+                  });
                   audioPlayer.state == PlayerState.playing
                       ? audioPlayer.pause()
                       : audioPlayer.play(UrlSource(widget.audioUrl));

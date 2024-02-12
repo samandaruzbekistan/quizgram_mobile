@@ -43,7 +43,6 @@ dependencies:
   permission_handler: any
   audio_waveforms: 1.0.1
   file_picker:
-  #  audioplayers:
   fl_chart: ^0.35.0
   line_chart: ^1.1.11
   http: ^1.1.0

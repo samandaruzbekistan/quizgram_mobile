@@ -81,7 +81,6 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
   final textFieldController = TextEditingController();
 
   void startTimer({bool? isStep}) {
-
     const oneSec = Duration(milliseconds: 1000);
     _start = 10;
     durationTime = 10000;
@@ -1603,55 +1602,25 @@ class _LiveQuizScreenState extends State<LiveQuizScreen> {
                                                                         16)),
                                                             child:
                                                                 TextFormField(
-                                                              readOnly: true,
-                                                              onTap: () {},
-                                                              controller:
-                                                                  textFieldController,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                focusedBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20.0),
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                          width:
-                                                                              2,
-                                                                          color:
-                                                                              ColorsHelpers.grey5),
+                                                                  readOnly: true,
+                                                                  onTap: () {},
+                                                                  maxLines: 3,
+                                                                  controller:textFieldController,
+                                                                  decoration:InputDecoration(
+                                                                    focusedBorder:OutlineInputBorder(
+                                                                      borderRadius:BorderRadius.circular(20.0),
+                                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                                    ),
+                                                                    enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
+                                                                    borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                                    ),
+                                                                    border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                                                    fillColor:Colors.white,
+                                                                    filled: true,
+                                                                    contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20.0),
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                          width:
-                                                                              2,
-                                                                          color:
-                                                                              ColorsHelpers.grey5),
-                                                                ),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20.0)),
-                                                                fillColor:
-                                                                    Colors
-                                                                        .white,
-                                                                filled: true,
-                                                                contentPadding:
-                                                                    EdgeInsets
-                                                                        .only(
-                                                                  left: ScreenUtil()
-                                                                      .setWidth(
-                                                                          19),
-                                                                ),
-                                                              ),
-                                                            ),
                                                           ),
                                                           SizedBox(
                                                               height: 200,
