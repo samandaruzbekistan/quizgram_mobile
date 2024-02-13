@@ -35,7 +35,6 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
   Map<String, TextEditingController> _puzzleTextControllers = {};
   Map<String, List<String>> _tagsList = {};
   Map<String, TextEditingController> _writingControllers = {};
-  Map<String, String> _tempAnswers = {};
   Map<String, Map<String, dynamic>> _selectedAnswersJson = {};
 
   List<String> tags = [];
@@ -117,13 +116,11 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
       }
     });
 
-    var json_tempAnswers = jsonEncode(_tempAnswers);
     var json_selectedAnswers = jsonEncode(_selectedAnswersJson);
     var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.saveOlympicExamResult));
     request.fields.addAll({
       'exam_id': "${exam_id}",
       'selectedAnswers': '${json_selectedAnswers}',
-      'tempAnswers': '${json_tempAnswers}',
       'correct': '${correct}',
       'incorrect': '${inCorrect}',
       'total': '${total}'
@@ -133,21 +130,16 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
     };
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      Get.to(OlympicResult(olympicsData: olympicsData, selectedAnswers: selectedAnswers, correct: correct, total: total, inCorrect: inCorrect,));
+    }
+    else{
       var res = await response.stream.bytesToString();
-    print(res);
-
-    // if (response.statusCode == 200) {
-    //   Get.to(OlympicResult(olympicsData: olympicsData, selectedAnswers: selectedAnswers, correct: correct, total: total, inCorrect: inCorrect,));
-    // }
-    // else{
-    //   var res = await response.stream.bytesToString();
-    //   print(res);
-    // }
+      print(res);
+    }
   }
 
-  void createControllers(){
-
-  }
 
   void startTimer() {
     const oneSecond = Duration(seconds: 1);
@@ -167,7 +159,6 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
   void initState() {
     // TODO: implement initState
     fetchData();
-    createControllers();
     super.initState();
   }
 
@@ -307,6 +298,12 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                         padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16)),
                                       )
                                     : Container(),
+                                olympicsData[index]['section_audio'] != "no_audio"
+                                    ? Container(
+                                        margin: EdgeInsets.only(left: ScreenUtil().setWidth(16),bottom: ScreenUtil().setHeight(8)),
+                                        child: QuizAudioPlayer(audioUrl: "${AssetUrls.olympicAudios}/${olympicsData[index]['audio']}"),
+                                      )
+                                    : Container(),
                                 SizedBox(
                                   height: ScreenUtil().setHeight(10),
                                 ),
@@ -348,7 +345,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                 ScreenUtil().setWidth(16)),
                                           )
                                               : Container(),
-                                          olympicsData[index]['quizzes'][indexQuizzes]['audio'] != "no_audio" ? QuizAudioPlayer(audioUrl: "https://mobile.idealquiz.uz/audio/olympic/${olympicsData[index]['quizzes'][indexQuizzes]['audio']}")
+                                          olympicsData[index]['quizzes'][indexQuizzes]['audio'] != "no_audio" ? QuizAudioPlayer(audioUrl: "${AssetUrls.olympicAudios}/${olympicsData[index]['quizzes'][indexQuizzes]['audio']}")
                                               : Container(),
                                           olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz4" || olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz6" ? ListView.builder(
                                               physics:const NeverScrollableScrollPhysics(),
@@ -415,7 +412,6 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                     onChanged: (val){
                                                       setState((){
                                                         selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] = {"type" : "writing", "answer_data" : val, 'ball' : 0};
-                                                        // _tempAnswers["${olympicsData[index]['quizzes'][indexQuizzes]['id']}"] = val;
                                                       });
                                                     },
                                                     controller : _writingControllers['${olympicsData[index]['quizzes'][indexQuizzes]['id']}'],

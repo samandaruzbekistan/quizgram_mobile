@@ -22,6 +22,7 @@ class WebApiConstans{
 class AssetUrls{
   static String baseUrl = 'https://mobile.idealquiz.uz/';
   static String quizPhotos = baseUrl+'img/quiz';
+  static String olympicAudios = baseUrl+'audio/olympic';
 }
 
 class ColorsHelpers {
