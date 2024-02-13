@@ -231,11 +231,7 @@ class _OlympicResultState extends State<OlympicResult> {
                                             bottom:
                                             ScreenUtil().setHeight(24),
                                           ),
-                                          child: widget
-                                              .olympicsData[index]['quizzes'][indexQuizzes]['math'] ==
-                                              null ? widgetText(
-                                            "${index}) ${widget
-                                                .olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
+                                          child: widget.olympicsData[index]['quizzes'][indexQuizzes]['math'] == null ? widgetText("${indexQuizzes+1}) ${widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                             fontWeight: FontWeight.w500,
                                             align: TextAlign.center,
                                             fontSize: ScreenUtil().setSp(18),
@@ -320,27 +316,68 @@ class _OlympicResultState extends State<OlympicResult> {
                                                   left: ScreenUtil().setWidth(16),
                                                   right: ScreenUtil().setWidth(16),
                                                 ),
-                                          child: TextFormField(
-                                            maxLines: 5,
-                                            readOnly: true,
-                                            controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
-                                            decoration:InputDecoration(
-                                              focusedBorder:OutlineInputBorder(
-                                                borderRadius:BorderRadius.circular(20.0),
-                                                borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
-                                              ),
-                                              enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
-                                                borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
-                                              ),
-                                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
-                                              fillColor:Colors.white,
-                                              filled: true,
-                                              hintText: "Matn...",
-                                              contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
-                                              ),
-                                            ),
-                                          ),
-                                        )
+                                                child: TextFormField(
+                                                  maxLines: 5,
+                                                  readOnly: true,
+                                                  controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
+                                                  decoration:InputDecoration(
+                                                    focusedBorder:OutlineInputBorder(
+                                                      borderRadius:BorderRadius.circular(20.0),
+                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                    ),
+                                                    enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
+                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                    ),
+                                                    border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                                    fillColor:Colors.white,
+                                                    filled: true,
+                                                    errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0 ? 'Tekshirish jarayonida...' : null,
+                                                    hintText: "Matn...",
+                                                    contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(),
+                                        widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "puzzle"
+                                            ? Container(
+                                                margin: EdgeInsets.only(
+                                                  top: ScreenUtil().setHeight(8),
+                                                  left: ScreenUtil().setWidth(16),
+                                                  right: ScreenUtil().setWidth(16),
+                                                  bottom: ScreenUtil().setHeight(24),
+                                                ),
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height * 0.06,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  border: Border.all(
+                                                    color: const Color.fromRGBO(0, 98, 204, 0.2),
+                                                    width: ScreenUtil().setSp(2),
+                                                  ),
+                                                  color: ColorsHelpers.grey5,
+                                                ),
+                                                child: TextFormField(
+                                                  readOnly: true,
+                                                  maxLines: 3,
+                                                  onTap: () {},
+                                                  controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
+                                                  decoration:InputDecoration(
+                                                    focusedBorder:OutlineInputBorder(
+                                                      borderRadius:BorderRadius.circular(20.0),
+                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                    ),
+                                                    enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
+                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                    ),
+                                                    border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                                    fillColor:Colors.white,
+                                                    filled: true,
+                                                    contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
                                             : Container(),
                                       ],
                                     );

@@ -111,9 +111,6 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
           inCorrect++;
         }
       }
-      else{
-        inCorrect++;
-      }
     });
 
     var json_selectedAnswers = jsonEncode(_selectedAnswersJson);
@@ -136,7 +133,6 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
     }
     else{
       var res = await response.stream.bytesToString();
-      print(res);
     }
   }
 
@@ -411,7 +407,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
                                                     maxLines: 5,
                                                     onChanged: (val){
                                                       setState((){
-                                                        selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] = {"type" : "writing", "answer_data" : val, 'ball' : 0};
+                                                        selectedAnswers[olympicsData[index]['quizzes'][indexQuizzes]['id']] = {"type" : "writing", "answer_data" : val, 'ball' : 0, 'is_check':0};
                                                       });
                                                     },
                                                     controller : _writingControllers['${olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
