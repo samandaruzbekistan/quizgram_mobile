@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:quizgram/screens/detail_quiz_screen/detail_quiz_screen.dart';
+import 'package:quizgram/screens/olympics_screen/olympic_detail.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/constant.dart';
@@ -162,11 +162,11 @@ class _OlympicsState extends State<Olympics> {
                                   margin: EdgeInsets.only(
                                       bottom: ScreenUtil().setHeight(10), top: 0),
                                   child: listItemOlympic(
-                                      Image.network("https://mobile.quizgram.uz/img/logos/${item['logo']}"),
+                                      Image.network("${AssetUrls.logos}/${item['logo']}"),
                                       '${item['name']}',
                                       item['status'] == 0 ? 'Sana: ${item['date']}' : "Olimpiada yakunlangan", () {
                                     // print(box.get('token'));
-                                    Get.to(DetailQuizScreen(name: item['name'], olympicId: item['id'], amount: item['amount'], quiz_count: item['quiz_count'], description: item['description'],));
+                                    Get.to(OlympicDetailScreen(name: item['name'], olympicId: item['id'], amount: item['amount'], quiz_count: item['quiz_count'], description: item['description'],));
                                   }, Colors.white, Colors.black,
                                       ColorsHelpers.grey2),
                                 );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:quizgram/screens/detail_quiz_screen/detail_quiz_screen.dart';
+import 'package:quizgram/screens/olympics_screen/olympic_detail.dart';
 import 'package:quizgram/screens/discover_screen/discover_screen.dart';
 import 'package:quizgram/screens/faq_detail_screen/faq_detail_screen.dart';
 import 'package:quizgram/screens/faq_screen/faq_screen.dart';

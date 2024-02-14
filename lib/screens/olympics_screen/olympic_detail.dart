@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quizgram/controllers/olympic_api_controller.dart';
 import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
-import 'package:quizgram/screens/quiz/play_olympic_quiz.dart';
+import 'package:quizgram/screens/olympics_screen/old_olympic_result.dart';
+import 'package:quizgram/screens/olympics_screen/play_olympic_quiz.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -15,8 +16,8 @@ import 'package:http/http.dart' as http;
 
 import '../alerts/custom_alerts.dart';
 
-class DetailQuizScreen extends StatefulWidget {
-  const DetailQuizScreen(
+class OlympicDetailScreen extends StatefulWidget {
+  const OlympicDetailScreen(
       {Key? key,
       required this.olympicId,
       required this.amount,
@@ -31,25 +32,30 @@ class DetailQuizScreen extends StatefulWidget {
   final String description;
 
   @override
-  State<DetailQuizScreen> createState() => _DetailQuizScreenState();
+  State<OlympicDetailScreen> createState() => _OlympicDetailScreenState();
 }
 
-class _DetailQuizScreenState extends State<DetailQuizScreen> {
+class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
   var box = Hive.box('user');
   bool _isLoading = true;
   bool _examState = false;
   bool _buyState = false;
   bool _complate = false;
   bool _api = false;
+  List olympicsData = [];
+  double _total = 0;
+  int _correct = 0;
+  int _inCorrect = 0;
+  Map<int, Map<String, dynamic>> selectedAnswers = {};
+  String start = "";
+  String end = "";
 
   Future<void> fetchData() async {
     var token = box.get('token');
     var id = box.get('id');
     var headers = {'Authorization': 'Bearer ${token}'};
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('https://mobile.quizgram.uz/api/checkBuyOlympic'));
-    request.fields
-        .addAll({'user_id': "${id}", 'exam_day_id': "${widget.olympicId}"});
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.checkBuyOlympic));
+    request.fields.addAll({'user_id': "${id}", 'exam_day_id': "${widget.olympicId}"});
 
     request.headers.addAll(headers);
 
@@ -66,7 +72,19 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
             _complate = false;
           });
         } else if ((data['state'] == true) && (data['complate'] == true)) {
+          Map<String, dynamic> data2 = json.decode(data['exam']['json_result']);
+          data2.forEach((key, value) {
+            selectedAnswers[int.parse(key)] = value is Map<String, dynamic>
+                ? Map<String, dynamic>.from(value)
+                : value;
+          });
           setState(() {
+            olympicsData = data['quizzes'];
+            _correct = data['exam']['correct'];
+            _inCorrect = data['exam']['incorrect'];
+            _total = data['exam']['total'];
+            start = data['exam']['start_time'];
+            end = data['exam']['start_time'];
             _isLoading = false;
             _examState = false;
             _buyState = true;
@@ -207,7 +225,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SvgPicture.asset(Images.iconQuestionMark),
-                                  widgetText('${widget.quiz_count} savollar',
+                                  widgetText('${widget.quiz_count} ta savol',
                                       fontWeight: FontWeight.w500,
                                       fontSize: ScreenUtil().setSp(14),
                                       color: Colors.black),
@@ -273,19 +291,26 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                         : _examState
                                             ? _buyState
                                                 ? _complate
-                                                    ? Text('Natija')
+                                                    ? widgetButton(
+                                                        widgetText(
+                                                            'Mening natijam',
+                                                            fontWeight:FontWeight.w500,
+                                                            fontSize:ScreenUtil().setSp(16),
+                                                            color:Colors.white),
+                                                            () {
+                                                          Get.to(OldOlympicResult(start: start,end: end,olympicsData: olympicsData, total: _total, inCorrect: _inCorrect, correct: _correct, selectedAnswers: selectedAnswers));
+                                                        },
+                                                        height: 56.0,
+                                                        width: 200.0,
+                                                        radius: 20.0,
+                                                      )
                                                     : widgetButton(
                                                         widgetText(
                                                             'Boshlash',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize:
-                                                                ScreenUtil()
-                                                                    .setSp(16),
-                                                            color:
-                                                                Colors.white),
+                                                            fontWeight:FontWeight.w500,
+                                                            fontSize:ScreenUtil().setSp(16),
+                                                            color:Colors.white),
                                                         () {
-                                                          // Get.to(LiveQuizScreen());
                                                           Get.to(PlayOlympicQuiz(examId: widget.olympicId,));
                                                         },
                                                         height: 56.0,
@@ -313,12 +338,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                                         setState(() {
                                                           _isLoading = true;
                                                         });
-                                                        var res =
-                                                            await apiController
-                                                                .buyExam(
-                                                                    widget
-                                                                        .olympicId,
-                                                                    "");
+                                                        var res =await apiController.buyExam(widget.olympicId,"no_promocode");
                                                         if (res == 1) {
                                                           setState(() {
                                                             _isLoading = true;
@@ -363,10 +383,22 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                                                   )
                                             : _buyState
                                                 ? _complate
-                                                    ? Text('Natija')
+                                                    ? widgetButton(
+                                                        widgetText(
+                                                            'Mening natijam',
+                                                            fontWeight:FontWeight.w500,
+                                                            fontSize:ScreenUtil().setSp(16),
+                                                            color:Colors.white),
+                                                            () {
+                                                          Get.to(OldOlympicResult(start: start,end: end,olympicsData: olympicsData, total: _total, inCorrect: _inCorrect, correct: _correct, selectedAnswers: selectedAnswers));
+                                                        },
+                                                        height: 56.0,
+                                                        width: 200.0,
+                                                        radius: 20.0,
+                                                      )
                                                     : Text(
-                                                        "Imtixon yakunlangan siz ishtirok etmadingiz")
-                                                : Text("Imtixon yakunlangan"))
+                                                        "Olimpiada yakunlangan, siz ishtirok etmadingiz", style: TextStyle(color: Colors.red, fontSize: 15),)
+                                                : Text("Olimpiada yakunlangan",style: TextStyle(color: Colors.red, fontSize: 15),))
                           ],
                         ),
                       ),

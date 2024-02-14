@@ -10,9 +10,11 @@ class WebApiConstans{
   static String updatePassword = baseUrl+'updatePassword';
   static String getBalansAndNews = baseUrl+'getBalansAndNews';
   static String getOlympics = baseUrl+'getOlympics';
+  static String checkBuyOlympic = baseUrl+'checkBuyOlympic';
   static String buyOlympicExam = baseUrl+'buyOlympicExam';
   static String playOlympicExam = baseUrl+'playOlympicExam';
   static String saveOlympicExamResult = baseUrl+'saveOlympicExamResult';
+  static String getExamResults = baseUrl+'getExamResults';
   static String newPaymentOrder = baseUrl+'newPaymentOrder';
 
 
@@ -22,6 +24,7 @@ class WebApiConstans{
 class AssetUrls{
   static String baseUrl = 'https://mobile.idealquiz.uz/';
   static String quizPhotos = baseUrl+'img/quiz';
+  static String logos = baseUrl+'img/logos';
   static String olympicAudios = baseUrl+'audio/olympic';
 }
 

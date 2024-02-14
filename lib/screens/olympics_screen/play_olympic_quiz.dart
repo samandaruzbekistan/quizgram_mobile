@@ -7,8 +7,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:quizgram/screens/quiz/olympic_result_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_audio_player.dart';
+import 'package:quizgram/screens/olympics_screen/olympic_result_screen.dart';
+import 'package:quizgram/screens/olympics_screen/quiz_audio_player.dart';
 import '../../utils/constant.dart';
 import '../../utils/images.dart';
 import '../../utils/widget_assets.dart';
@@ -88,9 +88,9 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
     int correct = 0;
     int inCorrect = 0;
     var token = box.get('token');
-    // setState(() {
-    //   _isLoading = true;
-    // });
+    setState(() {
+      _isLoading = true;
+    });
     selectedAnswers.forEach((key, value) {
       _selectedAnswersJson["${key}"] = value;
       if (value['type'] == 'puzzle') {

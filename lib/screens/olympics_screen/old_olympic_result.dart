@@ -6,22 +6,24 @@ import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import '../../utils/constant.dart';
 import '../../utils/widget_assets.dart';
 
-class OlympicResult extends StatefulWidget {
-  const OlympicResult(
-      {Key? key, required this.olympicsData,required this.total,required this.inCorrect, required this.correct, required this.selectedAnswers})
+class OldOlympicResult extends StatefulWidget {
+  const OldOlympicResult(
+      {Key? key, required this.olympicsData,required this.start,required this.end,required this.total,required this.inCorrect, required this.correct, required this.selectedAnswers})
       : super(key: key);
 
   final Map<int, Map<String, dynamic>> selectedAnswers;
   final List olympicsData;
   final int correct;
+  final String start;
+  final String end;
   final int inCorrect;
   final double total;
 
   @override
-  State<OlympicResult> createState() => _OlympicResultState();
+  State<OldOlympicResult> createState() => _OldOlympicResultState();
 }
 
-class _OlympicResultState extends State<OlympicResult> {
+class _OldOlympicResultState extends State<OldOlympicResult> {
   Color isSelected = ColorsHelpers.dullLavender;
   Color isUnselected = Colors.white;
   Color trueSelect = Colors.green;
@@ -35,13 +37,19 @@ class _OlympicResultState extends State<OlympicResult> {
     widget.olympicsData.forEach((section) {
       var quizzes = section['quizzes'];
       quizzes.forEach((quiz){
-        // print(quiz['id']);
-        print(widget.selectedAnswers[quiz['id']]);
         if((quiz['type'] == 'writing') || (quiz['type'] == 'puzzle')){
-          setState(() {
-            _writingControllers["${quiz['id']}"] = new TextEditingController();
-            _writingControllers["${quiz['id']}"]?.text = "${widget.selectedAnswers[quiz['id']]?['answer_data']}";
-          });
+          if (widget.selectedAnswers[quiz['id']]?['answer_data'] != null){
+            setState(() {
+              _writingControllers["${quiz['id']}"] = new TextEditingController();
+              _writingControllers["${quiz['id']}"]?.text = "${widget.selectedAnswers[quiz['id']]?['answer_data']}";
+            });
+          }
+          else{
+            setState(() {
+              _writingControllers["${quiz['id']}"] = new TextEditingController();
+              _writingControllers["${quiz['id']}"]?.text = "Javob berilmagan";
+            });
+          }
         }
       });
     });
@@ -57,7 +65,7 @@ class _OlympicResultState extends State<OlympicResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widgetText("Natijangiz saqlandi",
+        title: widgetText("Sizning natijangiz:",
             fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.w500,
             color: Colors.white),
@@ -127,6 +135,36 @@ class _OlympicResultState extends State<OlympicResult> {
                                 Icon(Icons.cancel_outlined, color: Colors.red,),
                                 widgetText(
                                     " Noto'g'ri javob: ${widget.inCorrect} ta",
+                                    color: ColorsHelpers.grey2,
+                                    fontSize: ScreenUtil().setSp(18),
+                                    fontWeight: FontWeight.w500),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: ScreenUtil().setHeight(5),
+                              left: ScreenUtil().setWidth(16),),
+                            child: Row(
+                              children: [
+                                Icon(Icons.timer_outlined, color: Colors.orange,),
+                                widgetText(
+                                    " Boshlandi: ${widget.start}",
+                                    color: ColorsHelpers.grey2,
+                                    fontSize: ScreenUtil().setSp(18),
+                                    fontWeight: FontWeight.w500),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: ScreenUtil().setHeight(5),
+                              left: ScreenUtil().setWidth(16),),
+                            child: Row(
+                              children: [
+                                Icon(Icons.timer_off_outlined, color: Colors.orange,),
+                                widgetText(
+                                    " Yakunlandi: ${widget.start}",
                                     color: ColorsHelpers.grey2,
                                     fontSize: ScreenUtil().setSp(18),
                                     fontWeight: FontWeight.w500),
@@ -225,11 +263,10 @@ class _OlympicResultState extends State<OlympicResult> {
                                       children: [
                                         Container(
                                           margin: EdgeInsets.only(
-                                            top: ScreenUtil().setHeight(8),
+                                            top: ScreenUtil().setHeight(18),
                                             left: ScreenUtil().setWidth(16),
                                             right: ScreenUtil().setWidth(16),
-                                            bottom:
-                                            ScreenUtil().setHeight(24),
+                                            bottom: ScreenUtil().setHeight(8),
                                           ),
                                           child: widget.olympicsData[index]['quizzes'][indexQuizzes]['math'] == null ? widgetText("${indexQuizzes+1}) ${widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                             fontWeight: FontWeight.w500,
@@ -247,7 +284,7 @@ class _OlympicResultState extends State<OlympicResult> {
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['photo'] != "no_photo"
                                             ? Padding(
                                                 child: Image.network("${AssetUrls.quizPhotos}/${widget .olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
-                                                padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16)),
+                                                padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16), vertical: ScreenUtil().setWidth(5)),
                                               )
                                             : Container(),
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz4" || widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz6"
@@ -285,8 +322,8 @@ class _OlympicResultState extends State<OlympicResult> {
                                                     align: TextAlign.left,
                                                     color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
                                                         ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
-                                                          ? Colors.white
-                                                          : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? Colors.white : Colors.black
+                                                        ? Colors.white
+                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? Colors.white : Colors.black
                                                         : Colors.black,
                                                   ),
                                                       () {
@@ -300,8 +337,8 @@ class _OlympicResultState extends State<OlympicResult> {
                                                   colorBorder:ColorsHelpers.grey5,
                                                   color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
                                                       ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
-                                                        ? trueSelect
-                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? falseSelect : Colors.white
+                                                      ? trueSelect
+                                                      : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? falseSelect : Colors.white
                                                       : Colors.white,
                                                   widthBorder: 1.0,
                                                   align: Alignment.centerLeft,
@@ -331,7 +368,11 @@ class _OlympicResultState extends State<OlympicResult> {
                                                     border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
                                                     fillColor:Colors.white,
                                                     filled: true,
-                                                    errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0 ? 'Tekshirish jarayonida...' : null,
+                                                    errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0
+                                                        ? 'Tekshirish jarayonida...'
+                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 1
+                                                          ? "${widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['ball']} ball"
+                                                          : null,
                                                     hintText: "Matn...",
                                                     contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
                                                     ),
