@@ -146,6 +146,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
         } else {
           // Timer reached 0, do something here (e.g., navigate to another screen)
           timer.cancel(); // Stop the timer
+          checkTest(); // Call checkTest when the timer reaches zero
         }
       });
     });

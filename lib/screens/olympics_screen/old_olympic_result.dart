@@ -17,7 +17,7 @@ class OldOlympicResult extends StatefulWidget {
   final String start;
   final String end;
   final int inCorrect;
-  final double total;
+  final String total;
 
   @override
   State<OldOlympicResult> createState() => _OldOlympicResultState();
@@ -29,8 +29,6 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
   Color trueSelect = Colors.green;
   Color falseSelect = Colors.red;
 
-  Map<String, TextEditingController> _puzzleTextControllers = {};
-  Map<String, List<String>> _tagsList = {};
   Map<String, TextEditingController> _writingControllers = {};
 
   void prepare(){
@@ -164,7 +162,7 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                               children: [
                                 Icon(Icons.timer_off_outlined, color: Colors.orange,),
                                 widgetText(
-                                    " Yakunlandi: ${widget.start}",
+                                    " Yakunlandi: ${widget.end}",
                                     color: ColorsHelpers.grey2,
                                     fontSize: ScreenUtil().setSp(18),
                                     fontWeight: FontWeight.w500),
@@ -390,14 +388,14 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                                 ),
                                                 width: MediaQuery.of(context).size.width,
                                                 height: MediaQuery.of(context).size.height * 0.06,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                    color: const Color.fromRGBO(0, 98, 204, 0.2),
-                                                    width: ScreenUtil().setSp(2),
-                                                  ),
-                                                  color: ColorsHelpers.grey5,
-                                                ),
+                                                // decoration: BoxDecoration(
+                                                //   borderRadius: BorderRadius.circular(20),
+                                                //   border: Border.all(
+                                                //     color: const Color.fromRGBO(0, 98, 204, 0.2),
+                                                //     width: ScreenUtil().setSp(2),
+                                                //   ),
+                                                //   color: ColorsHelpers.grey5,
+                                                // ),
                                                 child: TextFormField(
                                                   readOnly: true,
                                                   maxLines: 3,
@@ -409,7 +407,11 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                                       borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
                                                     ),
                                                     enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
-                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                      borderSide:BorderSide(width:2,
+                                                          color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
+                                                              ? ColorsHelpers.green
+                                                              : ColorsHelpers.red
+                                                      ),
                                                     ),
                                                     border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
                                                     fillColor:Colors.white,

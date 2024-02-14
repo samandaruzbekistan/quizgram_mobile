@@ -42,12 +42,14 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
   bool _buyState = false;
   bool _complate = false;
   bool _api = false;
+  late String _date;
   List olympicsData = [];
-  double _total = 0;
+  String _total = "";
   int _correct = 0;
   int _inCorrect = 0;
   Map<int, Map<String, dynamic>> selectedAnswers = {};
   String start = "";
+  bool _access = false;
   String end = "";
 
   Future<void> fetchData() async {
@@ -84,7 +86,7 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
             _inCorrect = data['exam']['incorrect'];
             _total = data['exam']['total'];
             start = data['exam']['start_time'];
-            end = data['exam']['start_time'];
+            end = data['exam']['end_time'];
             _isLoading = false;
             _examState = false;
             _buyState = true;
@@ -107,7 +109,19 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
             _complate = false;
           });
         } else if ((data['state'] == true) && (data['complate'] == true)) {
+          Map<String, dynamic> data2 = json.decode(data['exam']['json_result']);
+          data2.forEach((key, value) {
+            selectedAnswers[int.parse(key)] = value is Map<String, dynamic>
+                ? Map<String, dynamic>.from(value)
+                : value;
+          });
           setState(() {
+            olympicsData = data['quizzes'];
+            _correct = data['exam']['correct'];
+            _inCorrect = data['exam']['incorrect'];
+            _total = "${data['exam']['total']}";
+            start = data['exam']['start_time'];
+            end = data['exam']['end_time'];
             _isLoading = false;
             _examState = true;
             _buyState = true;
@@ -115,6 +129,8 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
           });
         } else {
           setState(() {
+            _date = data['exam_day']['date'];
+            _access = data['access'];
             _isLoading = false;
             _examState = true;
             _buyState = true;
@@ -304,36 +320,29 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
                                                         width: 200.0,
                                                         radius: 20.0,
                                                       )
-                                                    : widgetButton(
-                                                        widgetText(
-                                                            'Boshlash',
-                                                            fontWeight:FontWeight.w500,
-                                                            fontSize:ScreenUtil().setSp(16),
-                                                            color:Colors.white),
-                                                        () {
-                                                          Get.to(PlayOlympicQuiz(examId: widget.olympicId,));
-                                                        },
-                                                        height: 56.0,
-                                                        width: 200.0,
-                                                        radius: 20.0,
-                                                      )
+                                                    : _access
+                                                        ? widgetButton(
+                                                            widgetText(
+                                                                'Boshlash',
+                                                                fontWeight:FontWeight.w500,
+                                                                fontSize:ScreenUtil().setSp(16),
+                                                                color:Colors.white),
+                                                            () {
+                                                              Get.to(PlayOlympicQuiz(examId: widget.olympicId,));
+                                                            },
+                                                            height: 56.0,
+                                                            width: 200.0,
+                                                            radius: 20.0,
+                                                          )
+                                                        : Text("Olimpiada sanasi: ${_date}\nKuting...", textAlign: TextAlign.center, style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.w600, ),)
                                                 : Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                        MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       widgetButton(
-                                                          widgetText(
-                                                              'Sotib olish',
-                                                              fontWeight: FontWeight
-                                                                  .w500,
-                                                              fontSize:
-                                                                  ScreenUtil()
-                                                                      .setSp(
-                                                                          16),
-                                                              color:
-                                                                  ColorsHelpers
-                                                                      .primaryColor),
+                                                          widgetText('Sotib olish',fontWeight: FontWeight.w500,
+                                                              fontSize:ScreenUtil().setSp(16),
+                                                              color:ColorsHelpers.primaryColor),
                                                           () async {
                                                         setState(() {
                                                           _isLoading = true;

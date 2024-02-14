@@ -355,30 +355,42 @@ class _OlympicResultState extends State<OlympicResult> {
                                                 ),
                                                 width: MediaQuery.of(context).size.width,
                                                 height: MediaQuery.of(context).size.height * 0.06,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                    color: const Color.fromRGBO(0, 98, 204, 0.2),
-                                                    width: ScreenUtil().setSp(2),
-                                                  ),
-                                                  color: ColorsHelpers.grey5,
-                                                ),
+                                                // decoration: BoxDecoration(
+                                                //   borderRadius: BorderRadius.circular(20),
+                                                //   border: Border.all(
+                                                //     color: const Color.fromRGBO(0, 98, 204, 0.2),
+                                                //     width: ScreenUtil().setSp(2),
+                                                //   ),
+                                                //   color: ColorsHelpers.grey5,
+                                                // ),
                                                 child: TextFormField(
                                                   readOnly: true,
                                                   maxLines: 3,
                                                   onTap: () {},
                                                   controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
                                                   decoration:InputDecoration(
-                                                    focusedBorder:OutlineInputBorder(
-                                                      borderRadius:BorderRadius.circular(20.0),
-                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
-                                                    ),
+                                                    // focusedBorder:OutlineInputBorder(
+                                                    //   borderRadius:BorderRadius.circular(20.0),
+                                                    //   borderSide:BorderSide(
+                                                    //       width:2,
+                                                    //       color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
+                                                    //         ? ColorsHelpers.green
+                                                    //         : ColorsHelpers.red
+                                                    //   ),
+                                                    // ),
                                                     enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
-                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                                      borderSide:BorderSide(width:2,
+                                                          color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
+                                                              ? ColorsHelpers.green
+                                                              : ColorsHelpers.red
+                                                      ),
                                                     ),
-                                                    border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                                    // border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
                                                     fillColor:Colors.white,
                                                     filled: true,
+                                                    // errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
+                                                    //     ? 'Javob to\'g\'ri'
+                                                    //     : 'Javob noto\'g\'ri',
                                                     contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
                                                     ),
                                                   ),
