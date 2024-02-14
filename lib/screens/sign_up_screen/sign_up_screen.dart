@@ -183,7 +183,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fillColor: Colors.white,
                     filled: true
                   ),
-                  hint: Text("Hozirgi holatingi"),
+                  hint: Text("Maqomingiz"),
                   validator: (value) =>
                   value == null ? "Select a role" : null,
                   value: selectedValue,
