@@ -5,6 +5,8 @@ import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
 import 'package:quizgram/screens/profile_screen/profile_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../olympics_screen/play_olympic_quiz.dart';
+
 checkUserAlert(context) {
   Alert(
     context: context,
@@ -119,6 +121,26 @@ pleasePositiveNumberAlert(context) {
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+playOlympicExam(context, int examId) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "E'tibor bering",
+    desc: "Olimpiadaga kirishga 1 marta ruxsat beriladi, orqaga qayta olmaysiz",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "Boshlash",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Get.offAll(PlayOlympicQuiz(examId: examId,)),
         width: 120,
       )
     ],

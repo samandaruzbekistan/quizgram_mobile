@@ -129,7 +129,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      Get.to(OlympicResult(olympicsData: olympicsData, selectedAnswers: selectedAnswers, correct: correct, total: total, inCorrect: inCorrect,));
+      Get.offAll(OlympicResult(olympicsData: olympicsData, selectedAnswers: selectedAnswers, correct: correct, total: total, inCorrect: inCorrect,));
     }
     else{
       var res = await response.stream.bytesToString();

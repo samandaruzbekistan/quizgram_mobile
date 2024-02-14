@@ -328,7 +328,7 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
                                                                 fontSize:ScreenUtil().setSp(16),
                                                                 color:Colors.white),
                                                             () {
-                                                              Get.to(PlayOlympicQuiz(examId: widget.olympicId,));
+                                                              playOlympicExam(context, widget.olympicId);
                                                             },
                                                             height: 56.0,
                                                             width: 200.0,
@@ -380,9 +380,7 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
                                                             color:
                                                                 Colors.white),
                                                         () {
-                                                          Get.to(InviteFriendScreen(
-                                                              olympicId: widget
-                                                                  .olympicId));
+                                                          Get.to(InviteFriendScreen(olympicId: widget.olympicId));
                                                         },
                                                         height: 56.0,
                                                         width: 200.0,

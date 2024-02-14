@@ -91,6 +91,7 @@ class AuthApiController{
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var res = await response.stream.bytesToString();
+      print(res);
       Map valueMap = json.decode(res);
       if(valueMap['status'] == 'success'){
         return 1;
@@ -190,11 +191,10 @@ class AuthApiController{
     });
 
     http.StreamedResponse response = await request.send();
-
     if (response.statusCode == 200) {
       var res = await response.stream.bytesToString();
       Map valueMap = json.decode(res);
-      if(valueMap['message'] == "Waiting for SMS provider"){
+      if(valueMap['status'] == "waiting"){
         return 1;
       }
       return 0;
