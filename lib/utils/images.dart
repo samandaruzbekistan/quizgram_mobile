@@ -76,6 +76,7 @@ class Images {
   static const String travelIcon = 'assets/icons/travel_icon.svg';
   static const String historyIcon = 'assets/icons/history_icon.svg';
   static const String techIcon = 'assets/icons/tech_icon.svg';
+  static const String turkish = 'assets/icons/turkish.svg';
   static const String starIcon = 'assets/icons/star.svg';
   static const String micIcon = 'assets/icons/icon_mic.svg';
 

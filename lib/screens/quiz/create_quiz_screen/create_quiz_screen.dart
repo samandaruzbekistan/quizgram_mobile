@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:quizgram/screens/quiz/quiz_choose_category_screen/quiz_choose_category_screen.dart';
+import 'package:quizgram/screens/quiz/diagnostic_quizzes_screen.dart';
 import 'package:quizgram/screens/quiz/quiz_multiple_choice_screen/quiz_multiple_choice_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
@@ -269,7 +269,7 @@ class CreateQuizScreenState extends State<CreateQuizScreen> {
                                       context,
                                       MaterialPageRoute(
                                         builder: ((context) =>
-                                            const QuizChooseCategoryScreen()),
+                                            const DiagnosticQuizzes()),
                                       ));
                                 },
                                 decoration: InputDecoration(

@@ -9,7 +9,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_choose_category_screen/quiz_choose_category_screen.dart';
+import 'package:quizgram/screens/quiz/diagnostic_quizzes_screen.dart';
 import 'package:quizgram/screens/update_app_screen/update_app.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
@@ -350,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 'Diagnostik testlar',
                                 'Bilimingizni tekshiring',
                                 () {
-                                  Get.to(QuizChooseCategoryScreen());
+                                  Get.to(DiagnosticQuizzes());
                                 },
                                 Colors.white,
                                 Colors.black,

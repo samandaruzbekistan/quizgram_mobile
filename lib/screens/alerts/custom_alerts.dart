@@ -147,6 +147,26 @@ playOlympicExam(context, int examId) {
   ).show();
 }
 
+diagnostikTest(context) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "Jarayonda",
+    desc: "Bo'lim ishlab chiqish jarayonida, telegram kanalda e'lon qilinadi",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "Boshlash",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
 apiErrorAlert(context) {
   Alert(
     context: context,

@@ -1,16 +1,12 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_polygon/flutter_polygon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:quizgram/screens/profile_screen/paymentOrder.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';
 import 'package:quizgram/utils/chart_series.dart';
-import 'package:quizgram/utils/chart_widget.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -101,10 +97,10 @@ class _ProfileScreenState extends State<ProfileScreen>
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingScreen()));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => const SettingScreen()));
               },
               child: Container(
                   margin: EdgeInsets.only(right: ScreenUtil().setWidth(24)),
@@ -322,9 +318,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 Tab(
                                   text: 'Sozlamalar',
                                 ),
-                                Tab(
-                                  text: 'Sertifikatlar',
-                                ),
+                                // Tab(
+                                //   text: 'Sertifikatlar',
+                                // ),
                               ],
                               onTap: (l) {},
                             ),
@@ -520,7 +516,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             ],
           ),
         ),
-        bottomNavigationBar: bottomBar(3),
+        bottomNavigationBar: bottomBar(2),
       ),
     );
   }

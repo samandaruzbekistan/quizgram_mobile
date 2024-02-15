@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:quizgram/screens/alerts/custom_alerts.dart';
 import 'package:quizgram/screens/live_quiz_screen/review_quiz_screen.dart';
 import 'package:quizgram/screens/quiz/components/to_review_button.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 
-class QuizChooseCategoryScreen extends StatefulWidget {
-  const QuizChooseCategoryScreen({Key? key}) : super(key: key);
+class DiagnosticQuizzes extends StatefulWidget {
+  const DiagnosticQuizzes({Key? key}) : super(key: key);
 
   @override
   QuizChooseCategoryState createState() => QuizChooseCategoryState();
 }
 
-class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
+class QuizChooseCategoryState extends State<DiagnosticQuizzes> {
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                             Wrap(children: [
                               GestureDetector(
                                   onTap: () {
-                                    Get.to(ReviewQuizScren());
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -150,7 +151,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    setState(() {});
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -223,7 +224,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    setState(() {});
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -296,7 +297,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    setState(() {});
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -339,7 +340,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                                       ScreenUtil()
                                                           .setSp(16))),
                                               child: SvgPicture.asset(
-                                                Images.techIcon,
+                                                Images.turkish,
                                                 color:
                                                 ColorsHelpers.primaryColor,
                                               ),
@@ -351,14 +352,14 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                                 bottom:
                                                 ScreenUtil().setHeight(2)),
                                             child: widgetText(
-                                              "Axborot",
+                                              "Turk tili",
                                               color: ColorsHelpers.primaryColor,
                                               fontSize: ScreenUtil().setSp(16),
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                           widgetText(
-                                            'texnologiyalari',
+                                            'tayyorgarlik testi',
                                             color: ColorsHelpers.primaryColor,
                                             fontSize: ScreenUtil().setSp(12),
                                             fontWeight: FontWeight.w400,
@@ -369,7 +370,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    setState(() {});
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -442,7 +443,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    setState(() {});
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -515,7 +516,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    setState(() {});
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -588,7 +589,7 @@ class QuizChooseCategoryState extends State<QuizChooseCategoryScreen> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    setState(() {});
+                                    diagnostikTest(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(

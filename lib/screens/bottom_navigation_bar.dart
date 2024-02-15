@@ -11,7 +11,7 @@ import 'package:quizgram/screens/leaderboard/leaderboard_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/quiz_complete_screen.dart';
 import 'package:quizgram/screens/profile_screen/profile_screen.dart';
-import 'package:quizgram/screens/quiz/quiz_choose_category_screen/quiz_choose_category_screen.dart';
+import 'package:quizgram/screens/quiz/diagnostic_quizzes_screen.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';
 
 import '../utils/constant.dart';
@@ -34,15 +34,15 @@ BottomNavigationBar bottomBar(int currentIndex){
           break;
         case 1:
           if (currentIndex != index){
-            Get.to(const QuizChooseCategoryScreen());
+            Get.to(const DiagnosticQuizzes());
           }
           break;
+        // case 2:
+        //   if (currentIndex != index){
+        //     Get.to(const LeaderboardScreen());
+        //   }
+        //   break;
         case 2:
-          if (currentIndex != index){
-            Get.to(const LeaderboardScreen());
-          }
-          break;
-        case 3:
           if (currentIndex != index){
             Get.to(const ProfileScreen());
           }
@@ -56,7 +56,7 @@ BottomNavigationBar bottomBar(int currentIndex){
     items: const [
       BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
       BottomNavigationBarItem(icon: Icon(Icons.school), label: "Bo'limlar"),
-      BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Natijalar"),
+      // BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Natijalar"),
       BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profil"),
     ],
   );
