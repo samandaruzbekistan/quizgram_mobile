@@ -37,12 +37,12 @@ BottomNavigationBar bottomBar(int currentIndex){
             Get.to(const DiagnosticQuizzes());
           }
           break;
-        // case 2:
-        //   if (currentIndex != index){
-        //     Get.to(const LeaderboardScreen());
-        //   }
-        //   break;
         case 2:
+          if (currentIndex != index){
+            Get.to(const LeaderboardScreen());
+          }
+          break;
+        case 3:
           if (currentIndex != index){
             Get.to(const ProfileScreen());
           }
@@ -56,7 +56,7 @@ BottomNavigationBar bottomBar(int currentIndex){
     items: const [
       BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
       BottomNavigationBarItem(icon: Icon(Icons.school), label: "Bo'limlar"),
-      // BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Natijalar"),
+      BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Natijalar"),
       BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profil"),
     ],
   );

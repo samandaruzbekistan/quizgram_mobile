@@ -516,7 +516,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             ],
           ),
         ),
-        bottomNavigationBar: bottomBar(2),
+        bottomNavigationBar: bottomBar(3),
       ),
     );
   }
