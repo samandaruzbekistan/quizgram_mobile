@@ -56,7 +56,7 @@ class _OlympicsState extends State<Olympics> {
         }
       } else {
         setState(() {
-          _statusText = "API da nosozlik";
+          _statusText = "Olimpiadalar mavjud emas";
         });
       }
     } else {

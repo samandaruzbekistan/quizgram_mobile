@@ -8,7 +8,6 @@ import 'package:hive/hive.dart';
 import 'package:quizgram/controllers/olympic_api_controller.dart';
 import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
 import 'package:quizgram/screens/olympics_screen/old_olympic_result.dart';
-import 'package:quizgram/screens/olympics_screen/play_olympic_quiz.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -84,7 +83,7 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
             olympicsData = data['quizzes'];
             _correct = data['exam']['correct'];
             _inCorrect = data['exam']['incorrect'];
-            _total = data['exam']['total'];
+            _total = "${data['exam']['total']}";
             start = data['exam']['start_time'];
             end = data['exam']['end_time'];
             _isLoading = false;

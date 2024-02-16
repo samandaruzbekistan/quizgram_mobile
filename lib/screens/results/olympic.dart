@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,10 @@ import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 import '../bottom_navigation_bar.dart';
+import 'package:http/http.dart' as http;
+
+import '../olympics_screen/olympic_detail.dart';
+
 class OlympicResultsList extends StatefulWidget {
   const OlympicResultsList({Key? key}) : super(key: key);
 
@@ -15,9 +21,51 @@ class OlympicResultsList extends StatefulWidget {
   State<OlympicResultsList> createState() => _OlympicResultsListState();
 }
 
-class _OlympicResultsListState extends State<OlympicResultsList>
-    with TickerProviderStateMixin {
+class _OlympicResultsListState extends State<OlympicResultsList> {
+  bool _isLoading = true;
+  bool _isEmpty = false;
+  bool _api = false;
+  var box = Hive.box('user');
+  List<Map<String, dynamic>> olympicsData = [];
 
+  Future<void> fetchData() async {
+    var token = box.get('token');
+    var id = box.get('id');
+    var headers = {'Authorization': 'Bearer ${token}'};
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.getCompletedOlympics));
+    request.fields.addAll({'user_id': "${id}"});
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    var res = await response.stream.bytesToString();
+    if (response.statusCode == 200) {
+      final data = json.decode(res);
+      if (data['status'] == 'success') {
+        setState(() {
+          _isLoading = false;
+          olympicsData = List<Map<String, dynamic>>.from(data['results']);
+        });
+      } else {
+        setState(() {
+          _isLoading = false;
+          _isEmpty = true;
+          olympicsData = List<Map<String, dynamic>>.from(data['results']);
+        });
+      }
+    } else {
+      setState(() {
+        _isLoading = false;
+        _api = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
 
 
@@ -32,7 +80,7 @@ class _OlympicResultsListState extends State<OlympicResultsList>
         leading: const BackButton(
           color: Colors.white,
         ),
-        title: Text("Mening natijalarim", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+        title: Text("Olimpiadalar natijalari", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
         centerTitle: true,
       ),
       extendBodyBehindAppBar: true,
@@ -90,62 +138,30 @@ class _OlympicResultsListState extends State<OlympicResultsList>
                                 ),
                                 child: Column(
                                   children: [
-                                    GestureDetector(
-                                      onTap: (){
-                                        Get.to(PaymentOrder());
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(ScreenUtil().setSp(20)),
-                                            color: ColorsHelpers.grey5),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: ScreenUtil().setWidth(44),
-                                              height: ScreenUtil().setWidth(44),
-                                              decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              margin: EdgeInsets.all(ScreenUtil().setWidth(16)),
-                                              child: Icon(
-                                                Icons.tour_outlined,
-                                                color: ColorsHelpers.primaryColor,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  widgetText(
-                                                    'Olimpiadalar',
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: ScreenUtil().setSp(16),
-                                                  ),
-                                                  Text(
-                                                    'Barcha natijalar',
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        fontSize: ScreenUtil().setSp(14),
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight: FontWeight.w400,
-                                                        color: ColorsHelpers.grey2),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                              EdgeInsets.only(right: ScreenUtil().setWidth(16)),
-                                              child: Icon(Icons.arrow_forward_ios,
-                                                  size: ScreenUtil().setSp(20)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                    _isLoading
+                                      ? CircularProgressIndicator(color: Colors.black,)
+                                      : _api
+                                        ? Text('API da nosozlik, qayta urining', style: TextStyle(color: Colors.red),)
+                                        : _isEmpty
+                                          ? Text('Natijalaringiz mavjud emas', style: TextStyle(color: Colors.red),)
+                                          : ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: olympicsData.length,
+                                              itemBuilder: (context, index) {
+                                                final item = olympicsData[index];
+                                                return Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: ScreenUtil().setHeight(10), top: 0),
+                                                  child: listItemOlympic(
+                                                      Image.network("${AssetUrls.logos}/${item['exam_day']['logo']}"),
+                                                      '${item['exam_day']['name']}',
+                                                      'Sana: ${item['exam_day']['date']}', () {
+                                                    // print(box.get('token'));
+                                                    Get.to(OlympicDetailScreen(name: item['exam_day']['name'], olympicId: item['exam_day']['id'], amount: item['exam_day']['amount'], quiz_count: item['exam_day']['quiz_count'], description: item['exam_day']['description'],));
+                                                  }, Colors.white, Colors.black,
+                                                      ColorsHelpers.grey2),
+                                                );
+                                              }),
                                   ],
                                 )),
                           ),

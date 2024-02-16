@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:quizgram/screens/alerts/custom_alerts.dart';
 import 'package:quizgram/screens/profile_screen/paymentOrder.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';
 import 'package:quizgram/utils/chart_series.dart';
@@ -14,6 +15,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 import '../bottom_navigation_bar.dart';
 import '../discover_screen/discover_screen.dart';
+import '../results/olympic.dart';
 
 class Results extends StatefulWidget {
   const Results({Key? key}) : super(key: key);
@@ -100,7 +102,7 @@ class _ResultsState extends State<Results>
                                   children: [
                                     GestureDetector(
                                       onTap: (){
-                                        Get.to(PaymentOrder());
+                                        Get.to(OlympicResultsList());
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
@@ -156,7 +158,7 @@ class _ResultsState extends State<Results>
                                     ),
                                     GestureDetector(
                                       onTap: (){
-
+                                        diagnostikTest(context);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
@@ -214,7 +216,7 @@ class _ResultsState extends State<Results>
                                     ),
                                     GestureDetector(
                                       onTap: (){
-
+                                        diagnostikTest(context);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
@@ -272,7 +274,7 @@ class _ResultsState extends State<Results>
                                     ),
                                     GestureDetector(
                                       onTap: (){
-
+                                        diagnostikTest(context);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
