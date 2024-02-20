@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:quizgram/screens/login_screen/login_screen.dart';
 import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
 import 'package:quizgram/screens/profile_screen/profile_screen.dart';
+import 'package:quizgram/screens/turkish/play_exam.dart';
 import 'package:quizgram/screens/turkish/turkish_exam_days.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -68,7 +69,28 @@ buyAlert(context) {
   ).show();
 }
 
-buyAlertTurkish(context) {
+playTurkishExam(context, int examId) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "E'tibor bering",
+    style: AlertStyle(descStyle: TextStyle(fontSize: 20)),
+    desc: "Imtixon vaqt tugagandan so'ng avtomatik yopiladi.\nJavob berilmagan savollar inobatga olinmaydi",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "Boshlash",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Get.to(PlayTurkish(examId: examId,)),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+buyTurkishAlert(context) {
   Alert(
     context: context,
     type: AlertType.success,

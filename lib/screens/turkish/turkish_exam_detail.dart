@@ -332,7 +332,7 @@ class _TurkishExamDetailState extends State<TurkishExamDetail> {
                                       fontSize:ScreenUtil().setSp(16),
                                       color:Colors.white),
                                       () {
-                                    playOlympicExam(context, widget.olympicId);
+                                    playTurkishExam(context, widget.olympicId);
                                   },
                                   height: 56.0,
                                   width: 200.0,
@@ -356,7 +356,7 @@ class _TurkishExamDetailState extends State<TurkishExamDetail> {
                                             setState(() {
                                               _isLoading = true;
                                             });
-                                            buyAlertTurkish(context);
+                                            buyTurkishAlert(context);
                                           } else {
                                             setState(() {
                                               _isLoading = true;
