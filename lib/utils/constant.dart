@@ -19,6 +19,11 @@ class WebApiConstans{
   static String newPaymentOrder = baseUrl+'newPaymentOrder';
 
 
+
+  static String getTurkishExamDays = baseUrl+'getTurkishExamDays';
+  static String checkBuyTurkish = baseUrl+'checkBuyTurkish';
+  static String buyTurkishExam = baseUrl+'buyTurkishExam';
+
   static String googlePlay = "https://play.google.com/store/apps/details?id=uz.goldapps.idealquiz";
 }
 

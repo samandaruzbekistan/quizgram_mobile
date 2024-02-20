@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:quizgram/screens/login_screen/login_screen.dart';
 import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
 import 'package:quizgram/screens/profile_screen/profile_screen.dart';
+import 'package:quizgram/screens/turkish/turkish_exam_days.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../olympics_screen/play_olympic_quiz.dart';
@@ -61,6 +62,26 @@ buyAlert(context) {
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Get.offAll(Olympics()),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+buyAlertTurkish(context) {
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: "Xabar",
+    desc: "Imtihonga qatnashish uchun ruxsat berildi",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Get.offAll(TurkishExamDays()),
         width: 120,
       )
     ],

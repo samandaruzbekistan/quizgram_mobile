@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:quizgram/screens/alerts/custom_alerts.dart';
 import 'package:quizgram/screens/live_quiz_screen/review_quiz_screen.dart';
 import 'package:quizgram/screens/quiz/components/to_review_button.dart';
+import 'package:quizgram/screens/turkish/turkish_exam_days.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -297,7 +298,7 @@ class QuizChooseCategoryState extends State<DiagnosticQuizzes> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    diagnostikTest(context);
+                                    Get.to(TurkishExamDays());
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(

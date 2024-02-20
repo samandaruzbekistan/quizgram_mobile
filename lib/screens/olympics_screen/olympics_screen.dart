@@ -164,7 +164,7 @@ class _OlympicsState extends State<Olympics> {
                                   child: listItemOlympic(
                                       Image.network("${AssetUrls.logos}/${item['logo']}"),
                                       '${item['name']}',
-                                      item['status'] == 0 ? 'Sana: ${item['date']}' : "Olimpiada yakunlangan", () {
+                                      item['status'] == 0 ||  item['status'] == 2 ? 'Sana: ${item['date']}' : "Olimpiada yakunlangan", () {
                                     // print(box.get('token'));
                                     Get.to(OlympicDetailScreen(name: item['name'], olympicId: item['id'], amount: item['amount'], quiz_count: item['quiz_count'], description: item['description'],));
                                   }, Colors.white, Colors.black,

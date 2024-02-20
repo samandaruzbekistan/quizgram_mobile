@@ -132,6 +132,7 @@ class Images {
   static const String flagHungary = 'assets/flags/hungary.png';
   static const String flagCzech = 'assets/flags/czech.png';
   static const String flagUzbekistan = 'assets/flags/uzbekistan.png';
+  static const String flagTurkey = 'assets/flags/turkey.png';
 
   // Backgrounds
   static const String background1 = 'assets/backgrounds/background_1.png';
