@@ -6,8 +6,8 @@ import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import '../../utils/constant.dart';
 import '../../utils/widget_assets.dart';
 
-class OldOlympicResult extends StatefulWidget {
-  const OldOlympicResult(
+class OldTurkishResult extends StatefulWidget {
+  const OldTurkishResult(
       {Key? key, required this.olympicsData,required this.start,required this.end,required this.total,required this.inCorrect, required this.correct, required this.selectedAnswers})
       : super(key: key);
 
@@ -20,10 +20,10 @@ class OldOlympicResult extends StatefulWidget {
   final String total;
 
   @override
-  State<OldOlympicResult> createState() => _OldOlympicResultState();
+  State<OldTurkishResult> createState() => _OldTurkishResultState();
 }
 
-class _OldOlympicResultState extends State<OldOlympicResult> {
+class _OldTurkishResultState extends State<OldTurkishResult> {
   Color isSelected = ColorsHelpers.dullLavender;
   Color isUnselected = Colors.white;
   Color trueSelect = Colors.green;

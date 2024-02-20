@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quizgram/screens/alerts/custom_alerts.dart';
 import 'package:quizgram/screens/profile_screen/paymentOrder.dart';
+import 'package:quizgram/screens/results/turkish.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';
 import 'package:quizgram/utils/chart_series.dart';
 import 'package:quizgram/utils/constant.dart';
@@ -15,7 +16,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 import '../bottom_navigation_bar.dart';
 import '../discover_screen/discover_screen.dart';
-import '../results/olympic.dart';
+import 'olympic.dart';
 
 class Results extends StatefulWidget {
   const Results({Key? key}) : super(key: key);
@@ -274,7 +275,7 @@ class _ResultsState extends State<Results>
                                     ),
                                     GestureDetector(
                                       onTap: (){
-                                        diagnostikTest(context);
+                                        Get.to(TurkishResultsList());
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
@@ -293,7 +294,7 @@ class _ResultsState extends State<Results>
                                               margin: EdgeInsets.all(ScreenUtil().setWidth(16)),
                                               padding: EdgeInsets.all(ScreenUtil().setWidth(6)),
                                               child: SvgPicture.asset(
-                                                Images.scienceIcon,
+                                                Images.historyIcon,
                                                 color:
                                                 ColorsHelpers.primaryColor,
                                               ),
@@ -303,7 +304,7 @@ class _ResultsState extends State<Results>
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   widgetText(
-                                                    'MOCK testlar',
+                                                    'Milliy sertifikat',
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: ScreenUtil().setSp(16),

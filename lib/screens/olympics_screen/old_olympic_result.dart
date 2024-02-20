@@ -49,7 +49,6 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
             });
           }
         }
-        print(widget.selectedAnswers[quiz['id']]?['answer_data']['answer']);
         // print(quiz['id']);
       });
     });

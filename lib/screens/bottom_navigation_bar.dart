@@ -11,7 +11,7 @@ import 'package:quizgram/screens/leaderboard/leaderboard_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/live_quiz_screen.dart';
 import 'package:quizgram/screens/live_quiz_screen/quiz_complete_screen.dart';
 import 'package:quizgram/screens/profile_screen/profile_screen.dart';
-import 'package:quizgram/screens/profile_screen/results.dart';
+import 'package:quizgram/screens/results/results.dart';
 import 'package:quizgram/screens/quiz/diagnostic_quizzes_screen.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';
 
