@@ -73,12 +73,14 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
             _complate = false;
           });
         } else if ((data['state'] == true) && (data['complate'] == true)) {
-          Map<String, dynamic> data2 = json.decode(data['exam']['json_result']);
-          data2.forEach((key, value) {
-            selectedAnswers[int.parse(key)] = value is Map<String, dynamic>
-                ? Map<String, dynamic>.from(value)
-                : value;
-          });
+          if("${data['exam']['json_result']}" != ""){
+            Map<String, dynamic> data2 = json.decode(data['exam']['json_result']);
+            data2.forEach((key, value) {
+              selectedAnswers[int.parse(key)] = value is Map<String, dynamic>
+                  ? Map<String, dynamic>.from(value)
+                  : value;
+            });
+          }
           setState(() {
             olympicsData = data['quizzes'];
             _correct = data['exam']['correct'];
@@ -108,19 +110,22 @@ class _OlympicDetailScreenState extends State<OlympicDetailScreen> {
             _complate = false;
           });
         } else if ((data['state'] == true) && (data['complate'] == true)) {
-          Map<String, dynamic> data2 = json.decode(data['exam']['json_result']);
-          data2.forEach((key, value) {
-            selectedAnswers[int.parse(key)] = value is Map<String, dynamic>
-                ? Map<String, dynamic>.from(value)
-                : value;
-          });
+          if("${data['exam']['json_result']}" != ""){
+            Map<String, dynamic> data2 = json.decode(data['exam']['json_result']);
+            data2.forEach((key, value) {
+              selectedAnswers[int.parse(key)] = value is Map<String, dynamic>
+                  ? Map<String, dynamic>.from(value)
+                  : value;
+            });
+          }
+
           setState(() {
             olympicsData = data['quizzes'];
             _correct = data['exam']['correct'];
             _inCorrect = data['exam']['incorrect'];
             _total = "${data['exam']['total']}";
             start = data['exam']['start_time'];
-            end = data['exam']['end_time'];
+            end = data['exam']['end_time'] != null ? data['exam']['end_time'] : "Tugatilmagan";
             _isLoading = false;
             _examState = true;
             _buyState = true;

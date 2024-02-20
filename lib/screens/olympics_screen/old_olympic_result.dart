@@ -335,8 +335,8 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                                   colorBorder:ColorsHelpers.grey5,
                                                   color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
                                                       ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
-                                                      ? trueSelect
-                                                      : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? falseSelect : Colors.white
+                                                        ? trueSelect
+                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? falseSelect : Colors.white
                                                       : Colors.white,
                                                   widthBorder: 1.0,
                                                   align: Alignment.centerLeft,
