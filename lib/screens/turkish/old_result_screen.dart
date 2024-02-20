@@ -284,9 +284,9 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                         ),
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['photo'] != "no_photo"
                                             ? Padding(
-                                                child: Image.network("${AssetUrls.quizPhotos}/${widget .olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
-                                                padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16), vertical: ScreenUtil().setWidth(5)),
-                                              )
+                                          child: Image.network("${AssetUrls.quizPhotos}/${widget .olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
+                                          padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16), vertical: ScreenUtil().setWidth(5)),
+                                        )
                                             : Container(),
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz4" || widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz6"
                                             ? ListView.builder(
@@ -315,8 +315,8 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                                     align: TextAlign.left,
                                                     color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
                                                         ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
-                                                          ? Colors.white
-                                                          : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
+                                                        ? Colors.white
+                                                        : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
                                                         : Colors.black,
                                                   ) : widgetText(
                                                     widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'],
@@ -325,8 +325,8 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                                     align: TextAlign.left,
                                                     color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
                                                         ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
-                                                          ? Colors.white
-                                                          : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
+                                                        ? Colors.white
+                                                        : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
                                                         : Colors.black,
                                                   ),
                                                       () {
@@ -340,8 +340,8 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                                   colorBorder:ColorsHelpers.grey5,
                                                   color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
                                                       ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
-                                                        ? trueSelect
-                                                        : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? falseSelect : Colors.white
+                                                      ? trueSelect
+                                                      : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? falseSelect : Colors.white
                                                       : Colors.white,
                                                   widthBorder: 1.0,
                                                   align: Alignment.centerLeft,
@@ -352,80 +352,80 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                             : Container(),
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "writing"
                                             ? Container(
-                                                margin: EdgeInsets.only(
-                                                  left: ScreenUtil().setWidth(16),
-                                                  right: ScreenUtil().setWidth(16),
-                                                ),
-                                                child: TextFormField(
-                                                  maxLines: 5,
-                                                  readOnly: true,
-                                                  controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
-                                                  decoration:InputDecoration(
-                                                    focusedBorder:OutlineInputBorder(
-                                                      borderRadius:BorderRadius.circular(20.0),
-                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
-                                                    ),
-                                                    enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
-                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
-                                                    ),
-                                                    border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
-                                                    fillColor:Colors.white,
-                                                    filled: true,
-                                                    errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0
-                                                        ? 'Tekshirish jarayonida...'
-                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 1
-                                                          ? "${widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['ball']} ball"
-                                                          : null,
-                                                    hintText: "Matn...",
-                                                    contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
+                                          margin: EdgeInsets.only(
+                                            left: ScreenUtil().setWidth(16),
+                                            right: ScreenUtil().setWidth(16),
+                                          ),
+                                          child: TextFormField(
+                                            maxLines: 5,
+                                            readOnly: true,
+                                            controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
+                                            decoration:InputDecoration(
+                                              focusedBorder:OutlineInputBorder(
+                                                borderRadius:BorderRadius.circular(20.0),
+                                                borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                              ),
+                                              enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
+                                                borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                              ),
+                                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                              fillColor:Colors.white,
+                                              filled: true,
+                                              errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0
+                                                  ? 'Tekshirish jarayonida...'
+                                                  : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 1
+                                                  ? "${widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['ball']} ball"
+                                                  : null,
+                                              hintText: "Matn...",
+                                              contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                             : Container(),
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "puzzle"
                                             ? Container(
-                                                margin: EdgeInsets.only(
-                                                  top: ScreenUtil().setHeight(8),
-                                                  left: ScreenUtil().setWidth(16),
-                                                  right: ScreenUtil().setWidth(16),
-                                                  bottom: ScreenUtil().setHeight(24),
+                                          margin: EdgeInsets.only(
+                                            top: ScreenUtil().setHeight(8),
+                                            left: ScreenUtil().setWidth(16),
+                                            right: ScreenUtil().setWidth(16),
+                                            bottom: ScreenUtil().setHeight(24),
+                                          ),
+                                          width: MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context).size.height * 0.06,
+                                          // decoration: BoxDecoration(
+                                          //   borderRadius: BorderRadius.circular(20),
+                                          //   border: Border.all(
+                                          //     color: const Color.fromRGBO(0, 98, 204, 0.2),
+                                          //     width: ScreenUtil().setSp(2),
+                                          //   ),
+                                          //   color: ColorsHelpers.grey5,
+                                          // ),
+                                          child: TextFormField(
+                                            readOnly: true,
+                                            maxLines: 3,
+                                            onTap: () {},
+                                            controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
+                                            decoration:InputDecoration(
+                                              focusedBorder:OutlineInputBorder(
+                                                borderRadius:BorderRadius.circular(20.0),
+                                                borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                              ),
+                                              enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
+                                                borderSide:BorderSide(width:2,
+                                                    color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
+                                                        ? ColorsHelpers.green
+                                                        : ColorsHelpers.red
                                                 ),
-                                                width: MediaQuery.of(context).size.width,
-                                                height: MediaQuery.of(context).size.height * 0.06,
-                                                // decoration: BoxDecoration(
-                                                //   borderRadius: BorderRadius.circular(20),
-                                                //   border: Border.all(
-                                                //     color: const Color.fromRGBO(0, 98, 204, 0.2),
-                                                //     width: ScreenUtil().setSp(2),
-                                                //   ),
-                                                //   color: ColorsHelpers.grey5,
-                                                // ),
-                                                child: TextFormField(
-                                                  readOnly: true,
-                                                  maxLines: 3,
-                                                  onTap: () {},
-                                                  controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
-                                                  decoration:InputDecoration(
-                                                    focusedBorder:OutlineInputBorder(
-                                                      borderRadius:BorderRadius.circular(20.0),
-                                                      borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
-                                                    ),
-                                                    enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
-                                                      borderSide:BorderSide(width:2,
-                                                          color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
-                                                              ? ColorsHelpers.green
-                                                              : ColorsHelpers.red
-                                                      ),
-                                                    ),
-                                                    border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
-                                                    fillColor:Colors.white,
-                                                    filled: true,
-                                                    contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
+                                              ),
+                                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                              fillColor:Colors.white,
+                                              filled: true,
+                                              contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                             : Container(),
                                       ],
                                     );
