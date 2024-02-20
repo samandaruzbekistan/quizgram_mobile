@@ -165,7 +165,7 @@ class _TurkishExamDaysState extends State<TurkishExamDays> {
                                   child: listItemOlympic(
                                       Image.network("${AssetUrls.logos}/${item['logo']}"),
                                       '${item['name']}',
-                                      item['status'] == 0 ||  item['status'] == 2 ? 'Sana: ${item['date']}' : "Olimpiada yakunlangan", () {
+                                      item['status'] == 0 ||  item['status'] == 2 ? 'Sana: ${item['date']}' : "Imtixon yakunlangan", () {
                                     // print(box.get('token'));
                                     Get.to(TurkishExamDetail(name: item['name'], olympicId: item['id'], amount: item['amount'], quiz_count: item['quiz_count'], description: item['description'],));
                                   }, Colors.white, Colors.black,
