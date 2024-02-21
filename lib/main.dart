@@ -52,7 +52,7 @@ class MyAppState extends State<MyApp> {
       splitScreenMode: true,
       builder: (context, child) {
         var box = Hive.box('user');
-        box.put("version", 3);
+        box.put("version", 4);
         var user = box.get("name");
         bool isReg = false;
         if(user != null){
