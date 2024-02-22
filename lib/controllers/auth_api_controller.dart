@@ -18,7 +18,7 @@ class AuthApiController{
     var eduState = box.get('temp_eduState');
     var gender = box.get('temp_gender');
     var token = await FirebaseApi().getFCMToken();
-    var request = http.MultipartRequest('POST', Uri.parse('https://mobile.quizgram.uz/api/register'));
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.register));
     request.fields.addAll({
       'name': '${name}',
       'phone': '${phone}',
