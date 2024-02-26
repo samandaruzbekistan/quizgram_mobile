@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quizgram/controllers/olympic_api_controller.dart';
-import 'package:quizgram/screens/alerts/custom_alerts.dart';
+import 'package:quizgram/utils/custom_alerts.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';

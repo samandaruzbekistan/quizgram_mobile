@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive/hive.dart';
-import 'package:quizgram/screens/alerts/custom_alerts.dart';
+import 'package:quizgram/utils/custom_alerts.dart';
 import 'package:quizgram/screens/otp/otp_screen.dart';
 
 import '../../controllers/auth_api_controller.dart';

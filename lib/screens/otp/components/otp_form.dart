@@ -1,7 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:quizgram/controllers/auth_api_controller.dart';
-import 'package:quizgram/screens/alerts/custom_alerts.dart';
+import 'package:quizgram/utils/custom_alerts.dart';
 import 'package:quizgram/screens/home_screen/home_screeen.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';

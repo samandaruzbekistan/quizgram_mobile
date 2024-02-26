@@ -13,7 +13,7 @@ import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 import 'package:http/http.dart' as http;
 
-import '../alerts/custom_alerts.dart';
+import '../../utils/custom_alerts.dart';
 
 class OlympicDetailScreen extends StatefulWidget {
   const OlympicDetailScreen(

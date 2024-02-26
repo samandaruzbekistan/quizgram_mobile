@@ -12,7 +12,7 @@ import 'package:quizgram/screens/login_screen/login_screen.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 import '../../utils/images.dart';
-import '../alerts/custom_alerts.dart';
+import '../../utils/custom_alerts.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

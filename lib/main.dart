@@ -18,11 +18,11 @@ Future<void> main() async {
   await Hive.openBox('user');
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
-
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.black,
-    statusBarBrightness: Brightness.light, // status bar color
-  ));
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //   statusBarColor: Colors.black,
+  //   statusBarBrightness: Brightness.light, // status bar color
+  // ));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

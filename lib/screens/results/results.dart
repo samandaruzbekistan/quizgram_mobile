@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:quizgram/screens/alerts/custom_alerts.dart';
+import 'package:quizgram/utils/custom_alerts.dart';
 import 'package:quizgram/screens/profile_screen/paymentOrder.dart';
 import 'package:quizgram/screens/results/turkish.dart';
 import 'package:quizgram/screens/setting_screen/setting_screen.dart';

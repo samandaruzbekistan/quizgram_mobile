@@ -7,7 +7,7 @@ import 'package:quizgram/screens/turkish/play_exam.dart';
 import 'package:quizgram/screens/turkish/turkish_exam_days.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import '../olympics_screen/play_olympic_quiz.dart';
+import '../screens/olympics_screen/play_olympic_quiz.dart';
 
 checkUserAlert(context) {
   Alert(

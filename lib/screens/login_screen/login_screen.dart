@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:quizgram/controllers/auth_api_controller.dart';
-import 'package:quizgram/screens/alerts/custom_alerts.dart';
+import 'package:quizgram/utils/custom_alerts.dart';
 
 import 'package:quizgram/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:quizgram/screens/home_screen/home_screeen.dart';
