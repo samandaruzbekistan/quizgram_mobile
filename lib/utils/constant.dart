@@ -27,6 +27,14 @@ class WebApiConstans{
   static String saveTurkishExamResult = baseUrl+'saveTurkishExamResult';
   static String getCompletedTurkish = baseUrl+'getCompletedTurkish';
 
+
+
+
+  static String getNationalExamDays = baseUrl+'getNationalExamDays';
+  static String checkBuyNational = baseUrl+'checkBuyNational';
+  static String buyNationalExam = baseUrl+'buyNationalExam';
+  static String playNationalExam = baseUrl+'playNationalExam';
+
   static String googlePlay = "https://play.google.com/store/apps/details?id=uz.goldapps.idealquiz";
 }
 

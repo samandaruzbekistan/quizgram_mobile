@@ -66,6 +66,7 @@ class Images {
   static const String iconPuzzle = 'assets/icons/icon_puzzle.svg';
   static const String iconPuzzleOnly = 'assets/icons/icon_puzzle_only.svg';
   static const String iconQuestionMark = 'assets/icons/icon_question_mark.svg';
+  static const String iconCertificate = 'assets/icons/certificate.png';
 
   // Category Icons
   static const String mathIcon = 'assets/icons/math_icon.svg';

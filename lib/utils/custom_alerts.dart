@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quizgram/screens/login_screen/login_screen.dart';
+import 'package:quizgram/screens/national_exam/national_exam_days.dart';
+import 'package:quizgram/screens/national_exam/play_exam.dart';
 import 'package:quizgram/screens/olympics_screen/olympics_screen.dart';
 import 'package:quizgram/screens/profile_screen/profile_screen.dart';
 import 'package:quizgram/screens/turkish/play_exam.dart';
@@ -90,6 +92,27 @@ playTurkishExam(context, int examId) {
   ).show();
 }
 
+playNationalExam(context, int examId) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "E'tibor bering",
+    style: AlertStyle(descStyle: TextStyle(fontSize: 20)),
+    desc: "Imtixon vaqt tugagandan so'ng avtomatik yopiladi.\nJavob berilmagan savollar inobatga olinmaydi",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "Boshlash",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Get.to(PlayNational(examId: examId,)),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
 buyTurkishAlert(context) {
   Alert(
     context: context,
@@ -104,6 +127,26 @@ buyTurkishAlert(context) {
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Get.offAll(TurkishExamDays()),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+buyNationalAlert(context) {
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: "Xabar",
+    desc: "Imtihonga qatnashish uchun ruxsat berildi",
+    buttons: [
+      DialogButton(
+        color: Colors.deepPurple,
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Get.offAll(NationalExamDays()),
         width: 120,
       )
     ],

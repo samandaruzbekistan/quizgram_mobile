@@ -11,6 +11,7 @@ import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
 
 import '../discover_screen/discover_screen.dart';
+import '../national_exam/national_exam_days.dart';
 
 class DiagnosticQuizzes extends StatefulWidget {
   const DiagnosticQuizzes({Key? key}) : super(key: key);
@@ -268,7 +269,7 @@ class QuizChooseCategoryState extends State<DiagnosticQuizzes> {
                                       )),
                                   GestureDetector(
                                       onTap: () {
-                                        diagnostikTest(context);
+                                        Get.to(NationalExamDays());
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -323,14 +324,14 @@ class QuizChooseCategoryState extends State<DiagnosticQuizzes> {
                                                     bottom:
                                                     ScreenUtil().setHeight(2)),
                                                 child: widgetText(
-                                                  "Blok testlar",
+                                                  "Milliy sertifikat",
                                                   color: ColorsHelpers.primaryColor,
                                                   fontSize: ScreenUtil().setSp(16),
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                               widgetText(
-                                                'ID orqali',
+                                                'namunasidagi testlar',
                                                 color: ColorsHelpers.primaryColor,
                                                 fontSize: ScreenUtil().setSp(12),
                                                 fontWeight: FontWeight.w400,
