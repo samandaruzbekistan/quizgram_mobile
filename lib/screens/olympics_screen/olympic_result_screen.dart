@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:quizgram/screens/home_screen/home_screeen.dart';
+import 'package:quizgram/screens/olympics_screen/quiz_audio_player.dart';
 
 import '../../utils/constant.dart';
 import '../../utils/widget_assets.dart';
@@ -216,6 +217,12 @@ class _OlympicResultState extends State<OlympicResult> {
                                       .olympicsData[index]['section_photo']}"),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: ScreenUtil().setWidth(16)),)
+                                  : Container(),
+                              widget.olympicsData[index]['section_audio'] != "no_audio"
+                                  ? Container(
+                                margin: EdgeInsets.only(left: ScreenUtil().setWidth(16),bottom: ScreenUtil().setHeight(8)),
+                                child: QuizAudioPlayer(audioUrl: "${AssetUrls.olympicAudios}/${widget.olympicsData[index]['audio']}"),
+                              )
                                   : Container(),
                               SizedBox(height: ScreenUtil().setHeight(10),),
                               ListView.builder(

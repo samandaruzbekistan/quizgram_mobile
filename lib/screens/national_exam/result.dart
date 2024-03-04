@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:quizgram/screens/home_screen/home_screeen.dart';
 
 import '../../utils/constant.dart';
 import '../../utils/widget_assets.dart';
 import '../olympics_screen/quiz_audio_player.dart';
 
-class OldTurkishResult extends StatefulWidget {
-  const OldTurkishResult(
-      {Key? key, required this.olympicsData,required this.start,required this.end,required this.total,required this.inCorrect, required this.correct, required this.selectedAnswers})
+class NationalResult extends StatefulWidget {
+  const NationalResult(
+      {Key? key, required this.olympicsData,required this.total,required this.inCorrect, required this.correct, required this.selectedAnswers})
       : super(key: key);
 
   final Map<int, Map<String, dynamic>> selectedAnswers;
   final List olympicsData;
   final int correct;
-  final String start;
-  final String end;
   final int inCorrect;
-  final String total;
+  final double total;
 
   @override
-  State<OldTurkishResult> createState() => _OldTurkishResultState();
+  State<NationalResult> createState() => _NationalResultState();
 }
 
-class _OldTurkishResultState extends State<OldTurkishResult> {
+class _NationalResultState extends State<NationalResult> {
   Color isSelected = ColorsHelpers.dullLavender;
   Color isUnselected = Colors.white;
   Color trueSelect = Colors.green;
   Color falseSelect = Colors.red;
 
+  Map<String, TextEditingController> _puzzleTextControllers = {};
+  Map<String, List<String>> _tagsList = {};
   Map<String, TextEditingController> _writingControllers = {};
+  Map<String, TextEditingController> _cellControllers = {};
 
   void prepare(){
     widget.olympicsData.forEach((section) {
@@ -50,11 +52,21 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
             });
           }
         }
-        print(widget.selectedAnswers[quiz['id']]?['answer_data']['answer']);
-        // print(quiz['id']);
+        else if(quiz['type'] == 'cell'){
+          if (widget.selectedAnswers[quiz['id']]?['answer_data'] != null){
+            setState(() {
+              _cellControllers["${quiz['id']}"] = new TextEditingController();
+              _cellControllers["${quiz['id']}"]?.text = "${widget.selectedAnswers[quiz['id']]?['answer_data']}";
+            });
+          }
+          else{
+            setState(() {
+              _cellControllers["${quiz['id']}"] = new TextEditingController();
+            });
+          }
+        }
       });
     });
-
   }
 
   @override
@@ -67,7 +79,7 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widgetText("Sizning natijangiz:",
+        title: widgetText("Natijangiz saqlandi",
             fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.w500,
             color: Colors.white),
@@ -143,36 +155,6 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                               ],
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(5),
-                              left: ScreenUtil().setWidth(16),),
-                            child: Row(
-                              children: [
-                                Icon(Icons.timer_outlined, color: Colors.orange,),
-                                widgetText(
-                                    " Boshlandi: ${widget.start}",
-                                    color: ColorsHelpers.grey2,
-                                    fontSize: ScreenUtil().setSp(18),
-                                    fontWeight: FontWeight.w500),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(5),
-                              left: ScreenUtil().setWidth(16),),
-                            child: Row(
-                              children: [
-                                Icon(Icons.timer_off_outlined, color: Colors.orange,),
-                                widgetText(
-                                    " Yakunlandi: ${widget.end}",
-                                    color: ColorsHelpers.grey2,
-                                    fontSize: ScreenUtil().setSp(18),
-                                    fontWeight: FontWeight.w500),
-                              ],
-                            ),
-                          ),
                           Center(
                             child: widgetButton(
                               widgetText(
@@ -180,14 +162,9 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                   fontWeight:
                                   FontWeight.w500,
                                   fontSize:
-                                  ScreenUtil()
-                                      .setSp(16),
-                                  color:
-                                  Colors.white),
-                                  () {
-                                // Get.to(LiveQuizScreen());
-                                Get.to(HomeScreen());
-                              },
+                                  ScreenUtil().setSp(16),
+                                  color: Colors.white),
+                                  () {Get.to(HomeScreen());},
                               height: 50.0,
                               width: 150.0,
                               radius: 20.0,
@@ -271,10 +248,11 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                       children: [
                                         Container(
                                           margin: EdgeInsets.only(
-                                            top: ScreenUtil().setHeight(18),
+                                            top: ScreenUtil().setHeight(8),
                                             left: ScreenUtil().setWidth(16),
                                             right: ScreenUtil().setWidth(16),
-                                            bottom: ScreenUtil().setHeight(8),
+                                            bottom:
+                                            ScreenUtil().setHeight(24),
                                           ),
                                           child: widget.olympicsData[index]['quizzes'][indexQuizzes]['math'] == null ? widgetText("${indexQuizzes+1}) ${widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                             fontWeight: FontWeight.w500,
@@ -292,7 +270,7 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['photo'] != "no_photo"
                                             ? Padding(
                                           child: Image.network("${AssetUrls.quizPhotos}/${widget .olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
-                                          padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16), vertical: ScreenUtil().setWidth(5)),
+                                          padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16)),
                                         )
                                             : Container(),
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz4" || widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz6"
@@ -320,10 +298,8 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                                     FontWeight.w400,
                                                     fontSize: ScreenUtil().setSp(16),
                                                     align: TextAlign.left,
-                                                    color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
-                                                        ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
+                                                    color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
                                                         ? Colors.white
-                                                        : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
                                                         : Colors.black,
                                                   ) : widgetText(
                                                     widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'],
@@ -331,9 +307,9 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                                     fontSize: ScreenUtil().setSp(16),
                                                     align: TextAlign.left,
                                                     color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
-                                                        ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
+                                                        ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
                                                         ? Colors.white
-                                                        : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
+                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? Colors.white : Colors.black
                                                         : Colors.black,
                                                   ),
                                                       () {
@@ -346,9 +322,9 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                                   ),
                                                   colorBorder:ColorsHelpers.grey5,
                                                   color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
-                                                      ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
+                                                      ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
                                                       ? trueSelect
-                                                      : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? falseSelect : Colors.white
+                                                      : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? falseSelect : Colors.white
                                                       : Colors.white,
                                                   widthBorder: 1.0,
                                                   align: Alignment.centerLeft,
@@ -378,11 +354,7 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                               border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
                                               fillColor:Colors.white,
                                               filled: true,
-                                              errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0
-                                                  ? 'Tekshirish jarayonida...'
-                                                  : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 1
-                                                  ? "${widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['ball']} ball"
-                                                  : null,
+                                              errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0 ? 'Tekshirish jarayonida...' : null,
                                               hintText: "Matn...",
                                               contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
                                               ),
@@ -414,10 +386,15 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                             onTap: () {},
                                             controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
                                             decoration:InputDecoration(
-                                              focusedBorder:OutlineInputBorder(
-                                                borderRadius:BorderRadius.circular(20.0),
-                                                borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
-                                              ),
+                                              // focusedBorder:OutlineInputBorder(
+                                              //   borderRadius:BorderRadius.circular(20.0),
+                                              //   borderSide:BorderSide(
+                                              //       width:2,
+                                              //       color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
+                                              //         ? ColorsHelpers.green
+                                              //         : ColorsHelpers.red
+                                              //   ),
+                                              // ),
                                               enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
                                                 borderSide:BorderSide(width:2,
                                                     color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
@@ -425,15 +402,63 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                                         : ColorsHelpers.red
                                                 ),
                                               ),
-                                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                              // border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
                                               fillColor:Colors.white,
                                               filled: true,
+                                              // errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
+                                              //     ? 'Javob to\'g\'ri'
+                                              //     : 'Javob noto\'g\'ri',
                                               contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
                                               ),
                                             ),
                                           ),
                                         )
                                             : Container(),
+                                        widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "cell" ? Column(
+                                          crossAxisAlignment:CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                top: ScreenUtil().setHeight(8),
+                                                left: ScreenUtil().setWidth(16),
+                                                right: ScreenUtil().setWidth(16),
+                                                bottom: ScreenUtil().setHeight(24),
+                                              ),
+                                              width: MediaQuery.of(context).size.width,
+                                              height: MediaQuery.of(context).size.height * 0.06,
+                                              child: PinCodeTextField(
+                                                appContext: context,
+                                                readOnly: true,
+                                                length: 8,
+                                                obscureText: false,
+                                                animationType: AnimationType.fade,
+                                                pinTheme: PinTheme(
+                                                    shape: PinCodeFieldShape.box,
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    fieldHeight: 50,
+                                                    fieldWidth: 40,
+                                                    activeFillColor: Colors.white,
+                                                    activeColor: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data'] ? Colors.green : Colors.red,
+                                                    inactiveFillColor: Colors.white,
+                                                    inactiveColor: Colors.white
+                                                ),
+                                                animationDuration: Duration(milliseconds: 300),
+                                                enableActiveFill: true,
+                                                controller: _cellControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
+                                                onChanged: (value) {
+
+                                                },
+                                                beforeTextPaste: (text) {
+                                                  print("Allowing to paste $text");
+                                                  //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                                                  //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                                                  return true;
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ) : Container(),
+
                                       ],
                                     );
                                   }),

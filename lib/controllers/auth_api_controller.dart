@@ -19,15 +19,22 @@ class AuthApiController{
     var gender = box.get('temp_gender');
     var token = await FirebaseApi().getFCMToken();
     var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.register));
+    print(WebApiConstans.register);
     request.fields.addAll({
       'name': '${name}',
       'phone': '${phone}',
       'password': '${password}',
       'state': '${state} ',
       'eduState': '${eduState}',
-      'fcm_token' : "${token}",
       'gender' : "${gender}"
     });
+
+    if (token != null) {
+      request.fields['fcm_token'] = "${token}";
+    } else {
+      // If token is not available or notifications are not allowed, send a placeholder string.
+      request.fields['fcm_token'] = "token";
+    }
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var res = await response.stream.bytesToString();

@@ -5,6 +5,7 @@ import 'package:quizgram/screens/home_screen/home_screeen.dart';
 
 import '../../utils/constant.dart';
 import '../../utils/widget_assets.dart';
+import '../olympics_screen/quiz_audio_player.dart';
 
 class TurkishResult extends StatefulWidget {
   const TurkishResult(
@@ -216,6 +217,12 @@ class _TurkishResultState extends State<TurkishResult> {
                                       .olympicsData[index]['section_photo']}"),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: ScreenUtil().setWidth(16)),)
+                                  : Container(),
+                              widget.olympicsData[index]['section_audio'] != "no_audio"
+                                  ? Container(
+                                margin: EdgeInsets.only(left: ScreenUtil().setWidth(16),bottom: ScreenUtil().setHeight(8)),
+                                child: QuizAudioPlayer(audioUrl: "${AssetUrls.olympicAudios}/${widget.olympicsData[index]['audio']}"),
+                              )
                                   : Container(),
                               SizedBox(height: ScreenUtil().setHeight(10),),
                               ListView.builder(
