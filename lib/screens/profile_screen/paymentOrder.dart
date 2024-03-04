@@ -177,71 +177,73 @@ class _PaymentOrderState extends State<PaymentOrder> {
                                           ),
                                         ),
                                       )),
-                                  // GestureDetector(
-                                  //     onTap: () {
-                                  //
-                                  //     },
-                                  //     child: Container(
-                                  //       decoration: BoxDecoration(
-                                  //           color: Colors.white,
-                                  //           borderRadius: BorderRadius.circular(
-                                  //               ScreenUtil().setSp(20))),
-                                  //       alignment: Alignment.center,
-                                  //       width: ((MediaQuery.of(context).size.width /
-                                  //           2) -
-                                  //           ScreenUtil().setWidth(32)),
-                                  //       margin: EdgeInsets.all(
-                                  //           ScreenUtil().setWidth(8)),
-                                  //       child: Padding(
-                                  //         padding: EdgeInsets.only(
-                                  //           top: ScreenUtil().setHeight(16),
-                                  //           bottom: ScreenUtil().setHeight(16),
-                                  //         ),
-                                  //         child: Column(
-                                  //           children: [
-                                  //             ConstrainedBox(
-                                  //               constraints: BoxConstraints(
-                                  //                 maxWidth:
-                                  //                 ScreenUtil().setWidth(120),
-                                  //                 maxHeight:
-                                  //                 ScreenUtil().setWidth(48),
-                                  //               ),
-                                  //               child: Container(
-                                  //                 width: MediaQuery.of(context)
-                                  //                     .size
-                                  //                     .width,
-                                  //                 height: MediaQuery.of(context)
-                                  //                     .size
-                                  //                     .height,
-                                  //                 // padding: EdgeInsets.all(
-                                  //                 //     ScreenUtil().setWidth(9)),
-                                  //                 decoration: BoxDecoration(
-                                  //                     color: Colors.white,
-                                  //                     borderRadius:
-                                  //                     BorderRadius.circular(
-                                  //                         ScreenUtil()
-                                  //                             .setSp(16))),
-                                  //                 child: Image.asset(
-                                  //                   "assets/icons/payme.png",
-                                  //                 ),
-                                  //               ),
-                                  //             ),
-                                  //             Padding(
-                                  //               padding: EdgeInsets.only(
-                                  //                   top: ScreenUtil().setHeight(8),
-                                  //                   bottom:
-                                  //                   ScreenUtil().setHeight(2)),
-                                  //               child: widgetText(
-                                  //                 "Payme",
-                                  //                 color: Colors.black,
-                                  //                 fontSize: ScreenUtil().setSp(16),
-                                  //                 fontWeight: FontWeight.w500,
-                                  //               ),
-                                  //             ),
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //     )),
+                                  GestureDetector(
+                                      onTap: () {
+                                        var phone = box.get('phone');
+                                        launchUrl(Uri.parse("https://idealquiz.uz/payme?amount=${_phoneController.text}&phone=${phone}"));
+                                        SystemNavigator.pop();
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                                ScreenUtil().setSp(20))),
+                                        alignment: Alignment.center,
+                                        width: ((MediaQuery.of(context).size.width /
+                                            2) -
+                                            ScreenUtil().setWidth(32)),
+                                        margin: EdgeInsets.all(
+                                            ScreenUtil().setWidth(8)),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            top: ScreenUtil().setHeight(16),
+                                            bottom: ScreenUtil().setHeight(16),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxWidth:
+                                                  ScreenUtil().setWidth(120),
+                                                  maxHeight:
+                                                  ScreenUtil().setWidth(48),
+                                                ),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height,
+                                                  // padding: EdgeInsets.all(
+                                                  //     ScreenUtil().setWidth(9)),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          ScreenUtil()
+                                                              .setSp(16))),
+                                                  child: Image.asset(
+                                                    "assets/icons/payme.png",
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: ScreenUtil().setHeight(8),
+                                                    bottom:
+                                                    ScreenUtil().setHeight(2)),
+                                                child: widgetText(
+                                                  "Payme",
+                                                  color: Colors.black,
+                                                  fontSize: ScreenUtil().setSp(16),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )),
                                   // GestureDetector(
                                   //     onTap: () {
                                   //
