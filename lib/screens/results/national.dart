@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:quizgram/screens/national_exam/national_exam_detail.dart';
+import 'package:quizgram/screens/turkish/turkish_exam_detail.dart';
 import 'package:quizgram/utils/constant.dart';
 import 'package:quizgram/utils/images.dart';
 import 'package:quizgram/utils/widget_assets.dart';
@@ -13,14 +15,14 @@ import 'package:http/http.dart' as http;
 
 import '../olympics_screen/olympic_detail.dart';
 
-class OlympicResultsList extends StatefulWidget {
-  const OlympicResultsList({Key? key}) : super(key: key);
+class NationalResultsList extends StatefulWidget {
+  const NationalResultsList({Key? key}) : super(key: key);
 
   @override
-  State<OlympicResultsList> createState() => _OlympicResultsListState();
+  State<NationalResultsList> createState() => _NationalResultsListState();
 }
 
-class _OlympicResultsListState extends State<OlympicResultsList> {
+class _NationalResultsListState extends State<NationalResultsList> {
   bool _isLoading = true;
   bool _isEmpty = false;
   bool _api = false;
@@ -30,8 +32,9 @@ class _OlympicResultsListState extends State<OlympicResultsList> {
   Future<void> fetchData() async {
     var token = box.get('token');
     var id = box.get('id');
+    print(token);
     var headers = {'Authorization': 'Bearer ${token}'};
-    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.getCompletedOlympics));
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.getCompletedNational));
     request.fields.addAll({'user_id': "${id}"});
 
     request.headers.addAll(headers);
@@ -40,7 +43,7 @@ class _OlympicResultsListState extends State<OlympicResultsList> {
     var res = await response.stream.bytesToString();
     if (response.statusCode == 200) {
       final data = json.decode(res);
-      if (data['status'] == 'success' && data['results'] != null) {
+      if (data['status'] == 'success') {
         setState(() {
           _isLoading = false;
           olympicsData = List<Map<String, dynamic>>.from(data['results']);
@@ -79,7 +82,7 @@ class _OlympicResultsListState extends State<OlympicResultsList> {
         leading: const BackButton(
           color: Colors.white,
         ),
-        title: Text("Olimpiadalar natijalari", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+        title: Text("Milliy sertifikat natijalari", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
         centerTitle: true,
       ),
       extendBodyBehindAppBar: true,
@@ -138,29 +141,29 @@ class _OlympicResultsListState extends State<OlympicResultsList> {
                                 child: Column(
                                   children: [
                                     _isLoading
-                                      ? CircularProgressIndicator(color: Colors.black,)
-                                      : _api
+                                        ? CircularProgressIndicator(color: Colors.black,)
+                                        : _api
                                         ? Text('API da nosozlik, qayta urining', style: TextStyle(color: Colors.red),)
                                         : _isEmpty
-                                          ? Text('Natijalaringiz mavjud emas', style: TextStyle(color: Colors.red),)
-                                          : ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: olympicsData.length,
-                                              itemBuilder: (context, index) {
-                                                final item = olympicsData[index];
-                                                return Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: ScreenUtil().setHeight(10), top: 0),
-                                                  child: listItemOlympic(
-                                                      Image.network("${AssetUrls.logos}/${item['exam_day']['logo']}"),
-                                                      '${item['exam_day']['name']}',
-                                                      'Sana: ${item['exam_day']['date']}', () {
-                                                    // print(box.get('token'));
-                                                    Get.to(OlympicDetailScreen(name: item['exam_day']['name'], olympicId: item['exam_day']['id'], amount: item['exam_day']['amount'], quiz_count: item['exam_day']['quiz_count'], description: item['exam_day']['description'],));
-                                                  }, Colors.white, Colors.black,
-                                                      ColorsHelpers.grey2),
-                                                );
-                                              }),
+                                        ? Text('Natijalaringiz mavjud emas', style: TextStyle(color: Colors.red),)
+                                        : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: olympicsData.length,
+                                        itemBuilder: (context, index) {
+                                          final item = olympicsData[index];
+                                          return Container(
+                                            margin: EdgeInsets.only(
+                                                bottom: ScreenUtil().setHeight(10), top: 0),
+                                            child: listItemOlympic(
+                                                Image.network("${AssetUrls.logos}/${item['exam_day']['logo']}"),
+                                                '${item['exam_day']['name']}',
+                                                'Sana: ${item['exam_day']['date']}', () {
+                                              // print(box.get('token'));
+                                              Get.to(NationalExamDetail(name: item['exam_day']['name'], olympicId: item['exam_day']['id'], amount: item['exam_day']['amount'], quiz_count: item['exam_day']['quiz_count'], description: item['exam_day']['description'],));
+                                            }, Colors.white, Colors.black,
+                                                ColorsHelpers.grey2),
+                                          );
+                                        }),
                                   ],
                                 )),
                           ),

@@ -41,7 +41,7 @@ class _TurkishResultsListState extends State<TurkishResultsList> {
     var res = await response.stream.bytesToString();
     if (response.statusCode == 200) {
       final data = json.decode(res);
-      if (data['status'] == 'success') {
+      if (data['status'] == 'success' && data['results'] != null) {
         setState(() {
           _isLoading = false;
           olympicsData = List<Map<String, dynamic>>.from(data['results']);
@@ -50,7 +50,7 @@ class _TurkishResultsListState extends State<TurkishResultsList> {
         setState(() {
           _isLoading = false;
           _isEmpty = true;
-          olympicsData = List<Map<String, dynamic>>.from(data['results']);
+          // olympicsData = List<Map<String, dynamic>>.from(data['results']);
         });
       }
     } else {
@@ -80,7 +80,7 @@ class _TurkishResultsListState extends State<TurkishResultsList> {
         leading: const BackButton(
           color: Colors.white,
         ),
-        title: Text("Olimpiadalar natijalari", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+        title: Text("Turk tili natijalari", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
         centerTitle: true,
       ),
       extendBodyBehindAppBar: true,

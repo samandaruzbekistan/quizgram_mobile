@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quizgram/controllers/olympic_api_controller.dart';
 import 'package:quizgram/screens/invite_friend_screen/invite_friend_screen.dart';
+import 'package:quizgram/screens/national_exam/old_result_screen.dart';
 import 'package:quizgram/screens/olympics_screen/old_olympic_result.dart';
 import 'package:quizgram/screens/turkish/old_result_screen.dart';
 import 'package:quizgram/utils/constant.dart';
@@ -319,7 +320,7 @@ class _NationalExamDetailState extends State<NationalExamDetail> {
                                       fontSize:ScreenUtil().setSp(16),
                                       color:Colors.white),
                                       () {
-                                    Get.to(OldOlympicResult(start: start,end: end,olympicsData: olympicsData, total: _total, inCorrect: _inCorrect, correct: _correct, selectedAnswers: selectedAnswers));
+                                    Get.to(OldNationalResult(start: start,end: end,olympicsData: olympicsData, total: _total, inCorrect: _inCorrect, correct: _correct, selectedAnswers: selectedAnswers));
                                   },
                                   height: 56.0,
                                   width: 200.0,

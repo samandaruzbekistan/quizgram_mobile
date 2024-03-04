@@ -35,6 +35,7 @@ class WebApiConstans{
   static String buyNationalExam = baseUrl+'buyNationalExam';
   static String playNationalExam = baseUrl+'playNationalExam';
   static String saveNationalExamResult = baseUrl+'saveNationalExamResult';
+  static String getCompletedNational = baseUrl+'getCompletedNational';
 
   static String googlePlay = "https://play.google.com/store/apps/details?id=uz.goldapps.idealquiz";
 }

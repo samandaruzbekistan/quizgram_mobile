@@ -125,26 +125,26 @@ class _PlayNationalState extends State<PlayNational> {
       }
     });
     var json_selectedAnswers = jsonEncode(_selectedAnswersJson);
-    // var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.saveTurkishExamResult));
-    // request.fields.addAll({
-    //   'exam_id': "${exam_id}",
-    //   'selectedAnswers': '${json_selectedAnswers}',
-    //   'correct': '${correct}',
-    //   'incorrect': '${inCorrect}',
-    //   'total': '${total}'
-    // });
-    // var headers = {
-    //   'Authorization': 'Bearer ${token}'
-    // };
-    // request.headers.addAll(headers);
-    // http.StreamedResponse response = await request.send();
-    //
-    // if (response.statusCode == 200) {
+    var request = http.MultipartRequest('POST', Uri.parse(WebApiConstans.saveNationalExamResult));
+    request.fields.addAll({
+      'exam_id': "${exam_id}",
+      'selectedAnswers': '${json_selectedAnswers}',
+      'correct': '${correct}',
+      'incorrect': '${inCorrect}',
+      'total': '${total}'
+    });
+    var headers = {
+      'Authorization': 'Bearer ${token}'
+    };
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
       Get.to(NationalResult(olympicsData: olympicsData, selectedAnswers: selectedAnswers, correct: correct, total: total, inCorrect: inCorrect,));
-    // }
-    // else{
-    //   var res = await response.stream.bytesToString();
-    // }
+    }
+    else{
+      var res = await response.stream.bytesToString();
+    }
   }
 
 
@@ -555,7 +555,8 @@ class _PlayNationalState extends State<PlayNational> {
                                                   fieldWidth: 40,
                                                   activeFillColor: Colors.white,
                                                   inactiveFillColor: Colors.white,
-                                                  inactiveColor: ColorsHelpers.primaryColor
+                                                  inactiveColor: ColorsHelpers.primaryColor,
+                                                  activeColor: ColorsHelpers.primaryColor
                                                 ),
                                                 animationDuration: Duration(milliseconds: 300),
                                                 enableActiveFill: true,

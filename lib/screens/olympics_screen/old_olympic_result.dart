@@ -188,7 +188,7 @@ class _OldOlympicResultState extends State<OldOlympicResult> {
                                 Get.to(HomeScreen());
                               },
                               height: 50.0,
-                              width: 150.0,
+                              width: 170.0,
                               radius: 20.0,
                               margin: EdgeInsets.only(
                                   top: ScreenUtil().setHeight(5)),

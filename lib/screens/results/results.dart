@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:quizgram/screens/results/national.dart';
 import 'package:quizgram/utils/custom_alerts.dart';
 import 'package:quizgram/screens/profile_screen/paymentOrder.dart';
 import 'package:quizgram/screens/results/turkish.dart';
@@ -275,7 +276,7 @@ class _ResultsState extends State<Results>
                                     ),
                                     GestureDetector(
                                       onTap: (){
-                                        Get.to(TurkishResultsList());
+                                        Get.to(NationalResultsList());
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
@@ -310,7 +311,65 @@ class _ResultsState extends State<Results>
                                                     fontSize: ScreenUtil().setSp(16),
                                                   ),
                                                   Text(
-                                                    'Turk tili, IELTS',
+                                                    'fanlardan natijalar',
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: ScreenUtil().setSp(14),
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight: FontWeight.w400,
+                                                        color: ColorsHelpers.grey2),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              EdgeInsets.only(right: ScreenUtil().setWidth(16)),
+                                              child: Icon(Icons.arrow_forward_ios,
+                                                  size: ScreenUtil().setSp(20)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        Get.to(TurkishResultsList());
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(ScreenUtil().setSp(20)),
+                                            color: ColorsHelpers.grey5),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: ScreenUtil().setWidth(44),
+                                              height: ScreenUtil().setWidth(44),
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              margin: EdgeInsets.all(ScreenUtil().setWidth(16)),
+                                              padding: EdgeInsets.all(ScreenUtil().setWidth(6)),
+                                              child: SvgPicture.asset(
+                                                Images.turkish,
+                                                color:
+                                                ColorsHelpers.primaryColor,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  widgetText(
+                                                    'Turk tili',
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: ScreenUtil().setSp(16),
+                                                  ),
+                                                  Text(
+                                                    'tayyorgarlik imtihoni',
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(
                                                         fontSize: ScreenUtil().setSp(14),

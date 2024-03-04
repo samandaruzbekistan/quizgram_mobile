@@ -8,31 +8,30 @@ import '../../utils/constant.dart';
 import '../../utils/widget_assets.dart';
 import '../olympics_screen/quiz_audio_player.dart';
 
-class NationalResult extends StatefulWidget {
-  const NationalResult(
-      {Key? key, required this.olympicsData,required this.total,required this.inCorrect, required this.correct, required this.selectedAnswers})
+class OldNationalResult extends StatefulWidget {
+  const OldNationalResult(
+      {Key? key, required this.olympicsData,required this.start,required this.end,required this.total,required this.inCorrect, required this.correct, required this.selectedAnswers})
       : super(key: key);
 
   final Map<int, Map<String, dynamic>> selectedAnswers;
   final List olympicsData;
   final int correct;
+  final String start;
+  final String end;
   final int inCorrect;
-  final double total;
+  final String total;
 
   @override
-  State<NationalResult> createState() => _NationalResultState();
+  State<OldNationalResult> createState() => _OldNationalResultState();
 }
 
-class _NationalResultState extends State<NationalResult> {
+class _OldNationalResultState extends State<OldNationalResult> {
   Color isSelected = ColorsHelpers.dullLavender;
   Color isUnselected = Colors.white;
   Color trueSelect = Colors.green;
   Color falseSelect = Colors.red;
-
-  Map<String, TextEditingController> _puzzleTextControllers = {};
-  Map<String, List<String>> _tagsList = {};
-  Map<String, TextEditingController> _writingControllers = {};
   Map<String, TextEditingController> _cellControllers = {};
+  Map<String, TextEditingController> _writingControllers = {};
 
   void prepare(){
     widget.olympicsData.forEach((section) {
@@ -67,6 +66,7 @@ class _NationalResultState extends State<NationalResult> {
         }
       });
     });
+
   }
 
   @override
@@ -79,7 +79,7 @@ class _NationalResultState extends State<NationalResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widgetText("Natijangiz saqlandi",
+        title: widgetText("Sizning natijangiz:",
             fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.w500,
             color: Colors.white),
@@ -155,6 +155,36 @@ class _NationalResultState extends State<NationalResult> {
                               ],
                             ),
                           ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: ScreenUtil().setHeight(5),
+                              left: ScreenUtil().setWidth(16),),
+                            child: Row(
+                              children: [
+                                Icon(Icons.timer_outlined, color: Colors.orange,),
+                                widgetText(
+                                    " Boshlandi: ${widget.start}",
+                                    color: ColorsHelpers.grey2,
+                                    fontSize: ScreenUtil().setSp(18),
+                                    fontWeight: FontWeight.w500),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: ScreenUtil().setHeight(5),
+                              left: ScreenUtil().setWidth(16),),
+                            child: Row(
+                              children: [
+                                Icon(Icons.timer_off_outlined, color: Colors.orange,),
+                                widgetText(
+                                    " Yakunlandi: ${widget.end}",
+                                    color: ColorsHelpers.grey2,
+                                    fontSize: ScreenUtil().setSp(18),
+                                    fontWeight: FontWeight.w500),
+                              ],
+                            ),
+                          ),
                           Center(
                             child: widgetButton(
                               widgetText(
@@ -162,9 +192,14 @@ class _NationalResultState extends State<NationalResult> {
                                   fontWeight:
                                   FontWeight.w500,
                                   fontSize:
-                                  ScreenUtil().setSp(16),
-                                  color: Colors.white),
-                                  () {Get.to(HomeScreen());},
+                                  ScreenUtil()
+                                      .setSp(16),
+                                  color:
+                                  Colors.white),
+                                  () {
+                                // Get.to(LiveQuizScreen());
+                                Get.to(HomeScreen());
+                              },
                               height: 50.0,
                               width: 170.0,
                               radius: 20.0,
@@ -248,11 +283,10 @@ class _NationalResultState extends State<NationalResult> {
                                       children: [
                                         Container(
                                           margin: EdgeInsets.only(
-                                            top: ScreenUtil().setHeight(8),
+                                            top: ScreenUtil().setHeight(18),
                                             left: ScreenUtil().setWidth(16),
                                             right: ScreenUtil().setWidth(16),
-                                            bottom:
-                                            ScreenUtil().setHeight(24),
+                                            bottom: ScreenUtil().setHeight(8),
                                           ),
                                           child: widget.olympicsData[index]['quizzes'][indexQuizzes]['math'] == null ? widgetText("${indexQuizzes+1}) ${widget.olympicsData[index]['quizzes'][indexQuizzes]['quiz']}",
                                             fontWeight: FontWeight.w500,
@@ -270,7 +304,7 @@ class _NationalResultState extends State<NationalResult> {
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['photo'] != "no_photo"
                                             ? Padding(
                                           child: Image.network("${AssetUrls.quizPhotos}/${widget .olympicsData[index]['quizzes'][indexQuizzes]['photo']}"),
-                                          padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16)),
+                                          padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(16), vertical: ScreenUtil().setWidth(5)),
                                         )
                                             : Container(),
                                         widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz4" || widget.olympicsData[index]['quizzes'][indexQuizzes]['type'] == "quiz6"
@@ -298,8 +332,10 @@ class _NationalResultState extends State<NationalResult> {
                                                     FontWeight.w400,
                                                     fontSize: ScreenUtil().setSp(16),
                                                     align: TextAlign.left,
-                                                    color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]
+                                                    color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
+                                                        ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
                                                         ? Colors.white
+                                                        : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
                                                         : Colors.black,
                                                   ) : widgetText(
                                                     widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer'],
@@ -307,9 +343,9 @@ class _NationalResultState extends State<NationalResult> {
                                                     fontSize: ScreenUtil().setSp(16),
                                                     align: TextAlign.left,
                                                     color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
-                                                        ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
+                                                        ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
                                                         ? Colors.white
-                                                        : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? Colors.white : Colors.black
+                                                        : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? Colors.white : Colors.black
                                                         : Colors.black,
                                                   ),
                                                       () {
@@ -322,9 +358,9 @@ class _NationalResultState extends State<NationalResult> {
                                                   ),
                                                   colorBorder:ColorsHelpers.grey5,
                                                   color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']] != null
-                                                      ? widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1
+                                                      ? widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data']['answer'] == '${widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['answer']}'
                                                       ? trueSelect
-                                                      : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]!['answer_data'] == widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers] ? falseSelect : Colors.white
+                                                      : widget.olympicsData[index]['quizzes'][indexQuizzes]['answers'][indexAnswers]['correct'] == 1 ? falseSelect : Colors.white
                                                       : Colors.white,
                                                   widthBorder: 1.0,
                                                   align: Alignment.centerLeft,
@@ -354,7 +390,11 @@ class _NationalResultState extends State<NationalResult> {
                                               border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
                                               fillColor:Colors.white,
                                               filled: true,
-                                              errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0 ? 'Tekshirish jarayonida...' : null,
+                                              errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 0
+                                                  ? 'Tekshirish jarayonida...'
+                                                  : widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['is_check'] == 1
+                                                  ? "${widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['ball']} ball"
+                                                  : null,
                                               hintText: "Matn...",
                                               contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
                                               ),
@@ -386,15 +426,10 @@ class _NationalResultState extends State<NationalResult> {
                                             onTap: () {},
                                             controller : _writingControllers['${widget.olympicsData[index]['quizzes'][indexQuizzes]['id']}'],
                                             decoration:InputDecoration(
-                                              // focusedBorder:OutlineInputBorder(
-                                              //   borderRadius:BorderRadius.circular(20.0),
-                                              //   borderSide:BorderSide(
-                                              //       width:2,
-                                              //       color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
-                                              //         ? ColorsHelpers.green
-                                              //         : ColorsHelpers.red
-                                              //   ),
-                                              // ),
+                                              focusedBorder:OutlineInputBorder(
+                                                borderRadius:BorderRadius.circular(20.0),
+                                                borderSide:BorderSide(width:2,color:ColorsHelpers.grey5),
+                                              ),
                                               enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(20.0),
                                                 borderSide:BorderSide(width:2,
                                                     color: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
@@ -402,12 +437,9 @@ class _NationalResultState extends State<NationalResult> {
                                                         : ColorsHelpers.red
                                                 ),
                                               ),
-                                              // border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
+                                              border: OutlineInputBorder(borderRadius:BorderRadius.circular(20.0)),
                                               fillColor:Colors.white,
                                               filled: true,
-                                              // errorText: widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['correct_text'] == widget.selectedAnswers[widget.olympicsData[index]['quizzes'][indexQuizzes]['id']]?['answer_data']
-                                              //     ? 'Javob to\'g\'ri'
-                                              //     : 'Javob noto\'g\'ri',
                                               contentPadding:EdgeInsets.only(left: ScreenUtil().setWidth(19),
                                               ),
                                             ),
