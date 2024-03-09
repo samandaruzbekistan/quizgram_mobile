@@ -400,7 +400,7 @@ class _NationalExamDetailState extends State<NationalExamDetail> {
                                       fontSize:ScreenUtil().setSp(16),
                                       color:Colors.white),
                                       () {
-                                    Get.to(OldTurkishResult(start: start,end: end,olympicsData: olympicsData, total: _total, inCorrect: _inCorrect, correct: _correct, selectedAnswers: selectedAnswers));
+                                    Get.to(OldNationalResult(start: start,end: end,olympicsData: olympicsData, total: _total, inCorrect: _inCorrect, correct: _correct, selectedAnswers: selectedAnswers));
                                   },
                                   height: 56.0,
                                   width: 200.0,

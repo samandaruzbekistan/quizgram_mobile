@@ -84,6 +84,7 @@ class _PlayOlympicQuizState extends State<PlayOlympicQuiz> {
   }
 
   Future<void> checkTest() async {
+    _timer.cancel();
     double total = 0.0;
     int correct = 0;
     int inCorrect = 0;

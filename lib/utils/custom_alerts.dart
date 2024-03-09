@@ -243,7 +243,7 @@ diagnostikTest(context) {
       DialogButton(
         color: Colors.deepPurple,
         child: Text(
-          "Boshlash",
+          "OK",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),

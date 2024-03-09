@@ -50,7 +50,6 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
             });
           }
         }
-        print(widget.selectedAnswers[quiz['id']]?['answer_data']['answer']);
         // print(quiz['id']);
       });
     });
@@ -189,7 +188,7 @@ class _OldTurkishResultState extends State<OldTurkishResult> {
                                 Get.to(HomeScreen());
                               },
                               height: 50.0,
-                              width: 150.0,
+                              width: 170.0,
                               radius: 20.0,
                               margin: EdgeInsets.only(
                                   top: ScreenUtil().setHeight(5)),
