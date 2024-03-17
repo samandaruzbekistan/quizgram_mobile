@@ -36,7 +36,7 @@ class QuizChooseCategoryState extends State<DiagnosticQuizzes> {
             'Diagnostik testlar',
             color: Colors.white,
             fontWeight: FontWeight.w500,
-            fontSize: ScreenUtil().setSp(24),
+            fontSize: ScreenUtil().setSp(15),
           ),
           leading: Padding(
             padding: EdgeInsets.only(left: ScreenUtil().setWidth(24.0)),
