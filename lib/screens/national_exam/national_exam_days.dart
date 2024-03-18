@@ -202,7 +202,7 @@ class _NationalExamDaysState extends State<NationalExamDays> {
                                     itemCount: olympicsData.length,
                                     itemBuilder: (context, index) {
                                       final item = olympicsData[index];
-                                      return Container(
+                                      return item['type'] == 'exam' ? Container(
                                         margin: EdgeInsets.only(
                                             bottom: ScreenUtil().setHeight(10), top: 0),
                                         child: listItemOlympic(
@@ -213,7 +213,7 @@ class _NationalExamDaysState extends State<NationalExamDays> {
                                           Get.to(NationalExamDetail(name: item['name'], olympicId: item['id'], amount: item['amount'], quiz_count: item['quiz_count'], description: item['description'],));
                                         }, Colors.white, Colors.black,
                                             ColorsHelpers.grey2),
-                                      );
+                                      ) : SizedBox();
                                     }) : Text(_statusText),
                               )
                             ],
@@ -249,7 +249,7 @@ class _NationalExamDaysState extends State<NationalExamDays> {
                                     itemCount: olympicsData.length,
                                     itemBuilder: (context, index) {
                                       final item = olympicsData[index];
-                                      return Container(
+                                      return item['type'] == 'prepare' ? Container(
                                         margin: EdgeInsets.only(
                                             bottom: ScreenUtil().setHeight(10), top: 0),
                                         child: listItemOlympic(
@@ -260,7 +260,7 @@ class _NationalExamDaysState extends State<NationalExamDays> {
                                           Get.to(NationalExamDetail(name: item['name'], olympicId: item['id'], amount: item['amount'], quiz_count: item['quiz_count'], description: item['description'],));
                                         }, Colors.white, Colors.black,
                                             ColorsHelpers.grey2),
-                                      );
+                                      ) : SizedBox();
                                     }) : Text(_statusText),
                               )
                             ],
